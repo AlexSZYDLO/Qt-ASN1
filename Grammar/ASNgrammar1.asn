@@ -1,0 +1,37 @@
+AlexGrammar DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN 
+
+SeqTest ::= SEQUENCE OF SEQUENCE {
+	varI INTEGER,
+	varB BOOLEAN, 
+	varC ChoiceModule
+}
+
+ChoiceModule ::= CHOICE {
+	intB INTEGER,
+	boolB BOOLEAN
+}
+
+TheIntegerC ::= INTEGER
+
+TheSequenceB ::= SEQUENCE {
+  intB INTEGER OPTIONAL, 
+  boolB BOOLEAN,
+  seqOfTest SeqTest,
+  c ChoiceModule,
+  octB [15] OCTET STRING OPTIONAL,
+  seqA [12] TheSequenceA,
+  seqB SEQUENCE {
+	  a INTEGER,
+	  b BOOLEAN
+  }
+}
+
+TheSequenceA ::= SEQUENCE {
+  int INTEGER, 
+  intD TheIntegerC,
+  bool BOOLEAN,
+  theSeqOf [PRIVATE 5] SEQUENCE OF REAL
+}
+
+END

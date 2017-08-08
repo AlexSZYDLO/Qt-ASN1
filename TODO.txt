@@ -1,0 +1,13 @@
+// ideas
+- colors in hextext
+- read debugger
+- extensibility improvements
+
+
+
+https://github.com/vlm/asn1c
+
+http://doc.qt.io/qt-4.8/stylesheet-examples.html
+http://doc.qt.io/qt-4.8/stylesheet-reference.html
+
+
