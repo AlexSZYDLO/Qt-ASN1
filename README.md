@@ -15,4 +15,13 @@ There is 5 Qt Creator projects with dependencies. To be compiled in this order:
   
   4 - ASN1_Qt_gui
 
+There are some commands to copy some files in my .pro files. 
+For them to work, here are the build directories that I use: (to be set in Qt Creator project config. Dependencies also can be set here)
+
+  ..\..\ASN1_bin\ASN1_lib\qtcreator
+  ..\..\ASN1_bin\ASN1_parser\qtcreator
+  ..\..\ASN1_bin\ASN1_console\qtcreator
+  ..\..\ASN1_bin\ASN1_Qt_Script_lib\qtcreator
+  ..\..\ASN1_bin\ASN1_Qt_gui\qtcreator
+  
   

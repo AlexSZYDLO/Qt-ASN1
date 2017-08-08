@@ -11,8 +11,8 @@
 int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
 
-  //QFile cssFile("config/StyleSheet.css");
-  QFile cssFile("../../../../ASN1/ASN1_Qt_gui/Config/StyleSheet.css");
+  QFile cssFile("config/StyleSheet.css");
+  //QFile cssFile("../../../../ASN1/ASN1_Qt_gui/Config/StyleSheet.css");
 
   QString cssContent;
   if (cssFile.exists()) {
