@@ -30,8 +30,8 @@ namespace UI {
 
     QString ASNToJS(const QString& asn);
     QString ASNToCPP(const QString& asn);
-    ASN1_Object* JSToObj(QScriptEngine* eng, const QString& js, bool debug, bool silent = false);
-    bool ProcessAdditionalJS(QScriptEngine* eng, const QString& js, bool debug);
+    ASN1_Object* JSToObj(QScriptEngine** eng, const QString& js, bool debug, bool silent = false);
+    bool ProcessAdditionalJS(QScriptEngine** eng, const QString& js, bool debug);
     ASN1_Object* CompToObj(const QString& name, bool silent = false);
 
     void RefreshEditorTree();
@@ -44,7 +44,7 @@ namespace UI {
     const QString& GetLastCompGramm();
     const QString& GetLastScript();
 
-    QScriptEngine* GetScriptEngine() { return scriptEngine; }
+    QScriptEngine** GetScriptEngine() { return &m_ScriptEngine; }
 
    private:
     QTabWidget* m_Tabs;
@@ -55,14 +55,14 @@ namespace UI {
     UI_Editor* m_Editor;
 
     ASN1_Object* m_Grammar;
-
-    QScriptEngine* scriptEngine;
-
-    enum eFormat {cCPP, cJS};
-    QString ASNToX(const QString& asn, eFormat f);
+    QScriptEngine* m_ScriptEngine;
 
     QString m_LastScript;
     QString m_LastGramm;
+
+    enum eFormat {cCPP, cJS};
+
+    QString ASNToX(const QString& asn, eFormat f);
 
   };
 }

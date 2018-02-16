@@ -63,10 +63,10 @@ namespace UI {
   bool myQTextEdit::CheckValue(QString& text) const {
     if (filterType == cLineEditBinary || filterType == cLineEditNumeric || filterType == cLineEditHexa || filterType == cLineEditOID) {
       QRegExp regEx;
-      if (filterType == cLineEditBinary) 	regEx.setPattern("[01]*");
-      if (filterType == cLineEditNumeric) regEx.setPattern("[0-9]*");
-      if (filterType == cLineEditHexa) 	regEx.setPattern("[0-9a-fA-F]*");
-      if (filterType == cLineEditOID) 	regEx.setPattern("[012](.[0-9]+)*");
+      if (filterType == cLineEditBinary) 	regEx.setPattern("^[01]*$");
+      if (filterType == cLineEditNumeric) regEx.setPattern("^[0-9]*$");
+      if (filterType == cLineEditHexa) 	regEx.setPattern("^[0-9a-fA-F]*$");
+      if (filterType == cLineEditOID) 	regEx.setPattern("^[0-9.]*$");
       return regEx.exactMatch(text);
     }
     else if (filterType == cLineEditIA5String) {

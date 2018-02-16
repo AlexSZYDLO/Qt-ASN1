@@ -18,83 +18,83 @@
 #define FLEX_BETA
 #endif
 
-#define yy_create_buffer yy_create_buffer
+    #define yy_create_buffer yy_create_buffer
 
-#define yy_delete_buffer yy_delete_buffer
+    #define yy_delete_buffer yy_delete_buffer
 
-#define yy_scan_buffer yy_scan_buffer
+    #define yy_scan_buffer yy_scan_buffer
 
-#define yy_scan_string yy_scan_string
+    #define yy_scan_string yy_scan_string
 
-#define yy_scan_bytes yy_scan_bytes
+    #define yy_scan_bytes yy_scan_bytes
 
-#define yy_init_buffer yy_init_buffer
+    #define yy_init_buffer yy_init_buffer
 
-#define yy_flush_buffer yy_flush_buffer
+    #define yy_flush_buffer yy_flush_buffer
 
-#define yy_load_buffer_state yy_load_buffer_state
+    #define yy_load_buffer_state yy_load_buffer_state
 
-#define yy_switch_to_buffer yy_switch_to_buffer
+    #define yy_switch_to_buffer yy_switch_to_buffer
 
-#define yypush_buffer_state yypush_buffer_state
+    #define yypush_buffer_state yypush_buffer_state
 
-#define yypop_buffer_state yypop_buffer_state
+    #define yypop_buffer_state yypop_buffer_state
 
-#define yyensure_buffer_stack yyensure_buffer_stack
+    #define yyensure_buffer_stack yyensure_buffer_stack
 
-#define yylex yylex
+    #define yylex yylex
 
-#define yyrestart yyrestart
+    #define yyrestart yyrestart
 
-#define yylex_init yylex_init
+    #define yylex_init yylex_init
 
-#define yylex_init_extra yylex_init_extra
+    #define yylex_init_extra yylex_init_extra
 
-#define yylex_destroy yylex_destroy
+    #define yylex_destroy yylex_destroy
 
-#define yyget_debug yyget_debug
+    #define yyget_debug yyget_debug
 
-#define yyset_debug yyset_debug
+    #define yyset_debug yyset_debug
 
-#define yyget_extra yyget_extra
+    #define yyget_extra yyget_extra
 
-#define yyset_extra yyset_extra
+    #define yyset_extra yyset_extra
 
-#define yyget_in yyget_in
+    #define yyget_in yyget_in
 
-#define yyset_in yyset_in
+    #define yyset_in yyset_in
 
-#define yyget_out yyget_out
+    #define yyget_out yyget_out
 
-#define yyset_out yyset_out
+    #define yyset_out yyset_out
 
-#define yyget_leng yyget_leng
+    #define yyget_leng yyget_leng
 
-#define yyget_text yyget_text
+    #define yyget_text yyget_text
 
-#define yyget_lineno yyget_lineno
+    #define yyget_lineno yyget_lineno
 
-#define yyset_lineno yyset_lineno
+    #define yyset_lineno yyset_lineno
 
-#define yywrap yywrap
+    #define yywrap yywrap
 
-#define yyalloc yyalloc
+    #define yyalloc yyalloc
 
-#define yyrealloc yyrealloc
+    #define yyrealloc yyrealloc
 
-#define yyfree yyfree
+    #define yyfree yyfree
 
-#define yytext yytext
+    #define yytext yytext
 
-#define yyleng yyleng
+    #define yyleng yyleng
 
-#define yyin yyin
+    #define yyin yyin
 
-#define yyout yyout
+    #define yyout yyout
 
-#define yy_flex_debug yy_flex_debug
+    #define yy_flex_debug yy_flex_debug
 
-#define yylineno yylineno
+    #define yylineno yylineno
 
 /* First, we deal with  platform-specific or compiler-specific issues. */
 
@@ -116,7 +116,7 @@
 #if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
- * if you want the limit (max/min) macros for int types.
+ * if you want the limit (max/min) macros for int types. 
  */
 #ifndef __STDC_LIMIT_MACROS
 #define __STDC_LIMIT_MACROS 1
@@ -133,7 +133,7 @@ typedef uint32_t flex_uint32_t;
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
 typedef int flex_int32_t;
-typedef unsigned char flex_uint8_t;
+typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
 
@@ -194,7 +194,7 @@ typedef unsigned int flex_uint32_t;
 
 #ifndef YY_TYPEDEF_YY_BUFFER_STATE
 #define YY_TYPEDEF_YY_BUFFER_STATE
-typedef struct yy_buffer_state* YY_BUFFER_STATE;
+typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
 #ifndef YY_TYPEDEF_YY_SIZE_T
@@ -204,80 +204,81 @@ typedef size_t yy_size_t;
 
 extern int yyleng;
 
-extern FILE* yyin, *yyout;
+extern FILE *yyin, *yyout;
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
-struct yy_buffer_state {
-  FILE* yy_input_file;
+struct yy_buffer_state
+	{
+	FILE *yy_input_file;
 
-  char* yy_ch_buf;		/* input buffer */
-  char* yy_buf_pos;		/* current position in input buffer */
+	char *yy_ch_buf;		/* input buffer */
+	char *yy_buf_pos;		/* current position in input buffer */
 
-  /* Size of input buffer in bytes, not including room for EOB
-   * characters.
-   */
-  int yy_buf_size;
+	/* Size of input buffer in bytes, not including room for EOB
+	 * characters.
+	 */
+	int yy_buf_size;
 
-  /* Number of characters read into yy_ch_buf, not including EOB
-   * characters.
-   */
-  int yy_n_chars;
+	/* Number of characters read into yy_ch_buf, not including EOB
+	 * characters.
+	 */
+	int yy_n_chars;
 
-  /* Whether we "own" the buffer - i.e., we know we created it,
-   * and can realloc() it to grow it, and should free() it to
-   * delete it.
-   */
-  int yy_is_our_buffer;
+	/* Whether we "own" the buffer - i.e., we know we created it,
+	 * and can realloc() it to grow it, and should free() it to
+	 * delete it.
+	 */
+	int yy_is_our_buffer;
 
-  /* Whether this is an "interactive" input source; if so, and
-   * if we're using stdio for input, then we want to use getc()
-   * instead of fread(), to make sure we stop fetching input after
-   * each newline.
-   */
-  int yy_is_interactive;
+	/* Whether this is an "interactive" input source; if so, and
+	 * if we're using stdio for input, then we want to use getc()
+	 * instead of fread(), to make sure we stop fetching input after
+	 * each newline.
+	 */
+	int yy_is_interactive;
 
-  /* Whether we're considered to be at the beginning of a line.
-   * If so, '^' rules will be active on the next match, otherwise
-   * not.
-   */
-  int yy_at_bol;
+	/* Whether we're considered to be at the beginning of a line.
+	 * If so, '^' rules will be active on the next match, otherwise
+	 * not.
+	 */
+	int yy_at_bol;
 
-  int yy_bs_lineno; /**< The line count. */
-  int yy_bs_column; /**< The column count. */
+    int yy_bs_lineno; /**< The line count. */
+    int yy_bs_column; /**< The column count. */
 
-  /* Whether to try to fill the input buffer when we reach the
-   * end of it.
-   */
-  int yy_fill_buffer;
+	/* Whether to try to fill the input buffer when we reach the
+	 * end of it.
+	 */
+	int yy_fill_buffer;
 
-  int yy_buffer_status;
+	int yy_buffer_status;
 
-};
+	};
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
-void yyrestart(FILE* input_file);
-void yy_switch_to_buffer(YY_BUFFER_STATE new_buffer);
-YY_BUFFER_STATE yy_create_buffer(FILE* file, int size);
-void yy_delete_buffer(YY_BUFFER_STATE b);
-void yy_flush_buffer(YY_BUFFER_STATE b);
-void yypush_buffer_state(YY_BUFFER_STATE new_buffer);
-void yypop_buffer_state(void);
+void yyrestart ( FILE *input_file  );
+void yy_switch_to_buffer ( YY_BUFFER_STATE new_buffer  );
+YY_BUFFER_STATE yy_create_buffer ( FILE *file, int size  );
+void yy_delete_buffer ( YY_BUFFER_STATE b  );
+void yy_flush_buffer ( YY_BUFFER_STATE b  );
+void yypush_buffer_state ( YY_BUFFER_STATE new_buffer  );
+void yypop_buffer_state ( void );
 
-YY_BUFFER_STATE yy_scan_buffer(char* base, yy_size_t size);
-YY_BUFFER_STATE yy_scan_string(const char* yy_str);
-YY_BUFFER_STATE yy_scan_bytes(const char* bytes, int len);
+YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
+YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
+YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
 
-void* yyalloc(yy_size_t);
-void* yyrealloc(void*, yy_size_t);
-void yyfree(void*);
+void *yyalloc ( yy_size_t  );
+void *yyrealloc ( void *, yy_size_t  );
+void yyfree ( void *  );
 
 #define yywrap() (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
 extern int yylineno;
 
-extern char* yytext;
+extern char *yytext;
 #ifdef yytext_ptr
 #undef yytext_ptr
 #endif
@@ -293,7 +294,7 @@ extern char* yytext;
 #include <io.h>
 #define isatty _isatty
 #define fileno _fileno
-
+    
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -301,31 +302,31 @@ extern char* yytext;
 /* Accessor methods to globals.
    These are made visible to non-reentrant scanners for convenience. */
 
-int yylex_destroy(void);
+int yylex_destroy ( void );
 
-int yyget_debug(void);
+int yyget_debug ( void );
 
-void yyset_debug(int debug_flag);
+void yyset_debug ( int debug_flag  );
 
-YY_EXTRA_TYPE yyget_extra(void);
+YY_EXTRA_TYPE yyget_extra ( void );
 
-void yyset_extra(YY_EXTRA_TYPE user_defined);
+void yyset_extra ( YY_EXTRA_TYPE user_defined  );
 
-FILE* yyget_in(void);
+FILE *yyget_in ( void );
 
-void yyset_in(FILE* _in_str);
+void yyset_in  ( FILE * _in_str  );
 
-FILE* yyget_out(void);
+FILE *yyget_out ( void );
 
-void yyset_out(FILE* _out_str);
+void yyset_out  ( FILE * _out_str  );
 
-int yyget_leng(void);
+			int yyget_leng ( void );
 
-char* yyget_text(void);
+char *yyget_text ( void );
 
-int yyget_lineno(void);
+int yyget_lineno ( void );
 
-void yyset_lineno(int _line_number);
+void yyset_lineno ( int _line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -333,18 +334,18 @@ void yyset_lineno(int _line_number);
 
 #ifndef YY_SKIP_YYWRAP
 #ifdef __cplusplus
-extern "C" int yywrap(void);
+extern "C" int yywrap ( void );
 #else
-extern int yywrap(void);
+extern int yywrap ( void );
 #endif
 #endif
 
 #ifndef yytext_ptr
-static void yy_flex_strncpy(char*, const char*, int);
+static void yy_flex_strncpy ( char *, const char *, int );
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int yy_flex_strlen(const char*);
+static int yy_flex_strlen ( const char * );
 #endif
 
 #ifndef YY_NO_INPUT
@@ -372,7 +373,7 @@ static int yy_flex_strlen(const char*);
 #ifndef YY_DECL
 #define YY_DECL_IS_OURS 1
 
-extern int yylex(void);
+extern int yylex (void);
 
 #define YY_DECL int yylex (void)
 #endif /* !YY_DECL */

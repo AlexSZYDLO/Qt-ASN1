@@ -27,7 +27,7 @@ namespace UI {
     if (b = Utils::IsValidIA5String(str->toPlainText().toStdString().c_str()))
       stringVal->SetIA5StringValue(str->toPlainText().toStdString().c_str());
     else
-      QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 format");
+      QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 String format");
     return b;
   }
 
@@ -42,7 +42,7 @@ namespace UI {
       stringVal->SetIA5StringValue(temp.toStdString().c_str());
     }
     else
-      QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 format");
+      QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 String format");
     return true;
   }
 }

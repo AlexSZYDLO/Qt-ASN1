@@ -44,6 +44,8 @@ class Generator {
 
 
  protected:
+  bool CheckUniqueNames();
+  bool CheckExistingTypes();
   Module ModuleFromName(std::string modName);
 
   bool m_TagAuto;

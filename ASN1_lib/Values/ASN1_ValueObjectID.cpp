@@ -113,15 +113,23 @@ namespace Value {
         string DotNotation = input;
 
         // part 1 and part 2 processed together
-        unsigned int nextInt;
-        nextInt = GetNextNodeInDotString(DotNotation); // first int is 0, 1 or 2, otherwise, undefined behavior
-        nextInt = nextInt * 40;
-        nextInt += GetNextNodeInDotString(DotNotation);
+        unsigned int firstInt, secondInt, tempResult;
+        firstInt = GetNextNodeInDotString(DotNotation); // first int is 0, 1 or 2, otherwise, undefined behavior
+        secondInt = GetNextNodeInDotString(DotNotation);
 
-        ByteArray HexNotation = ConvertIntToHexNode(nextInt); // will code on one byte if nextint < 128 -> OID rule
+        tempResult = firstInt * 40;
+        if ((firstInt == 0 || firstInt == 1) && (secondInt > 39)) {
+          error = "if the first node is 0 or 1, the second node must be between 0 and 39."; return;
+        }
+        else if (firstInt > 2) {
+          error = "error in object ID, first int must be 0,1 or 2."; return;
+        }
+        tempResult += secondInt;
+
+        ByteArray HexNotation = ConvertIntToHexNode(tempResult); // will code on one byte if nextint < 128 -> OID rule
         while (DotNotation != "") {
-          nextInt = GetNextNodeInDotString(DotNotation);
-          HexNotation.Append(ConvertIntToHexNode(nextInt));
+          tempResult = GetNextNodeInDotString(DotNotation);
+          HexNotation.Append(ConvertIntToHexNode(tempResult));
         }
         output = HexNotation;
       }
@@ -138,12 +146,18 @@ namespace Value {
       if (subIntegerAsHexStr != "") {
         // first node cannot be higher than 2, and if first node is 0 or 1, second node cannot be higher than 40 (OID rules)
         unsigned int tempInt = ConvertHexToIntNode(subIntegerAsHexStr);
-        int FirstNode = tempInt / 40;
-        if (FirstNode > 2)
-          FirstNode = 2;
-
-        int SecondNode = tempInt - FirstNode * 40;
-        output = to_string(FirstNode) + '.' + to_string(SecondNode);
+        unsigned int firstNode, secondNode;
+        if (tempInt < 128) {
+          firstNode = tempInt / 40;
+          if (firstNode > 2)
+            firstNode = 2;
+          secondNode = tempInt - firstNode * 40;
+        }
+        else {
+          firstNode = 2;
+          secondNode = tempInt - firstNode * 40;
+        }
+        output = to_string(firstNode) + '.' + to_string(secondNode);
 
         while (OIDAsHexString.Size() > 0) {
           subIntegerAsHexStr = GetNextNodeInHexString(OIDAsHexString);

@@ -14,8 +14,11 @@ using namespace std;
 namespace Utils {
 
   const regex rxUTCTime(R"(^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})?(Z|([+-])(\d{2})(\d{2}))$)");
-  const regex rxOID(R"(^[012](.\d+)*$)");
-  const regex rxIA5String(R"([ -~]*)");
+  const regex rxIA5String(R"(^[ -~]*$)");
+
+  const string firstBytes = R"(((([01])\.([0-9]|[0-3][0-9]))|(2\.[0-9]+)))"; // if first = 0 or 1, second must be in range 0-39. if first = 2, no restriction on second
+  const string dotGroup = R"((.\d+)*)";
+  const regex rxOID("^" + firstBytes + dotGroup + "$");
 
   string NodeTypeToString(eNodeType t) {
     switch (t) {
@@ -368,6 +371,7 @@ namespace Utils {
   }
 
   bool IsValidObjectID(const string& objectID) {
+    if (objectID == "") return true;
     return regex_match(objectID, rxOID) ? true : false;
   }
 

@@ -141,7 +141,7 @@ namespace UI {
     if (!m_Main->GetLastCompGramm().isEmpty())
       secondTree = m_Main->CompToObj(m_Main->GetLastCompGramm(), true); // silent
     else if (!m_Main->GetLastScript().isEmpty())
-      secondTree = m_Main->JSToObj(newEng, m_Main->GetLastScript(), false, true); // no debug + silent
+      secondTree = m_Main->JSToObj(&newEng, m_Main->GetLastScript(), false, true); // no debug + silent
 
     if (secondTree != nullptr) {
       char c[2000];
@@ -254,7 +254,7 @@ namespace UI {
   void UI_Editor::action_ConvertBoolean() { ShowConv<UI_ASN1_Converter_Boolean>(this); }
   void UI_Editor::action_ConvertEnumerated() { ShowConv<UI_ASN1_Converter_Enumerated>(this); }
   void UI_Editor::action_ConvertIA5String() { ShowConv<UI_ASN1_Converter_IA5String>(this); }
-  void UI_Editor::action_ConvertInteger() { ShowConv<UI_ASN1_Converter_IA5String>(this); }
+  void UI_Editor::action_ConvertInteger() { ShowConv<UI_ASN1_Converter_Integer>(this); }
   void UI_Editor::action_ConvertObjectID() { ShowConv<UI_ASN1_Converter_ObjectID>(this); }
   void UI_Editor::action_ConvertOctetString() { ShowConv<UI_ASN1_Converter_OctetString>(this); }
   void UI_Editor::action_ConvertReal() { ShowConv<UI_ASN1_Converter_Real>(this); }

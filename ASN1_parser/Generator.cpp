@@ -159,30 +159,78 @@ Module Generator::ModuleFromName(std::string modName) {
   return{}; // should not happen
 }
 
-void Generator::GrammarEnd() {
-  // set tag primitive/constructed for modules that were unknown
+bool Generator::CheckUniqueNames() {
+  for (int i = 0; i < m_ModuleList.size(); i++) {
+    string name = m_ModuleList.at(i).name;
+    for (int j = 0; j < m_ModuleList.size(); j++)
+      if (i != j) {
+        if (m_ModuleList.at(j).name == name) {
+          string e = "Double module name: " + name + "\n";
+          ParsingError += e;
+          return false;
+        }
+      }
+  }
+  return true;
+}
+
+bool Generator::CheckExistingTypes() {
+  vector <string> ModuleNames;
+
+  for (int i = 0; i < m_ModuleList.size(); i++)
+    ModuleNames.push_back(m_ModuleList.at(i).name);
+
   for (int i = 0; i < m_ModuleList.size(); i++) {
     for (int j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
-      Variable& v = m_ModuleList.at(i).tempVariableList.at(j);
 
-      if (v.unknownType) {
-        // get the type from the name: the name should now exist and we can get the type
-        eNodeType t = ModuleFromName(v.customTypeName).type;
-        v.type = t;
-
-        // swith to constructed if we find out that the type is complex. no effect on untagged choices that must remain without tag
-        if (IsComplexType(t))
-          SetTagConstructed(v.tag);
+      if (m_ModuleList.at(i).tempVariableList.at(j).customTypeName != "") {
+        bool found = false;
+        for (int k = 0; k < ModuleNames.size(); k++) {
+          if (ModuleNames.at(k) == m_ModuleList.at(i).tempVariableList.at(j).customTypeName) {
+            found = true;
+            break;
+          }
+        }
+        if (found == false) {
+          string e = "Custom type not declared: " + m_ModuleList.at(i).tempVariableList.at(j).customTypeName + "\n";
+          ParsingError += e;
+          return false;
+        }
       }
-
-      // case choice with a tag (auto tag or specified tag) -> explicit
-      if (v.type == cChoice && v.tag != "")
-        v.explicitTag = true;
 
     }
   }
+  return true;
 }
 
+void Generator::GrammarEnd() {
+  bool b = CheckUniqueNames();
+  b &= CheckExistingTypes();
+
+  if (b) {
+    // set tag primitive/constructed for modules that were unknown
+    for (int i = 0; i < m_ModuleList.size(); i++) {
+      for (int j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
+        Variable& v = m_ModuleList.at(i).tempVariableList.at(j);
+
+        if (v.unknownType) {
+          // get the type from the name: the name should now exist and we can get the type
+          eNodeType t = ModuleFromName(v.customTypeName).type;
+          v.type = t;
+
+          // swith to constructed if we find out that the type is complex. no effect on untagged choices that must remain without tag
+          if (IsComplexType(t))
+            SetTagConstructed(v.tag);
+        }
+
+        // case choice with a tag (auto tag or specified tag) -> explicit
+        if (v.type == cChoice && v.tag != "")
+          v.explicitTag = true;
+
+      }
+    }
+  }
+}
 
 void ReplaceMinus(string& s) {
   size_t idx;
@@ -253,4 +301,3 @@ void Generator::SortModules() {
       break;
   }
 }
-

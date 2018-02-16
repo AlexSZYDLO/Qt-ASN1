@@ -23,7 +23,7 @@ const QString defaultJS = "config/test.js";
 
 namespace UI {
 
-  UI_Main::UI_Main(QWidget* parent) : QMainWindow(parent), m_Grammar(nullptr), scriptEngine(nullptr) {
+  UI_Main::UI_Main(QWidget* parent) : QMainWindow(parent), m_Grammar(nullptr), m_ScriptEngine(nullptr) {
     resize(1024, 600);
     setWindowTitle("Q-ASN1");
     setWindowIcon(QIcon(":/img/img/icon.png"));
@@ -60,7 +60,7 @@ namespace UI {
   }
 
   QString UI_Main::ASNToX(const QString& asn, eFormat f) {
-    const int buffSize = asn.size() * 10;
+    const int buffSize = asn.size() * 10 + 1;
     char* buff = new char[buffSize];
     char* errorBuff = new char[500];
 
@@ -83,7 +83,7 @@ namespace UI {
     }
 
     QString r;
-    if (err.isEmpty())
+    if (err.isEmpty() && buffSize > 0)
       r = buff;
     else r = "";
 
@@ -101,10 +101,10 @@ namespace UI {
     return ASNToX(asn, cCPP);
   }
 
-  ASN1_Object* UI_Main::JSToObj(QScriptEngine* eng, const QString& js, bool debug, bool silent) {
+  ASN1_Object* UI_Main::JSToObj(QScriptEngine** eng, const QString& js, bool debug, bool silent) {
     QString err;
-    ClearScriptEngine(eng);
-    eng = InitEngine();
+    ClearScriptEngine(*eng);
+    *eng = InitEngine();
 
     if (!silent)
       statusBar()->showMessage("Reading grammar from script.");
@@ -112,12 +112,12 @@ namespace UI {
     QScriptEngineDebugger* debugger = nullptr;
     if (debug) {
       debugger = new QScriptEngineDebugger();
-      debugger->attachTo(eng);
+      debugger->attachTo(*eng);
       debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
     }
     if (!debug)
       QApplication::setOverrideCursor(Qt::WaitCursor);
-    ASN1_Object* obj = GrammarFromScript(eng, js, err);
+    ASN1_Object* obj = GrammarFromScript(*eng, js, err);
     QApplication::restoreOverrideCursor();
 
     if (debugger != nullptr)
@@ -128,7 +128,7 @@ namespace UI {
         statusBar()->showMessage("Script processed without error.");
     }
     else {
-      ClearScriptEngine(eng);
+      ClearScriptEngine(*eng);
       if (!silent)
         statusBar()->showMessage("Script processing failed.");
       QMessageBox box(QMessageBox::Critical, "Cannot run script", err);
@@ -137,33 +137,39 @@ namespace UI {
     return obj;
   }
 
-  bool UI_Main::ProcessAdditionalJS(QScriptEngine* eng, const QString& js, bool debug) {
+  bool UI_Main::ProcessAdditionalJS(QScriptEngine** eng, const QString& js, bool debug) {
     QString error;
-    statusBar()->showMessage("Processing additional script.");
-
-    QScriptEngineDebugger* debugger = nullptr;
-    if (debug) {
-      debugger = new QScriptEngineDebugger();
-      debugger->attachTo(eng);
-      debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
-    }
-    if (!debug)
-      QApplication::setOverrideCursor(Qt::WaitCursor);
-    ProcessAdditionalScript(eng, js, error);
-    QApplication::restoreOverrideCursor();
-
-    if (debugger != nullptr)
-      delete debugger;
-
-    if (!error.isEmpty()) {
-      statusBar()->showMessage("Script processing failed.");
-      QMessageBox box(QMessageBox::Critical, "The script returned an error", error);
-      box.exec();
-      return false;
+    if (*eng == nullptr) {
+      statusBar()->showMessage("Please run an initial script first.");
+	  return false;
     }
     else {
-      statusBar()->showMessage("Script processed without error.");
-      return true;
+      statusBar()->showMessage("Processing additional script.");
+
+      QScriptEngineDebugger* debugger = nullptr;
+      if (debug) {
+        debugger = new QScriptEngineDebugger();
+        debugger->attachTo(*eng);
+        debugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+      }
+      if (!debug)
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+      ProcessAdditionalScript(*eng, js, error);
+      QApplication::restoreOverrideCursor();
+
+      if (debugger != nullptr)
+        delete debugger;
+
+      if (!error.isEmpty()) {
+        statusBar()->showMessage("Script processing failed.");
+        QMessageBox box(QMessageBox::Critical, "The script returned an error", error);
+        box.exec();
+        return false;
+      }
+      else {
+        statusBar()->showMessage("Script processed without error.");
+        return true;
+      }
     }
   }
 
@@ -211,7 +217,7 @@ namespace UI {
   }
 
   UI_Main::~UI_Main() {
-    ClearScriptEngine(scriptEngine);
+    ClearScriptEngine(m_ScriptEngine);
   }
 
 }

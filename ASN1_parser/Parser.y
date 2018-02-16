@@ -147,12 +147,12 @@ VariableList:
   ;
 
 Variable:
-  _VarID TagField VariableType Optional 
-  { 
-    gGen->SetLastVariableName(*$1); 
-    gGen->SetLastVariableTag($2); 
-    gGen->SetLastVarOptional($4); 
-    delete $1; 
+  _VarID TagField VariableType Optional
+  {
+    gGen->SetLastVariableName(*$1);
+    gGen->SetLastVariableTag($2);
+    gGen->SetLastVarOptional($4);
+    delete $1;
   }
   ;
 
@@ -206,7 +206,7 @@ ASN1_Type:
 
 void yyerror(const char *s) {
     errorLog(string (s) + ". Line:" + to_string(yylineno) + '\n');
-    //  cout << string(s) << ". Line:" << yylineno << endl;
+    //cout << string(s) << ". Line:" << yylineno << endl;
 }
 
 

@@ -71,7 +71,7 @@ namespace UI {
   };
 
   class UI_ASN1_Converter_ObjectID : public UI_Converter {
-    QTextEdit* oidTextEdit;
+    myQTextEdit* oidTextEdit;
     UI_CONVERTER_COMMON_PUBLIC_FUNCTIONS(ObjectID)
   };
 

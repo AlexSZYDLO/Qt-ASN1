@@ -10,11 +10,11 @@ namespace UI {
     inBox->setTitle(inBox->title() + " - Object ID");
     QVBoxLayout* vLayValueLayout = new QVBoxLayout(inBox);
     QSpacerItem* verticalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    OIDText = new QTextEdit(inBox);
+    OIDText = new myQTextEdit(inBox, myQTextEdit::cLineEditOID);
     inBox->setLayout(vLayValueLayout);
     vLayValueLayout->addWidget(OIDText);
     vLayValueLayout->addItem(verticalSpacer);
-    OIDText->setText(m_Grammar->GetObjectIDValue().c_str());
+    OIDText->setPlainText(m_Grammar->GetObjectIDValue().c_str());
     if (readOnly)
       OIDText->setReadOnly(true);
   }
@@ -28,7 +28,7 @@ namespace UI {
       oidVal->SetObjectIDValue(OIDText->toPlainText().toStdString().c_str());
     else
       QMessageBox::warning(nullptr, "Wrong value format", "The value must be a valid Object ID.\n"
-                           "Exemple: 1.123.4567.89");
+                           "Exemple: 1.25.4567.89");
     return b;
   }
 
@@ -45,7 +45,7 @@ namespace UI {
     }
     else
       QMessageBox::warning(nullptr, "Wrong value format", "The value must be a valid Object ID."
-                           "Exemple: 1.123.4567.89");
+                           "Exemple: 1.25.4567.89");
     return b;
   }
 }

@@ -6,7 +6,7 @@
 
 namespace UI {
   UI_ASN1_Converter_IA5String::UI_ASN1_Converter_IA5String(QWidget* parent) : UI_Converter(parent) {
-    valueBox->setTitle("Bit String");
+    valueBox->setTitle("IA5 String");
     ia5StringTextEdit = new myQTextEdit(valueBox, myQTextEdit::cLineEditIA5String);
     valueLay->addWidget(ia5StringTextEdit);
     ia5StringTextEdit->setPlainText("");

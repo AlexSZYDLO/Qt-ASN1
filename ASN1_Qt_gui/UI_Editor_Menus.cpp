@@ -38,8 +38,8 @@ namespace UI {
 
     QObject::connect(buttonOpen, SIGNAL(clicked(bool)), this, SLOT(openClicked()));
     QObject::connect(buttonSave, SIGNAL(clicked(bool)), this, SLOT(saveClicked()));
-    QObject::connect(buttonWrite, SIGNAL(clicked(bool)), m_Main, SLOT(action_Write()));
-    QObject::connect(buttonRead, SIGNAL(clicked(bool)), m_Main, SLOT(action_Read()));
+    QObject::connect(buttonWrite, SIGNAL(clicked(bool)), m_Main, SLOT(action_WriteAll()));
+    QObject::connect(buttonRead, SIGNAL(clicked(bool)), m_Main, SLOT(action_ReadAll()));
     QObject::connect(buttonCompare, SIGNAL(clicked(bool)), m_Main, SLOT(action_Compare()));
     QObject::connect(buttonTools, SIGNAL(clicked(bool)), this, SLOT(toolsClicked()));
   }

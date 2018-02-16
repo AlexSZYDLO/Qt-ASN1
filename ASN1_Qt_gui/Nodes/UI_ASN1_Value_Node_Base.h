@@ -100,7 +100,7 @@ namespace UI {
   };
 
   class UI_ASN1_Node_ObjectID : public UI_ASN1_Value_Node_Template<ASN1_ObjectID> {
-    QTextEdit* OIDText;
+    myQTextEdit* OIDText;
     UI_NODE_COMMON_PUBLIC_FUNCTIONS
   };
 

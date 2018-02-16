@@ -45,7 +45,9 @@ namespace UI {
   void UI_ASN1_Converter_UTCTime::ConvertTypeToHex() {
     ByteArray hex;
     std::string UTCTimeStringTmp, err;
-    Utils::ValuesToUTCTime(dateTimeEdit->date().year() - 2000, dateTimeEdit->date().month(), dateTimeEdit->date().day(),
+    QString  year = QString::number(dateTimeEdit->date().year());
+    year = year.right(2);
+    Utils::ValuesToUTCTime(year.toInt(), dateTimeEdit->date().month(), dateTimeEdit->date().day(),
                            dateTimeEdit->time().hour(), dateTimeEdit->time().minute(), dateTimeEdit->time().second(),
                            stringToSign(zoneSignComboBox->currentText()),
                            zoneHoursSpinBox->value(), zoneMinutesSpinBox->value(), UTCTimeStringTmp, err);

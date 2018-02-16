@@ -48,6 +48,7 @@ namespace UI {
     ASN1_Object* obj = m_Main->CompToObj(m_List->currentText());
     if (obj != nullptr) {
       m_Main->SetLastCompGramm(m_List->currentText());
+      *m_Main->GetScriptEngine() = nullptr;
       m_Main->SetEditorObj(obj);
       m_Main->SelectTab(3);
     }

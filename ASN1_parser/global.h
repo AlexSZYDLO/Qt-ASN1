@@ -9,11 +9,11 @@
 
 using namespace Utils;
 
-extern std::string error;
+extern std::string ParsingError;
 
 inline void errorLog(const std::string& s) {
   std::cout << "ERROR: " << s << std::endl;
-  error += s + '\n';
+  ParsingError += s + '\n';
 }
 
 inline void log(const std::string& s) {

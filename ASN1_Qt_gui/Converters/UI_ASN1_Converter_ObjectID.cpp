@@ -8,11 +8,11 @@
 namespace UI {
   UI_ASN1_Converter_ObjectID::UI_ASN1_Converter_ObjectID(QWidget* parent) : UI_Converter(parent) {
     valueBox->setTitle("Object ID");
-    oidTextEdit = new QTextEdit(valueBox);
+    oidTextEdit = new myQTextEdit(valueBox, myQTextEdit::cLineEditOID);
     valueLay->addWidget(oidTextEdit);
     valueLay->addItem(new QSpacerItem(40, 20, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
 
-    oidTextEdit->setText("");
+    oidTextEdit->setPlainText("");
 
     MakeUIBase();
   }
@@ -34,7 +34,7 @@ namespace UI {
     std::string err;
     ASN1_ObjectID::HexToObjectID(hex, oid, err);
     if (err.empty())
-      oidTextEdit->setText(oid.c_str());
+      oidTextEdit->setPlainText(oid.c_str());
     errorLineEdit->setText(err.c_str());
   }
 }

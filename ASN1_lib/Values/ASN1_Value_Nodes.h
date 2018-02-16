@@ -5,7 +5,7 @@
 #pragma once
 #include "../ASN1_Value.h"
 
-#ifndef NODE_CONSTRUCTOR
+//#ifndef NODE_CONSTRUCTOR
 #define NODE_CONSTRUCTOR(name, defTag, initValue) \
 ASN1_Value##name(const std::string& name, \
   ASN1_Object* grammarObject, \
@@ -17,21 +17,21 @@ ASN1_Value##name(const std::string& name, \
     std::string err; \
     Set##name##Value(initValue, err); \
 }
-#endif
+//#endif
 
-#ifndef NODE_DESTRUCTOR
+//#ifndef NODE_DESTRUCTOR
 #define NODE_DESTRUCTOR(name) virtual ~ASN1_Value##name() {}
-#endif
+//#endif
 
-#ifndef GET_TYPE_FUNCTION
+//#ifndef GET_TYPE_FUNCTION
 #define GET_TYPE_FUNCTION(name) virtual Utils::eNodeType GetType() const override { return Utils::c##name; }
-#endif
+//#endif
 
-#ifndef GET_FUNCTION
+//#ifndef GET_FUNCTION
 #define GET_FUNCTION(name, type) type Get##name##Value() const { return m_Value##name; }
-#endif
+//#endif
 
-#ifndef SET_FUNCTION
+//#ifndef SET_FUNCTION
 #define SET_FUNCTION(name, type) \
 void Set##name##Value(const type &value, std::string &error) { \
   error.clear(); \
@@ -42,19 +42,19 @@ void Set##name##Value(const type &value, std::string &error) { \
     m_Value = output; \
   } \
 }
-#endif
+//#endif
 
-#ifndef TYPE_TO_HEX_FUNCTION_DECL
+//#ifndef TYPE_TO_HEX_FUNCTION_DECL
 #define TYPE_TO_HEX_FUNCTION_DECL(name, type) \
 static void name##ToHex(const type &input, ByteArray &output, std::string &error);
-#endif
+//#endif
 
-#ifndef HEX_TO_TYPE_FUNCTION_DECL
+//#ifndef HEX_TO_TYPE_FUNCTION_DECL
 #define HEX_TO_TYPE_FUNCTION_DECL(name, type) \
 static void HexTo##name(const ByteArray &input, type &output, std::string &error);
-#endif
+//#endif
 
-#ifndef SET_HEX_VALUE_FUNCTION
+//#ifndef SET_HEX_VALUE_FUNCTION
 #define SET_HEX_VALUE_FUNCTION(name, type) \
 void SetHexValue(const ByteArray &rawValue, std::string &error) { \
   type output; \
@@ -65,9 +65,9 @@ void SetHexValue(const ByteArray &rawValue, std::string &error) { \
     m_Value##name = output; \
   } \
 }
-#endif
+//#endif
 
-#ifndef NODE_CLASS
+//#ifndef NODE_CLASS
 #define NODE_CLASS(name, type, defTag, initValue) \
 class ASN1_Value##name : public ASN1_Value { \
 protected: \
@@ -87,7 +87,7 @@ public: \
   TYPE_TO_HEX_FUNCTION_DECL(name, type) \
   HEX_TO_TYPE_FUNCTION_DECL(name, type) \
 };
-#endif
+//#endif
 
 namespace Value {
   NODE_CLASS(Boolean, bool, "01", false)

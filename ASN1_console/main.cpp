@@ -170,24 +170,41 @@ bool test_BitString() {
   return test2 == "";
 }
 
-bool test_ObjectID() {
-  char cBuff[2000];
-
-  ASN1_ObjectID* bitstr = new ASN1_ObjectID();
-  bitstr->SetObjectIDValue("1.23.5126.3547.652.946321.2");
-  //bitstr->SetObjectIDValue("1.23.946321");
+bool test_OID_helper(const ByteArray& _hex, const string& str) {
   ByteArray hex;
-  bitstr->WriteIntoBuffer(hex);
+  char cBuff[2000];
+  bool b = true;
+
+  ASN1_ObjectID* oid = new ASN1_ObjectID();
+  oid->SetObjectIDValue(str);
+  oid->WriteIntoBuffer(hex);
   string test(hex.GetString());
+  b &= test == _hex.GetString();
 
-  ASN1_ObjectID* bitstr2 = new ASN1_ObjectID();
-  bitstr2->ReadFromBuffer(hex, cBuff, 2000);
-  string test2(bitstr2->GetObjectIDValue());
+  oid->ReadFromBuffer(hex, cBuff, 2000);
+  string test2(oid->GetObjectIDValue());
+  b &= test2 == str;
 
-  bool b = test2 == "1.23.5126.3547.652.946321.2";
-  //bool b = test2 == "1.23.946321";
-  delete bitstr;
-  delete bitstr2;
+  delete oid;
+  return b;
+}
+
+bool test_ObjectID() {
+  bool b = true;
+  b &= !Utils::IsValidObjectID("1.52.3.5"); // error
+  b &= !Utils::IsValidObjectID("1"); // error
+  b &= Utils::IsValidObjectID("1.1");
+  b &= Utils::IsValidObjectID("1.23.5126.3547.652.946321.2");
+
+  b &= test_OID_helper("060B3FA8069B5B850CB9E11102", "1.23.5126.3547.652.946321.2");
+  b &= test_OID_helper("0603420305", "1.26.3.5");
+  b &= !test_OID_helper("0600", "1.52.3.5"); // error, write is ok empty, but read wont work
+  b &= !test_OID_helper("0600", "1"); // error, write is ok empty , but read wont work
+  b &= test_OID_helper("060481040305", "2.52.3.5");
+  b &= test_OID_helper("060103", "0.3");
+  b &= test_OID_helper("060489AE220C", "2.153298.12");
+  b &= test_OID_helper("060100", "0.0");
+  b &= test_OID_helper("060428000001", "1.0.0.0.1");
   return b;
 }
 
@@ -436,8 +453,12 @@ bool test_ParserJS() {
   char* errorBuff = new char[500];
   errorBuff[0] = '\0';
 
+  char* jsbuff = new char [1];
+
   ASNFileToJSFile("PEDefinitions V1.0_edit.asn", "out.js", errorBuff, 500);
   ASNFileToJSFile("gramm_test.asn", "out2.js", errorBuff, 500);
+  ASNBufferToJSBuffer("", jsbuff, 1, errorBuff, 500); // empty input
+
 
   string err(errorBuff);
   if (err != "") {
@@ -447,6 +468,7 @@ bool test_ParserJS() {
   else
     cout << "Parsing grammar to JS OK." << endl;
 
+  delete[] jsbuff;
   delete[] errorBuff;
   return true;
 }
@@ -491,8 +513,8 @@ int main() {
   result &= test_DLL();
   result &= test_IA5String_UTF8String();
   result &= test_Compare();
-  result &= test_ParserJS();
-  result &= test_ParserCPP();
+  //result &= test_ParserJS();
+  //result &= test_ParserCPP();
   result &= test_ParsedGrammar();
 
   cout << "test result: " << (result ? "OK" : "NOK") << endl;
