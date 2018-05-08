@@ -14,10 +14,10 @@
 extern "C" {
 #endif
 
-DLLSPEC bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, int bufferSize, char* errorBuff, int errorBuffSize);
-DLLSPEC bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, int errorBuffSize);
+DLLSPEC bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
+DLLSPEC bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
 
-DLLSPEC bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, int bufferSize, char* errorBuff, int errorBuffSize);
-DLLSPEC bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, int errorBuffSize);
+DLLSPEC bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
+DLLSPEC bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
 
 }

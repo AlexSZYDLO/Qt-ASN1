@@ -7,14 +7,14 @@
 
 /*
 ASN1 nodes definition for choice. See comment in ASN1_Object_Nodes.h for further explanations.
-Choice works with a call back that must be defined on client side. This call back is called to instanciate the object associated with the choice, based on an index.
+Choice works with a callback that must be defined on caller side. This callback is called to instanciate the object associated with the choice, based on an index.
 
 if a choice proposes 3 possibilities:
 - INTGER
 - IA5String
 - BOOLEAN
 
-The callback whould look like:
+The callback would look like:
 
 ASN1_Choice::callbackChoice callback{
   [](unsigned int idx, void*) -> ASN1_Object* {
@@ -24,20 +24,20 @@ ASN1_Choice::callbackChoice callback{
     case 2: return new ASN1_Boolean();
     default: return nullptr; // should never be accessed
   }
-}, nullptr }; // the pointer can be used by the client side to store context information,
+}, nullptr }; // the pointer can be used by the caller to store context information,
                  if for instance, the same call back function is used for several choices
 
- The second parameter MUST be the number of possible return values. If not, you may end up with null values in your choice.
+ The second parameter MUST be the number of possible return values. If it is incorrect, it may lead to undefined behaviors.
 
 
- The choice object does not keep instanciated all the possible choices. It only keeps the selected one, and instanciates only the required one when calling SetSelectedChoice(int)
+ The choice object does not keep the possible choices instanciated at all times. 
+ It only keeps the selected one, and instanciates only the required one when calling SetSelectedChoice(int)
  However, for choice selection, it may be usefull to see all the possible choices at the same time (eg. in GUIs). To do so,
  - call MakeDummyChoiceList() to instanciate one of each possible choice
  - you can call GetChoiceFromIndex(int) to access the available choices. This does NOT set the value, they are just dummies
  - Select the choice you want with SetSelectedChoice(int) (can be done as many times as you want)
  - Clean the list of possibilities with DeleteDummyChoiceList(). Facultative, but if you keep the list, you increase the memory used
- The dummy choices must ONLY be deleted with the DeleteDummyChoiceList() function.
-
+ The dummy choices must be deleted only with the DeleteDummyChoiceList() function.
 */
 
 class DLLSPEC ASN1_Choice : public ASN1_Object {

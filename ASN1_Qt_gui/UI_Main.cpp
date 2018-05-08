@@ -141,7 +141,7 @@ namespace UI {
     QString error;
     if (*eng == nullptr) {
       statusBar()->showMessage("Please run an initial script first.");
-	  return false;
+      return false;
     }
     else {
       statusBar()->showMessage("Processing additional script.");

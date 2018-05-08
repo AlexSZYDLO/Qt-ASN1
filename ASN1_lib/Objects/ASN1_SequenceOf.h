@@ -7,12 +7,12 @@
 
 /*
 ASN1 nodes definition for sequence of. See comment in ASN1_Object_Nodes.h for further explanations.
-The sequence of works with a callback just like choice (see ASN1_Choice.h)
+The sequence of works with a callback like choice node (see ASN1_Choice.h)
 Unlike choices, the callback of a sequence of must always return the same object. It is appended to a list and kept in the sequence of.
 It is accessible by its index, can be moved up and down, or deleted.
 
 The GetDummyNewObject() function returns an object that is not appended to the sequence of. Its only purpose is to give a preview of what the object looks like.
-The dummy object must be deleted after use to clean the memory.
+The dummy object must be deleted manually after use to clean the memory.
 */
 
 class DLLSPEC ASN1_SequenceOf : public ASN1_Object {

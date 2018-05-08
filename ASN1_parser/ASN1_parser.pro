@@ -9,6 +9,12 @@ DEFINES += DLLCOMPIL
 INCLUDEPATH += $$PWD/../../_bin/win_flex_bison
 INCLUDEPATH += $$PWD/../ASN1_lib
 
+flex.target += $$PWD/grammar/Lexer.cpp #$$PWD/grammar/Parser.cpp $$PWD/grammar/Lexer.h $$PWD/grammar/Parser.h
+flex.depends += $$PWD/Lexer.l $$PWD/Parser.y
+flex.commands += $$PWD/flex_bison.bat
+QMAKE_EXTRA_TARGETS += flex
+PRE_TARGETDEPS += $$PWD/grammar/Lexer.cpp #$$PWD/grammar/Parser.cpp $$PWD/grammar/Lexer.h $$PWD/grammar/Parser.h
+
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
    TARGET = ASN1_parser_64d
@@ -51,3 +57,8 @@ DISTFILES += \
 #
 #QMAKE_EXTRA_TARGETS += flex bison
 #PRE_TARGETDEPS += flex bison
+
+#flex_bison_hook.depends = flex_bison
+#CONFIG(debug,debug|release):flex_bison_hook.target = Makefile.Debug
+#CONFIG(release,debug|release):flex_bison_hook.target = Makefile.Release
+#QMAKE_EXTRA_TARGETS += flex_bison_hook

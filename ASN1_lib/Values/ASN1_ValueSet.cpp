@@ -99,6 +99,9 @@ namespace Value {
     }
 
     if (CheckTags(ImplTag, ExplTag, false, 0)) {
+      if (IsIgnored())
+        Ignore(false); // if the node was marked as ignored, enable it
+
       unsigned int L;
       if (!GetLengthFromBuffer(buffer, pos, L))
         throw ParsingEx("Cannot read length of object: " + GetName(), this->GetGrammarObject(), pos);

@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "global.h"
 
 //#pragma warning (push)
@@ -36,7 +37,24 @@ int parse(const string& s) {
   return 0;
 }
 
-void FillBufferWithString(string& s, char* buff, int buffSize) {
+
+/*
+int parse++(const string& s) {
+  FlexLexer* lexer = new yyFlexLexer;
+  yy_buffer_state* ybuf;
+  ParsingError = "";
+
+  istringstream ss(s);
+
+  ybuf = lexer->yy_create_buffer(ss, s.size());
+  yyparse();
+  lexer->yy_delete_buffer(ybuf);
+
+  return 0;
+}
+*/
+
+void FillBufferWithString(string& s, char* buff, unsigned int buffSize) {
   if (s.size() == 0 && buffSize > 0) { // s empty
     buff[0] = '\0';
   }
@@ -73,7 +91,7 @@ bool ParseToFormat(const string& in, string& out) {
   return true;
 }
 
-bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, int bufferSize, char* errorBuff, int errorBuffSize) {
+bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize) {
   string JS;
   bool b = ParseToFormat<JSGenerator>(inBuffer, JS);
 
@@ -83,7 +101,7 @@ bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, int bufferSize, 
   return b;
 }
 
-bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, int errorBuffSize) {
+bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize) {
   ifstream myfile(inPath);
   string s((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));
   string JS;
@@ -99,7 +117,7 @@ bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, i
   return false;
 }
 
-bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, int bufferSize, char* errorBuff, int errorBuffSize) {
+bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize) {
   string CPP;
   bool b = ParseToFormat<CPPGenerator>(inBuffer, CPP);
 
@@ -109,7 +127,7 @@ bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, int bufferSize,
   return b;
 }
 
-bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, int errorBuffSize) {
+bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize) {
   ifstream myfile(inPath);
   string s((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));
   string CPP;

@@ -6,12 +6,11 @@
 #include "../ASN1_Object.h"
 
 /*
-ASN1 nodes definition for basic node. Those classes are exported in the DLL and will be the base to build a grammar.
-Once an object is instanciated, its properties that are proper to a grammar (such like tag, optionality...) cannot be modified.
-The grammar is static, and these properties must not be changed.
+Definition for basic ASN1 nodes. These classes are exported in the DLL and will be the bricks to build a grammar.
+You instanciate these objects with their ASN1 propertiescoming from the grammar (such like tag, optionality...), 
+and they can't be changed afterwards. To modify the grammar, you need to recreate it.
 
-
-The macros avoid having duplicated code for each node type.
+The macros in this file avoid having duplicated code for each node type.
 The complex types are defined in separated classes since they need different functions to acces their properties or functionalities.
 
 At the end of this file, the macro OBJECT_CLASS_DECL generates the object class based on its name and the type of data it contains.
@@ -35,8 +34,9 @@ For example, Boolean node, with type bool will look like:
  }
 
  MEMORY:
- An instanciated object must be deleted after use if it is not part of a structure.
- A sequence/sequence of/set/choice will clean its objects at its deletion. It means that if you have structure of several sequences, only the root need to be deleted.
+ An instanciated object must be deleted after use if it is not part of a structure, like any object instaciated with "new"
+ A sequence/sequence of/set/choice will clean its objects at deletion time. 
+ It means that if you have structure of several sequences, only the root node needs to be deleted.
  An object also deletes its defaultValue if it has one.
 
 */

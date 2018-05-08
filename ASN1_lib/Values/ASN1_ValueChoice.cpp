@@ -115,14 +115,11 @@ namespace Value {
 
   void ASN1_ValueChoice::ReadFromBuffer(const ByteArray& buffer, unsigned int& pos) {
     ByteArray ExplTag, ImplTag;
+    bool choiceIgnored = false;
 
     if (GetTag() != "") {
       unsigned int oldPos = pos;
-      try { ReadNextTags(buffer, pos, ImplTag, ExplTag); }
-      catch (ParsingEx& e) {
-        e.AddError("Cannot read object tag: " + GetName());
-        throw e;
-      }
+      ReadNextTags(buffer, pos, ImplTag, ExplTag);
 
       if (CheckTags(ImplTag, ExplTag, false, 0)) {
         unsigned int L;
@@ -140,51 +137,59 @@ namespace Value {
         else {
           Ignore(true); // parameter is not present but optional->OK
           pos = oldPos;
+          choiceIgnored = true;
         }
       }
     }
 
-    MakeDummyChoiceList();
-    int oldPos = pos;
-    bool ObjectFound = false;
+    if (!choiceIgnored) {
+      if (IsIgnored())
+        Ignore(false); // maybe set to true later if choices don't match
 
-    for (unsigned int i = 0; i < m_AvailableChoices.size(); i++) {
+      MakeDummyChoiceList();
+      int oldPos = pos;
+      bool ObjectFound = false;
 
-      try { m_AvailableChoices.at(i)->ReadNextTags(buffer, pos, ImplTag, ExplTag); }
-      catch (ParsingEx& e) {
-        e.AddError("Cannot read object tag: " + GetName());
-        throw e;
-      }
-      pos = oldPos; //tags will be read again in ReadFromBuffer()
+      for (unsigned int i = 0; i < m_AvailableChoices.size(); i++) {
 
-      ObjectFound = m_AvailableChoices.at(i)->CheckTags(ImplTag, ExplTag, false, 0);
-      if (ObjectFound) {
-        SetSelectedChoice(i);
         try {
-          m_TheChoice->ReadFromBuffer(buffer, pos);
+          m_AvailableChoices.at(i)->ReadNextTags(buffer, pos, ImplTag, ExplTag);
+        }
+        catch (ParsingEx&) {
+          // buffer empty, but it can be that the choice is optional. It will be checked later
           break;
         }
-        catch (ParsingEx& e) {
-          e.AddError("Cannot read choice selection : " + GetName());
-          throw e;
+        pos = oldPos; //tags will be read again in ReadFromBuffer()
+
+        ObjectFound = m_AvailableChoices.at(i)->CheckTags(ImplTag, ExplTag, false, 0);
+        if (ObjectFound) {
+          SetSelectedChoice(i);
+          try {
+            m_TheChoice->ReadFromBuffer(buffer, pos);
+            break;
+          }
+          catch (ParsingEx& e) {
+            e.AddError("Cannot read choice selection : " + GetName());
+            throw e;
+          }
         }
       }
-    }
-    if (!ObjectFound) {
-      if (IsMandatory() && !HasDefaultValue()) {
-        try { CheckTags(ImplTag, ExplTag, true, oldPos); }
-        catch (ParsingEx& e) {
-          e.AddError("Cannot find a matching tag in choice: " + GetName() + ". Read tags are: first tag " + std::string(ImplTag.GetString()) + ", second tag (to be ignored for implicit objects) " +
-                     std::string(ExplTag.GetString()));
-          throw e;
+      if (!ObjectFound) {
+        if (IsMandatory() && !HasDefaultValue()) {
+          try { CheckTags(ImplTag, ExplTag, true, oldPos); }
+          catch (ParsingEx& e) {
+            e.AddError("Cannot find a matching tag in choice: " + GetName() + ". Read tags are: first tag " + std::string(ImplTag.GetString()) + ", second tag (to be ignored for implicit objects) " +
+                       std::string(ExplTag.GetString()));
+            throw e;
+          }
+        }
+        else {
+          Ignore(true); // parameter is not present but optional->OK
+          pos = oldPos;
         }
       }
-      else {
-        Ignore(true); // parameter is not present but optional->OK
-        pos = oldPos;
-      }
+      DeleteDummyChoiceList();
     }
-    DeleteDummyChoiceList();
   }
 
   bool ASN1_ValueChoice::CompareTree(const ASN1_Value* SecondTree, unsigned int& NbDiff, std::string& errorReport) const {

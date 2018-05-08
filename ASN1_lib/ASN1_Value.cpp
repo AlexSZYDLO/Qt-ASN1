@@ -77,14 +77,22 @@ namespace Value {
   // -------------- encoding ---------------------
 
   bool ASN1_Value::ReadNextTags(const ByteArray& buffer, unsigned int& pos, ByteArray& ImplTag, ByteArray& ExplTag) const {
-    unsigned int dummyL;
-    if (!GetTagFromBuffer(buffer, pos, ImplTag))
-      throw ParsingEx("Cannot get first tag from buffer. No data to read.", this->GetGrammarObject(), pos);
-    if (IsExplicit() && m_Tag != "" && m_DefaultTag != "") {
-      if (!GetLengthFromBuffer(buffer, pos, dummyL))
-        throw ParsingEx("Cannot read length between implicit and explicit tag. No data to read.", this->GetGrammarObject(), pos);
-      if (!GetTagFromBuffer(buffer, pos, ExplTag))
-        throw ParsingEx("Cannot get second tag from buffer. No data to read.", this->GetGrammarObject(), pos);
+    try {
+      unsigned int dummyL;
+      if (!GetTagFromBuffer(buffer, pos, ImplTag))
+        throw ParsingEx("Cannot get first tag from buffer. No data to read.", this->GetGrammarObject(), pos);
+      if (IsExplicit() && m_Tag != "" && m_DefaultTag != "") {
+        if (!GetLengthFromBuffer(buffer, pos, dummyL))
+          throw ParsingEx("Cannot read length between implicit and explicit tag. No data to read.", this->GetGrammarObject(), pos);
+        if (!GetTagFromBuffer(buffer, pos, ExplTag))
+          throw ParsingEx("Cannot get second tag from buffer. No data to read.", this->GetGrammarObject(), pos);
+      }
+    }
+    catch (ParsingEx& e) {
+      if (IsMandatory() && !HasDefaultValue()) { // buffer empty but value is optional (it will be handled later)
+        e.AddError("Cannot read object tag: " + GetName());
+        throw e;
+      }
     }
     return true;
   }
@@ -163,11 +171,7 @@ namespace Value {
 
     unsigned int oldPos = pos;
 
-    try { ReadNextTags(buffer, pos, ImplTag, ExplTag); }
-    catch (ParsingEx& e) {
-      e.AddError("Cannot read object tag: " + GetName());
-      throw e;
-    }
+    ReadNextTags(buffer, pos, ImplTag, ExplTag);
 
     if (CheckTags(ImplTag, ExplTag, false, 0)) {
       unsigned int L;
@@ -183,6 +187,9 @@ namespace Value {
         SetHexValue(V, error);
         if (!error.empty())
           throw ParsingEx(error, this->GetGrammarObject(), pos);
+
+        if (IsIgnored())
+          Ignore(false); // if the node was marked as ignored, enable it
       }
       catch (ParsingEx& e) {
         e.AddError("Illegal value in object: " + GetName());

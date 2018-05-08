@@ -7,10 +7,10 @@
 
 /*
 ASN1 nodes definition for set. See comment in ASN1_Object_Nodes.h for further explanations.
-The set must be initialized with and array of object(s), and as second parameter, the number of object(s) in the array.
+The set must be initialized with an array of object(s), and as second parameter, the size of the array.
 If the number does not correspond, it may lead to undefined behavior.
 
-The set can support extensibility. While reading a buffer, if more data than expected is present, it will be put into some Extensibility Octet String
+The set can support extensibility. While reading a buffer, if more data than expected is present, it will be put into an Extensibility Octet String
 */
 
 class DLLSPEC ASN1_Set : public ASN1_Object {

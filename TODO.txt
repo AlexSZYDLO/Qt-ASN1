@@ -1,8 +1,12 @@
 // ideas
-- colors in hextext
+
 - read debugger
 - extensibility improvements
+- copy paste buttons
+- link text with tree (colors in hextext, select tree node on click in text)
+- cursor position, selection length
 
+- choice and seq of should not have optional variables
 
 
 https://github.com/vlm/asn1c

@@ -96,7 +96,7 @@ void JSGenerator::GenerateSequenceOf(Module& m) {
 
 void JSGenerator::GenerateChoice(Module& m) {
   script += "var " + m.name + "_ChoiceCallback = function(index) { \n";
-  for (int i = 0; i < m.tempVariableList.size(); i++) {
+  for (unsigned int i = 0; i < m.tempVariableList.size(); i++) {
     Variable v = m.tempVariableList.at(i);
     script += "\tif (index === " + to_string(i) + ") {\n\t";
     GenerateVar(v);

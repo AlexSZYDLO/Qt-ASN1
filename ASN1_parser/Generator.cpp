@@ -152,7 +152,7 @@ string* Generator::AddUniqueModule(eNodeType type) {
 }
 
 Module Generator::ModuleFromName(std::string modName) {
-  for (int i = 0; i < m_ModuleList.size(); i++) {
+  for (size_t i = 0; i < m_ModuleList.size(); i++) {
     if (m_ModuleList.at(i).name == modName)
       return m_ModuleList.at(i);
   }
@@ -160,9 +160,9 @@ Module Generator::ModuleFromName(std::string modName) {
 }
 
 bool Generator::CheckUniqueNames() {
-  for (int i = 0; i < m_ModuleList.size(); i++) {
+  for (size_t i = 0; i < m_ModuleList.size(); i++) {
     string name = m_ModuleList.at(i).name;
-    for (int j = 0; j < m_ModuleList.size(); j++)
+    for (size_t j = 0; j < m_ModuleList.size(); j++)
       if (i != j) {
         if (m_ModuleList.at(j).name == name) {
           string e = "Double module name: " + name + "\n";
@@ -177,15 +177,15 @@ bool Generator::CheckUniqueNames() {
 bool Generator::CheckExistingTypes() {
   vector <string> ModuleNames;
 
-  for (int i = 0; i < m_ModuleList.size(); i++)
+  for (size_t i = 0; i < m_ModuleList.size(); i++)
     ModuleNames.push_back(m_ModuleList.at(i).name);
 
-  for (int i = 0; i < m_ModuleList.size(); i++) {
-    for (int j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
+  for (size_t i = 0; i < m_ModuleList.size(); i++) {
+    for (size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
 
       if (m_ModuleList.at(i).tempVariableList.at(j).customTypeName != "") {
         bool found = false;
-        for (int k = 0; k < ModuleNames.size(); k++) {
+        for (size_t k = 0; k < ModuleNames.size(); k++) {
           if (ModuleNames.at(k) == m_ModuleList.at(i).tempVariableList.at(j).customTypeName) {
             found = true;
             break;
@@ -209,8 +209,8 @@ void Generator::GrammarEnd() {
 
   if (b) {
     // set tag primitive/constructed for modules that were unknown
-    for (int i = 0; i < m_ModuleList.size(); i++) {
-      for (int j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
+    for (size_t i = 0; i < m_ModuleList.size(); i++) {
+      for (size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
         Variable& v = m_ModuleList.at(i).tempVariableList.at(j);
 
         if (v.unknownType) {

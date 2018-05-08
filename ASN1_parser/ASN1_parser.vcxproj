@@ -76,6 +76,7 @@
     <IntDir>..\..\ASN1_bin\ASN1_parser\$(platform)\$(configuration)\intermediate\</IntDir>
     <TargetName>$(ProjectName)_32d</TargetName>
     <TargetExt>.dll</TargetExt>
+    <IncludePath>../../_bin/win_flex_bison/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -115,7 +116,8 @@
       <AdditionalLibraryDirectories>..\..\ASN1_bin\ASN1_lib\$(platform)\$(configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>call flex_bison.bat</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -210,6 +212,9 @@
     <None Include="flex_bison.bat" />
     <CustomBuild Include="Lexer.l">
       <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">flex_bison.bat</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">grammar/Lexer.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Parser.y</AdditionalInputs>
     </CustomBuild>
     <CustomBuild Include="Parser.y">
       <FileType>Text</FileType>

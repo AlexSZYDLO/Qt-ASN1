@@ -27,5 +27,6 @@ namespace Utils {
     virtual const char* what() const throw() { return m_ConcatenatedErrors.c_str(); }
     ASN1_Object* GetFailingObject() { return m_Obj; }
     unsigned int GetIndex() { return m_BufferIndex; }
+    bool ErrorEmptyBuffer();
   };
 }

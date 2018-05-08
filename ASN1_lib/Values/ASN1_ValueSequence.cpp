@@ -91,13 +91,12 @@ namespace Value {
 
     unsigned int oldPos = pos;
 
-    try { ReadNextTags(buffer, pos, ImplTag, ExplTag); }
-    catch (ParsingEx& e) {
-      e.AddError("Cannot read object tag: " + GetName());
-      throw e;
-    }
+    ReadNextTags(buffer, pos, ImplTag, ExplTag);
 
     if (CheckTags(ImplTag, ExplTag, false, 0)) {
+      if (IsIgnored())
+        Ignore(false); // if the node was marked as ignored, enable it
+
       unsigned int L;
       if (!GetLengthFromBuffer(buffer, pos, L))
         throw ParsingEx("Cannot read length of object: " + GetName(), this->GetGrammarObject(), pos);

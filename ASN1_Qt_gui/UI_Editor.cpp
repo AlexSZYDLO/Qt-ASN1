@@ -109,7 +109,10 @@ namespace UI {
       QMessageBox box(QMessageBox::Critical, "Parsing error", c);
       box.exec();
     }
-    m_Tree->RefreshSelectedNode();
+    if (m_Grammar == obj)
+      m_Tree->RefreshTree();
+    else
+      m_Tree->RefreshSelectedNode();
   }
 
 

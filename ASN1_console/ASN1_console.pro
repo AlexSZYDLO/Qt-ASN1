@@ -30,22 +30,31 @@ SOURCES += main.cpp
 HEADERS += \
     DLL_Interface.h
 
-conf_files.files = Config/* ../Grammar/*.asn
+
 conf_files2.files = Config/* ../Grammar/*.asn
 conf_files2.path = $$OUT_PWD/config
-	
+INSTALLS += conf_files2
+
+conf_files.files = Config/* ../Grammar/*.asn
 # COPY ASN1_LIB.DLL ASN1_PARSER.DLL
 CONFIG(debug, debug|release) {
   dlls.files = $$OUT_PWD/../../ASN1_lib/qtcreator/debug/ASN1_lib_64d.dll \
-			   $$OUT_PWD/../../ASN1_parser/qtcreator/debug/ASN1_parser_64d.dll
+               $$OUT_PWD/../../ASN1_parser/qtcreator/debug/ASN1_parser_64d.dll
   dlls.path  = $$OUT_PWD/debug
+  INSTALLS += dlls
+
   conf_files.path = $$OUT_PWD/debug/config
+  INSTALLS += conf_files
+
 }
 CONFIG(release, debug|release) {
   dlls.files = $$OUT_PWD/../../ASN1_lib/qtcreator/release/ASN1_lib_64.dll
-  			   $$OUT_PWD/../../ASN1_parser/qtcreator/debug/ASN1_parser_64.dll
+               $$OUT_PWD/../../ASN1_parser/qtcreator/release/ASN1_parser_64.dll
   dlls.path  = $$OUT_PWD/release
-  conf_files.path = $$OUT_PWD/release/config  
+  INSTALLS += dlls
+
+  conf_files.path = $$OUT_PWD/release/config
+  INSTALLS += conf_files
 }
 
-INSTALLS += dlls conf_files conf_files2
+

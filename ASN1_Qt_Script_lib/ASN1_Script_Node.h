@@ -47,11 +47,11 @@ class ASN1_Script_Template_Base : public ASN1_Script_Node {
 };
 
 template<class T>
-ASN1_Script_Template_Base<T>::ASN1_Script_Template_Base(const QString& name = "",
-    const QString& tag = "",
-    bool optional = false,
-    bool explicitTag = false,
-    ASN1_Script_Template_Base* defaultValue = nullptr) {
+ASN1_Script_Template_Base<T>::ASN1_Script_Template_Base(const QString& name,
+    const QString& tag,
+    bool optional,
+    bool explicitTag,
+    ASN1_Script_Template_Base* defaultValue) {
   m_GrammarSpe = new T(name.toStdString().c_str(),
                        ByteArray(tag.toStdString().c_str()),
                        optional,
