@@ -1,0 +1,32 @@
+/*
+ambigous case to test:
+https://stackoverflow.com/questions/24166556/untagged-choice-in-asn-1
+*/
+
+Example DEFINITIONS ::= BEGIN
+
+Accident ::= SEQUENCE {
+    irrelevant [1] IMPLICIT IA5String OPTIONAL
+}
+
+Params ::= CHOICE {
+    unimportant [1] IMPLICIT IA5String,
+    accident [2] IMPLICIT Accident
+}
+
+Message ::= SEQUENCE {
+    params [1] EXPLICIT Params OPTIONAL,
+    confuser [2] IMPLICIT IA5String OPTIONAL
+}
+END
+
+/*
+30 05 
+82 03 466F6F
+
+30 05 
+82 03 466F6F
+
+30 07
+A1 05 A2 03 810105
+*/

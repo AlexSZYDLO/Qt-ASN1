@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/splitter.png</file>
+        <file>img/splitter_pressed.png</file>
+        <file>img/icon.png</file>
+        <file>img/icon_set_2/binary.png</file>
+        <file>img/icon_set_2/cancel.png</file>
+        <file>img/icon_set_2/collapse.png</file>
+        <file>img/icon_set_2/compare.png</file>
+        <file>img/icon_set_2/cpp.png</file>
+        <file>img/icon_set_2/down.png</file>
+        <file>img/icon_set_2/expand.png</file>
+        <file>img/icon_set_2/help.png</file>
+        <file>img/icon_set_2/info.png</file>
+        <file>img/icon_set_2/js.png</file>
+        <file>img/icon_set_2/minus.png</file>
+        <file>img/icon_set_2/ok.png</file>
+        <file>img/icon_set_2/open.png</file>
+        <file>img/icon_set_2/plus.png</file>
+        <file>img/icon_set_2/read.png</file>
+        <file>img/icon_set_2/run.png</file>
+        <file>img/icon_set_2/save.png</file>
+        <file>img/icon_set_2/search.png</file>
+        <file>img/icon_set_2/select.png</file>
+        <file>img/icon_set_2/settings.png</file>
+        <file>img/icon_set_2/tool.png</file>
+        <file>img/icon_set_2/toolbox.png</file>
+        <file>img/icon_set_2/up.png</file>
+        <file>img/icon_set_2/write.png</file>
+    </qresource>
+</RCC>

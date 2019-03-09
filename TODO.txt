@@ -1,0 +1,17 @@
+// ideas
+
+- read debugger
+- extensibility improvements
+- copy paste buttons
+- link text with tree (colors in hextext, select tree node on click in text)
+- cursor position, selection length
+
+- choice and seq of should not have optional variables
+
+
+https://github.com/vlm/asn1c
+
+http://doc.qt.io/qt-4.8/stylesheet-examples.html
+http://doc.qt.io/qt-4.8/stylesheet-reference.html
+
+

@@ -1,0 +1,21 @@
+Test
+DEFINITIONS
+AUTOMATIC TAGS
+::=
+BEGIN
+
+Amod ::= CHOICE {
+ aVar [1] INTEGER,
+ bVar [2] BOOLEAN
+}
+
+Bmod ::= SEQUENCE OF Amod
+
+Cmod ::= SEQUENCE {
+ eVar Bmod,
+ fVar CHOICE {
+  cVar [3] EXPLICIT INTEGER,
+  dVar [4] BOOLEAN
+ } 
+}
+END
