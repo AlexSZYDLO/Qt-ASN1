@@ -46,7 +46,7 @@ namespace Value {
     return m_TheChoiceIndex;
   }
 
-  ASN1_Value* ASN1_ValueChoice::SetSelectedChoice(int idx) {
+  ASN1_Value* ASN1_ValueChoice::SetSelectedChoice(unsigned int idx) {
     ASN1_Object* obj = m_Callback.f(idx, m_Callback.context);
     if (obj != nullptr) {
       ASN1_Value* newChoice = obj->GetValue();
@@ -84,7 +84,7 @@ namespace Value {
 
   void ASN1_ValueChoice::MakeDummyChoiceList() {
     DeleteDummyChoiceList();
-    for (int i = 0; i < m_NumberOfChoices; i++) {
+    for (unsigned int i = 0; i < m_NumberOfChoices; i++) {
       ASN1_Value* val = m_Callback.f(i, m_Callback.context)->GetValue();
       if (val != nullptr) {
         val->SetParentValue(this);
@@ -100,7 +100,6 @@ namespace Value {
     for (std::vector<ASN1_Value*>::const_iterator i = m_AvailableChoices.cbegin(); i < m_AvailableChoices.cend(); i++)
       if ((*i)->GetTag() == TagToCheck) {
         return true;
-        break;
       }
     return false;
   }
@@ -147,7 +146,7 @@ namespace Value {
         Ignore(false); // maybe set to true later if choices don't match
 
       MakeDummyChoiceList();
-      int oldPos = pos;
+      unsigned int oldPos = pos;
       bool ObjectFound = false;
 
       for (unsigned int i = 0; i < m_AvailableChoices.size(); i++) {
