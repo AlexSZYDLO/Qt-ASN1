@@ -19,7 +19,7 @@ namespace Value {
       double d;
     } value;
 
-    value.i = std::stoll(hexstr.GetString(), nullptr, 16);
+    value.i = std::stoull(hexstr.GetString(), nullptr, 16);
     return value.d;
   }
 

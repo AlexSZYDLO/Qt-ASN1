@@ -52,7 +52,7 @@ namespace Value {
   }
 
   unsigned int ASN1_ValueSequence::GetSize() const {
-    return (unsigned int)m_Objects.size();
+    return static_cast<unsigned int>(m_Objects.size());
   }
 
   const ASN1_Value* ASN1_ValueSequence::GetObjectAt(unsigned int pos) const {
@@ -69,7 +69,7 @@ namespace Value {
   }
 
   unsigned int ASN1_ValueSequence::GetExtensibilitySize() const {
-    return (unsigned int)m_ExtensibilityObjects.size();
+    return static_cast<unsigned int>(m_ExtensibilityObjects.size());
   }
 
   const ASN1_Value* ASN1_ValueSequence::GetExtensibilityObjectAt(unsigned int pos) const {
@@ -122,7 +122,7 @@ namespace Value {
         if (IsExtensible()) {
           //pos = dataFieldPos + L;  // to be used to ignore totally the unknown field
           while (pos < dataFieldPos + L) {
-            int oldPos2 = pos;
+            unsigned int oldPos2 = pos;
             ByteArray TagExtensibility, TagDummy;
 
             try { ReadNextTags(buffer, pos, TagExtensibility, TagDummy); }

@@ -20,7 +20,7 @@ ASN1_Value##name(const std::string& name, \
 //#endif
 
 //#ifndef NODE_DESTRUCTOR
-#define NODE_DESTRUCTOR(name) virtual ~ASN1_Value##name() {}
+#define NODE_DESTRUCTOR(name) virtual ~ASN1_Value##name() override {}
 //#endif
 
 //#ifndef GET_TYPE_FUNCTION
@@ -56,7 +56,7 @@ static void HexTo##name(const ByteArray &input, type &output, std::string &error
 
 //#ifndef SET_HEX_VALUE_FUNCTION
 #define SET_HEX_VALUE_FUNCTION(name, type) \
-void SetHexValue(const ByteArray &rawValue, std::string &error) { \
+virtual void SetHexValue(const ByteArray &rawValue, std::string &error) override { \
   type output; \
   error.clear(); \
   HexTo##name(rawValue, output, error); \

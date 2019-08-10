@@ -18,7 +18,7 @@ ASN1_SequenceOf::ASN1_SequenceOf(callbackSequenceOf newSeqOfObject,
 }
 ASN1_SequenceOf::~ASN1_SequenceOf() {}
 
-ASN1_Object* ASN1_SequenceOf::GetObjectAt(int pos) const {
+ASN1_Object* ASN1_SequenceOf::GetObjectAt(unsigned int pos) const {
   return static_cast<ASN1_ValueSequenceOf*>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
 }
 
@@ -30,15 +30,15 @@ ASN1_Object* ASN1_SequenceOf::AppendNewObject() {
   return static_cast<ASN1_ValueSequenceOf*>(GetValue())->AppendNewObject()->GetGrammarObject();
 }
 
-void ASN1_SequenceOf::DeleteObjectAt(int pos) {
+void ASN1_SequenceOf::DeleteObjectAt(unsigned int pos) {
   static_cast<ASN1_ValueSequenceOf*>(GetValue())->DeleteObjectAt(pos);
 }
 
-void ASN1_SequenceOf::MoveUpObject(int pos) {
+void ASN1_SequenceOf::MoveUpObject(unsigned int pos) {
   static_cast<ASN1_ValueSequenceOf*>(GetValue())->MoveUpObject(pos);
 }
 
-void ASN1_SequenceOf::MoveDownObject(int pos) {
+void ASN1_SequenceOf::MoveDownObject(unsigned int pos) {
   static_cast<ASN1_ValueSequenceOf*>(GetValue())->MoveDownObject(pos);
 }
 

@@ -331,27 +331,27 @@ bool test_DLL() {
     res &= boolVar == false;
 
     DLL_ASN1_Sequence* seq = DLL_MakeGrammar();
-    DLL_ASN1_Choice* choice = (DLL_ASN1_Choice*)ASN1_Sequence_GetObjectAt(seq, 1);
-    ASN1_Integer_SetIntegerValue((DLL_ASN1_Integer*)(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
-    DLL_ASN1_Integer* integerChoice = (DLL_ASN1_Integer*)ASN1_Choice_GetSelectedChoice(choice);
+    DLL_ASN1_Choice* choice = reinterpret_cast<DLL_ASN1_Choice*>(ASN1_Sequence_GetObjectAt(seq, 1));
+    ASN1_Integer_SetIntegerValue(reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
+    DLL_ASN1_Integer* integerChoice = reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_GetSelectedChoice(choice));
 
     int integerResult;
     ASN1_Integer_GetIntegerValue(integerChoice, &integerResult);
     res &= integerResult == 150;
     res &= ASN1_Choice_GetSelectedChoiceIndex(choice) == 1;
 
-    DLL_ASN1_ObjectID* oid = (DLL_ASN1_ObjectID*)ASN1_Sequence_GetObjectAt(seq, 6);
+    DLL_ASN1_ObjectID* oid = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq, 6));
     ASN1_ObjectID_SetObjectIDValue(oid, "1.23.5126.3547.652.946321.2");
 
     Hex buffer("");
-    ASN1_Object_WriteIntoBuffer((DLL_ASN1_Object*)seq, buffer.p());
+    ASN1_Object_WriteIntoBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq), buffer.p());
     string output(ByteArray_GetString(buffer.p()));
 
     char charbuff[512];
 
     DLL_ASN1_Sequence* seq2 = DLL_MakeGrammar();
-    ASN1_Object_ReadFromBuffer((DLL_ASN1_Object*)seq2, buffer.p(), charbuff, 512);
-    DLL_ASN1_ObjectID* oid2 = (DLL_ASN1_ObjectID*)ASN1_Sequence_GetObjectAt(seq2, 6);
+    ASN1_Object_ReadFromBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq2), buffer.p(), charbuff, 512);
+    DLL_ASN1_ObjectID* oid2 = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq2, 6));
     ASN1_ObjectID_GetObjectIDValue(oid2, charbuff, 512);
     string oidStr(charbuff);
     res &= oidStr == "1.23.5126.3547.652.946321.2";

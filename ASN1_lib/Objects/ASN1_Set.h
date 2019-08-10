@@ -27,8 +27,8 @@ class DLLSPEC ASN1_Set : public ASN1_Object {
 
   bool IsExtensible() const;
 
-  ASN1_Object* GetObjectAt(int pos) const;
-  ASN1_Object* GetExtensibilityObjectAt(int pos) const;
+  ASN1_Object* GetObjectAt(unsigned int pos) const;
+  ASN1_Object* GetExtensibilityObjectAt(unsigned int pos) const;
 
   unsigned int GetSize() const;
   unsigned int GetExtensibilitySize() const;

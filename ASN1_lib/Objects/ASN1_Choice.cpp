@@ -24,7 +24,7 @@ unsigned int ASN1_Choice::AvailableChoices() const {
   return static_cast<ASN1_ValueChoice*>(GetValue())->GetNumberOfPossibleChoices();
 }
 
-const ASN1_Object* ASN1_Choice::GetChoiceFromIndex(int pos) const {
+const ASN1_Object* ASN1_Choice::GetChoiceFromIndex(unsigned int pos) const {
   const ASN1_Value* value = static_cast<ASN1_ValueChoice*>(GetValue())->GetDummyChoiceFromIndex(pos);
   return (value != nullptr) ? value->GetGrammarObject() : nullptr;
 }

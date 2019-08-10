@@ -29,7 +29,7 @@ namespace Value {
                      const ASN1_ValueChoice* defaultValue);
     ~ASN1_ValueChoice() override;
     virtual void SetHexValue(const ByteArray& rawValue, std::string& error) override;
-    void ClearDynamicData() override;
+    virtual void ClearDynamicData() override;
 
     virtual Utils::eNodeType GetType() const override;
 

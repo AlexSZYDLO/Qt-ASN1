@@ -59,7 +59,7 @@ class DLLSPEC ASN1_Choice : public ASN1_Object {
   ~ASN1_Choice();
 
   unsigned int AvailableChoices() const;
-  const ASN1_Object* GetChoiceFromIndex(int pos) const;
+  const ASN1_Object* GetChoiceFromIndex(unsigned int pos) const;
   void MakeDummyChoiceList() const;
   void DeleteDummyChoiceList() const;
 

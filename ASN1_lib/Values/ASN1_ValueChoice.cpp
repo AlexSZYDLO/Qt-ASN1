@@ -100,6 +100,7 @@ namespace Value {
     for (std::vector<ASN1_Value*>::const_iterator i = m_AvailableChoices.cbegin(); i < m_AvailableChoices.cend(); i++)
       if ((*i)->GetTag() == TagToCheck) {
         return true;
+        break;
       }
     return false;
   }
@@ -146,7 +147,7 @@ namespace Value {
         Ignore(false); // maybe set to true later if choices don't match
 
       MakeDummyChoiceList();
-      unsigned int oldPos = pos;
+      int oldPos = pos;
       bool ObjectFound = false;
 
       for (unsigned int i = 0; i < m_AvailableChoices.size(); i++) {
