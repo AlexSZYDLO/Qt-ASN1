@@ -7,7 +7,7 @@
 
 /*
 Definition for basic ASN1 nodes. These classes are exported in the DLL and will be the bricks to build a grammar.
-You instanciate these objects with their ASN1 propertiescoming from the grammar (such like tag, optionality...), 
+You instanciate these objects with their ASN1 propertiescoming from the grammar (such like tag, optionality...),
 and they can't be changed afterwards. To modify the grammar, you need to recreate it.
 
 The macros in this file avoid having duplicated code for each node type.
@@ -35,19 +35,19 @@ For example, Boolean node, with type bool will look like:
 
  MEMORY:
  An instanciated object must be deleted after use if it is not part of a structure, like any object instaciated with "new"
- A sequence/sequence of/set/choice will clean its objects at deletion time. 
+ A sequence/sequence of/set/choice will clean its objects at deletion time.
  It means that if you have structure of several sequences, only the root node needs to be deleted.
  An object also deletes its defaultValue if it has one.
 
 */
 
 #ifndef OBJECT_CONSTRUCTOR_DECL
-#define OBJECT_CONSTRUCTOR_DECL(name) \
-ASN1_##name(const char* objectName = "", \
-  const ByteArray& tag = "", \
-  bool optional = false, \
-  bool explicitTag = false, \
-  const ASN1_##name *default##name = nullptr);
+#define OBJECT_CONSTRUCTOR_DECL(name)      \
+  ASN1_##name(const char *objectName = "", \
+              const ByteArray &tag = "",   \
+              bool optional = false,       \
+              bool explicitTag = false,    \
+              const ASN1_##name *default##name = nullptr);
 #endif
 
 #ifndef OBJECT_DESTRUCTOR_DECL
@@ -68,28 +68,28 @@ ASN1_##name(const char* objectName = "", \
 
 #ifndef STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL
 #define STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type) \
-static void name##ToHex(const type &input, ByteArray &output, std::string &error);
+  static void name##ToHex(const type &input, ByteArray &output, std::string &error);
 #endif
 
 #ifndef STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL
 #define STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type) \
-static void HexTo##name(const ByteArray &input, type &output, std::string &error);
+  static void HexTo##name(const ByteArray &input, type &output, std::string &error);
 #endif
 
 #ifndef OBJECT_CLASS_DECL
-#define OBJECT_CLASS_DECL(name, type) \
-class DLLSPEC ASN1_##name : public ASN1_Object { \
-public: \
-  OBJECT_CONSTRUCTOR_DECL(name) \
-  OBJECT_DESTRUCTOR_DECL(name) \
-  \
-  OBJECT_SET_VALUE_FUNCTION_DECL(name, type) \
-  OBJECT_SET_VALUE_CHECK_FUNCTION_DECL(name, type) \
-  OBJECT_GET_VALUE_FUNCTION_DECL(name, type) \
-  \
-  STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type) \
-  STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type) \
-};
+#define OBJECT_CLASS_DECL(name, type)                    \
+  class MODULE_API ASN1_##name : public ASN1_Object {    \
+   public:                                               \
+    OBJECT_CONSTRUCTOR_DECL(name)                        \
+    OBJECT_DESTRUCTOR_DECL(name)                         \
+                                                         \
+    OBJECT_SET_VALUE_FUNCTION_DECL(name, type)           \
+    OBJECT_SET_VALUE_CHECK_FUNCTION_DECL(name, type)     \
+    OBJECT_GET_VALUE_FUNCTION_DECL(name, type)           \
+                                                         \
+    STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type) \
+    STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type) \
+  };
 #endif
 
 OBJECT_CLASS_DECL(BitString, std::string)

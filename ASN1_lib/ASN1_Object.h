@@ -19,10 +19,14 @@ It is also the interface for encoding and decoding.
   The grammar of both tree must correspond. It does not compare the grammars, but the values inside.
 */
 
-#if defined DLLCOMPIL
-#define DLLSPEC __declspec(dllexport)
+#ifdef _WIN32
+#ifdef MODULE_API_EXPORTS
+#define MODULE_API __declspec(dllexport)
 #else
-#define DLLSPEC __declspec(dllimport)
+#define MODULE_API __declspec(dllimport)
+#endif
+#else
+#define MODULE_API
 #endif
 
 // This class is just declared here, but the user must not access it.
@@ -31,8 +35,9 @@ namespace Value {
   class ASN1_Value;
 }
 
-class DLLSPEC ASN1_Object {
+class MODULE_API ASN1_Object {
   static unsigned int static_ObjectCount;
+
  public:
   static bool memoryCheck();
 

@@ -13,7 +13,7 @@ TEMPLATE = lib
 DEFINES += ASN1_QT_SCRIPT_LIBRARY
 DEFINES += DLLCOMPIL
 
-CONFIG += console c++11
+CONFIG += console c++14
 
 INCLUDEPATH += $$PWD/../ASN1_lib
 

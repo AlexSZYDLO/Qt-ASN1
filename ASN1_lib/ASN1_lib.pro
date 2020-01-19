@@ -1,8 +1,9 @@
 TEMPLATE = lib
-CONFIG += console c++11
+CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
-DEFINES += DLLCOMPIL
+
+DEFINES += MODULE_API_EXPORTS
 
 #TARGET = ASN1_lib
 
@@ -26,7 +27,6 @@ SOURCES += \
    ByteArray.cpp \
    Utils.cpp \
    C_Interface.cpp \
-   \
    Values/ASN1_ValueBitString.cpp \
    Values/ASN1_ValueBoolean.cpp \
    Values/ASN1_ValueUTCTime.cpp \

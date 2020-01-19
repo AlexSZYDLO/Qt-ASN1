@@ -15,7 +15,7 @@ The GetDummyNewObject() function returns an object that is not appended to the s
 The dummy object must be deleted manually after use to clean the memory.
 */
 
-class DLLSPEC ASN1_SequenceOf : public ASN1_Object {
+class MODULE_API ASN1_SequenceOf : public ASN1_Object {
  public:
   struct callbackSequenceOf {
     typedef ASN1_Object* (*callbackFunctionType)(void* context);

@@ -12,13 +12,13 @@ using namespace Value;
 unsigned int ASN1_Object::static_ObjectCount = 0;
 bool ASN1_Object::memoryCheck() { return ASN1_Object::static_ObjectCount == 0 && ASN1_Value::static_ObjectCount == 0; }
 
-ASN1_Object::ASN1_Object() { /*std::cout << "ctor: ASN1_Object"<< " : " << ++static_ObjectCount << std::endl;*/ }
+ASN1_Object::ASN1_Object() {} // std::cout << "ctor: ASN1_Object"<< " : " << ++static_ObjectCount << std::endl;
 
 ASN1_Object::~ASN1_Object() {
-  if (Value->GetDefaultValue() != nullptr) {
+  if(Value->GetDefaultValue() != nullptr) {
     delete Value->GetDefaultValue()->GetGrammarObject();
   }
-  /*std::cout << "dest: ASN1_Object " << GetName() << " : " << --static_ObjectCount << std::endl;*/
+  // std::cout << "dest: ASN1_Object " << GetName() << " : " << --static_ObjectCount << std::endl;
   delete Value;
 }
 
@@ -27,15 +27,17 @@ ASN1_Value* ASN1_Object::GetValue() const {
 }
 
 const ASN1_Object* ASN1_Object::GetMyOwner() const {
-  if (Value->GetMyOwner() != nullptr)
+  if(Value->GetMyOwner() != nullptr)
     return Value->GetMyOwner()->GetGrammarObject();
-  else return nullptr;
+  else
+    return nullptr;
 }
 
 const ASN1_Object* ASN1_Object::GetDefaultValue() const {
-  if (Value->GetDefaultValue() != nullptr)
+  if(Value->GetDefaultValue() != nullptr)
     return Value->GetDefaultValue()->GetGrammarObject();
-  else return nullptr;
+  else
+    return nullptr;
 }
 
 ByteArray ASN1_Object::GetDefaultTag() const {
@@ -88,7 +90,7 @@ void ASN1_Object::SetDescription(const char* desc) {
 }
 
 void ASN1_Object::Ignore(bool ignore) {
-  if (!Value->IsMandatory())
+  if(!Value->IsMandatory())
     Value->Ignore(ignore);
 }
 
@@ -99,7 +101,6 @@ ByteArray ASN1_Object::GetHexBuffer() const {
 void ASN1_Object::ClearDynamicData() {
   GetValue()->ClearDynamicData();
 }
-
 
 void ASN1_Object::WriteIntoBuffer(ByteArray& buffer) const {
   buffer.Clear();
@@ -112,24 +113,24 @@ bool ASN1_Object::ReadFromBuffer(const ByteArray& buffer, char* error, size_t er
     ClearDynamicData();
     Value->ReadFromBuffer(buffer, pos);
     return true;
-  }
-  catch (ParsingEx& e) {
+  } catch(ParsingEx& e) {
     std::string what(e.what());
-    if (what.size() < errorBufferSize)
-      strncpy_s(error, errorBufferSize, what.c_str(), what.size());
+    if(what.size() < errorBufferSize)
+      strncpy(error, what.c_str(), what.size());
     else
-      strncpy_s(error, errorBufferSize, what.c_str(), errorBufferSize - 1);
+      strncpy(error, what.c_str(), errorBufferSize - 1);
     return false;
   }
 }
 
 bool ASN1_Object::Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, char* error, size_t errorBufferSize) const {
   std::string err;
-  if (Value->CompareTree(secondTree.GetValue(), nbDiffs, err)) {
-    if (err.size() < errorBufferSize)
-      strncpy_s(error, errorBufferSize, err.c_str(), err.size());
+  if(Value->CompareTree(secondTree.GetValue(), nbDiffs, err)) {
+    if(err.size() < errorBufferSize)
+      strncpy(error, err.c_str(), err.size());
     else
-      strncpy_s(error, errorBufferSize, err.c_str(), errorBufferSize - 1);
+      strncpy(error, err.c_str(), errorBufferSize - 1);
     return true;
-  } return false;
+  }
+  return false;
 }

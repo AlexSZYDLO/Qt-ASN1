@@ -40,7 +40,7 @@ ASN1_Choice::callbackChoice callback{
  The dummy choices must be deleted only with the DeleteDummyChoiceList() function.
 */
 
-class DLLSPEC ASN1_Choice : public ASN1_Object {
+class MODULE_API ASN1_Choice : public ASN1_Object {
  public:
   struct callbackChoice {
     typedef ASN1_Object* (*callbackFunctionType)(unsigned int i, void* context);

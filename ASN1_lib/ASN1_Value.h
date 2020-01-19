@@ -4,12 +4,12 @@
  */
 #pragma once
 
-#include <vector>
-#include <string>
 #include <iostream>
-#include "Utils.h"
+#include <string>
+#include <vector>
 #include "ByteArray.h"
 #include "Exceptions.h"
+#include "Utils.h"
 
 /*
 This class is not exposed in the DLL. It contains all the technical "information" about the node.
@@ -92,4 +92,4 @@ namespace Value {
     std::string StringExtractForBusinessLevel() const;
     std::string StringExtractForBusinessAndValue() const;
   };
-}
+} // namespace Value

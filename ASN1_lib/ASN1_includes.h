@@ -8,10 +8,10 @@
 Includes everything needed to work with the ASN1 DLL.
 */
 
-#include "ByteArray.h"
 #include "ASN1_Object.h"
-#include "Objects/ASN1_Object_Nodes.h"
+#include "ByteArray.h"
 #include "Objects/ASN1_Choice.h"
+#include "Objects/ASN1_Object_Nodes.h"
 #include "Objects/ASN1_Sequence.h"
 #include "Objects/ASN1_SequenceOf.h"
 #include "Objects/ASN1_Set.h"

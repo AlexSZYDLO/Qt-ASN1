@@ -3,86 +3,91 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #include "C_Interface.h"
+#include <string.h>
 
 void StringToBuffer(std::string& s, char* buffer, unsigned int bufferSize) {
-  if (s.size() < bufferSize)
-    strncpy_s(buffer, bufferSize, s.c_str(), s.size());
+  if(s.size() < bufferSize)
+    strncpy(buffer, s.c_str(), s.size());
   else
-    strncpy_s(buffer, bufferSize, s.c_str(), bufferSize - 1);
+    strncpy(buffer, s.c_str(), bufferSize - 1);
 }
 
 #ifndef NODE_CONSTRUCTOR_FUNCTION_IMPL
-#define NODE_CONSTRUCTOR_FUNCTION_IMPL(name) DLLSPEC ASN1_##name * ASN1_##name##_New \
-(const char * objectName, const ByteArray * tag, bool optional, bool explicitTag, const ASN1_##name * defaultValue) \
-{ return new ASN1_##name (objectName, *tag, optional, explicitTag, defaultValue); }
+#define NODE_CONSTRUCTOR_FUNCTION_IMPL(name) \
+  MODULE_API ASN1_##name* ASN1_##name##_New(const char* objectName, const ByteArray* tag, bool optional, bool explicitTag, const ASN1_##name* defaultValue) { return new ASN1_##name(objectName, *tag, optional, explicitTag, defaultValue); }
 #endif
 
 #ifndef NODE_SET_FUNCTION_IMPL
-#define NODE_SET_FUNCTION_IMPL(name, type) DLLSPEC void ASN1_##name##_Set##name##Value \
-(ASN1_##name * obj, const type val) { obj->Set##name##Value(val); }
+#define NODE_SET_FUNCTION_IMPL(name, type) \
+  MODULE_API void ASN1_##name##_Set##name##Value(ASN1_##name* obj, const type val) { obj->Set##name##Value(val); }
 #endif
 
 #ifndef NODE_SET_CHECK_FUNCTION_IMPL
-#define NODE_SET_CHECK_FUNCTION_IMPL(name, type) DLLSPEC void ASN1_##name##_Set##name##ValueCheck \
-(ASN1_##name * obj, const type val, char * errorBuffer, unsigned int errorBufferSize) \
-{ std::string error; \
-  obj->Set##name##Value(val, error); \
-  StringToBuffer(error, errorBuffer, errorBufferSize); }
+#define NODE_SET_CHECK_FUNCTION_IMPL(name, type)                                                                                           \
+  MODULE_API void ASN1_##name##_Set##name##ValueCheck(ASN1_##name* obj, const type val, char* errorBuffer, unsigned int errorBufferSize) { \
+    std::string error;                                                                                                                     \
+    obj->Set##name##Value(val, error);                                                                                                     \
+    StringToBuffer(error, errorBuffer, errorBufferSize);                                                                                   \
+  }
 #endif
 
 #ifndef NODE_GET_FUNCTION_IMPL
-#define NODE_GET_FUNCTION_IMPL(name, type) DLLSPEC void ASN1_##name##_Get##name##Value \
-(const ASN1_##name * obj, type * out) { *out = obj->Get##name##Value(); }
+#define NODE_GET_FUNCTION_IMPL(name, type) \
+  MODULE_API void ASN1_##name##_Get##name##Value(const ASN1_##name* obj, type* out) { *out = obj->Get##name##Value(); }
 #endif
 
 #ifndef NODE_GET_WITH_BUFFER_FUNCTION_IMPL
-#define NODE_GET_WITH_BUFFER_FUNCTION_IMPL(name) DLLSPEC void ASN1_##name##_Get##name##Value \
-(const ASN1_##name * obj, char * out, unsigned int bufferSize) \
-{ std::string s = obj->Get##name##Value(); \
-  StringToBuffer(s, out, bufferSize); }
+#define NODE_GET_WITH_BUFFER_FUNCTION_IMPL(name)                                                               \
+  MODULE_API void ASN1_##name##_Get##name##Value(const ASN1_##name* obj, char* out, unsigned int bufferSize) { \
+    std::string s = obj->Get##name##Value();                                                                   \
+    StringToBuffer(s, out, bufferSize);                                                                        \
+  }
 #endif
 
 #ifndef NODE_CONVERT_HEX_TO_TYPE_IMPL
-#define NODE_CONVERT_HEX_TO_TYPE_IMPL(name, type) DLLSPEC void ASN1_##name##_HexTo##name \
-(const ByteArray * input, type * output, char * errorBuffer, unsigned int errorBufferSize) \
-{ std::string error; \
-  ASN1_##name::HexTo##name(*input, *output, error); \
-  StringToBuffer(error, errorBuffer, errorBufferSize); }
+#define NODE_CONVERT_HEX_TO_TYPE_IMPL(name, type)                                                                                    \
+  MODULE_API void ASN1_##name##_HexTo##name(const ByteArray* input, type* output, char* errorBuffer, unsigned int errorBufferSize) { \
+    std::string error;                                                                                                               \
+    ASN1_##name::HexTo##name(*input, *output, error);                                                                                \
+    StringToBuffer(error, errorBuffer, errorBufferSize);                                                                             \
+  }
 #endif
 
 #ifndef NODE_CONVERT_HEX_TO_TYPE_WITH_BUFFER_IMPL
-#define NODE_CONVERT_HEX_TO_TYPE_WITH_BUFFER_IMPL(name) DLLSPEC void ASN1_##name##_HexTo##name \
-(const ByteArray * input, char * output, unsigned int outputBufferSize, char * errorBuffer, unsigned int errorBufferSize) \
-{ std::string error, outputStr; \
-  ASN1_##name::HexTo##name(*input, outputStr, error); \
-  StringToBuffer(error, errorBuffer, errorBufferSize); \
-  StringToBuffer(outputStr, output, outputBufferSize); }
+#define NODE_CONVERT_HEX_TO_TYPE_WITH_BUFFER_IMPL(name)                                                                                                             \
+  MODULE_API void ASN1_##name##_HexTo##name(const ByteArray* input, char* output, unsigned int outputBufferSize, char* errorBuffer, unsigned int errorBufferSize) { \
+    std::string error, outputStr;                                                                                                                                   \
+    ASN1_##name::HexTo##name(*input, outputStr, error);                                                                                                             \
+    StringToBuffer(error, errorBuffer, errorBufferSize);                                                                                                            \
+    StringToBuffer(outputStr, output, outputBufferSize);                                                                                                            \
+  }
 #endif
 
 #ifndef NODE_CONVERT_TYPE_TO_HEX_IMPL
-#define NODE_CONVERT_TYPE_TO_HEX_IMPL(name, type) DLLSPEC void ASN1_##name##_##name##ToHex \
-(const type input, ByteArray * output, char * errorBuffer, unsigned int errorBufferSize) \
-{ std::string error; \
-  ASN1_##name::name##ToHex(input, *output, error); \
-  StringToBuffer(error, errorBuffer, errorBufferSize); }
+#define NODE_CONVERT_TYPE_TO_HEX_IMPL(name, type)                                                                                     \
+  MODULE_API void ASN1_##name##_##name##ToHex(const type input, ByteArray* output, char* errorBuffer, unsigned int errorBufferSize) { \
+    std::string error;                                                                                                                \
+    ASN1_##name::name##ToHex(input, *output, error);                                                                                  \
+    StringToBuffer(error, errorBuffer, errorBufferSize);                                                                              \
+  }
 #endif
 
 #ifndef OBJECT_INTERFACE_TYPE_IMPL
 #define OBJECT_INTERFACE_TYPE_IMPL(name, type) \
-  NODE_CONSTRUCTOR_FUNCTION_IMPL(name) \
-  NODE_GET_FUNCTION_IMPL(name, type) \
-  NODE_SET_FUNCTION_IMPL(name, type) \
-  NODE_SET_CHECK_FUNCTION_IMPL(name, type) \
-  NODE_CONVERT_HEX_TO_TYPE_IMPL(name, type) \
+  NODE_CONSTRUCTOR_FUNCTION_IMPL(name)         \
+  NODE_GET_FUNCTION_IMPL(name, type)           \
+  NODE_SET_FUNCTION_IMPL(name, type)           \
+  NODE_SET_CHECK_FUNCTION_IMPL(name, type)     \
+  NODE_CONVERT_HEX_TO_TYPE_IMPL(name, type)    \
   NODE_CONVERT_TYPE_TO_HEX_IMPL(name, type)
 #endif
 
 #ifndef OBJECT_INTERFACE_BUFFER_IMPL
-#define OBJECT_INTERFACE_BUFFER_IMPL(name) \
-  NODE_CONSTRUCTOR_FUNCTION_IMPL(name) \
-  NODE_GET_WITH_BUFFER_FUNCTION_IMPL(name) \
-  NODE_SET_FUNCTION_IMPL(name, char*) \
-  NODE_SET_CHECK_FUNCTION_IMPL(name, char*) \
+#define OBJECT_INTERFACE_BUFFER_IMPL(name)        \
+  NODE_CONSTRUCTOR_FUNCTION_IMPL(name)            \
+  NODE_GET_WITH_BUFFER_FUNCTION_IMPL(name)        \
+  NODE_SET_FUNCTION_IMPL(name, char*)             \
+  NODE_SET_CHECK_FUNCTION_IMPL(name, char*)       \
   NODE_CONVERT_HEX_TO_TYPE_WITH_BUFFER_IMPL(name) \
   NODE_CONVERT_TYPE_TO_HEX_IMPL(name, char*)
 #endif
@@ -198,7 +203,8 @@ void Utils_MakeTag(unsigned int tagClass, unsigned int tagForm, const ByteArray*
 }
 
 bool Utils_DecomposeTag(const ByteArray* tag, unsigned int* tagClass, unsigned int* tagForm, ByteArray* label) {
-  Utils::eTagClass c; Utils::eTagForm f;
+  Utils::eTagClass c;
+  Utils::eTagForm f;
   bool b = Utils::DecomposeTag(*tag, c, f, *label);
   *tagClass = static_cast<unsigned int>(c);
   *tagForm = static_cast<unsigned int>(f);

@@ -1,3 +1,5 @@
 *.svn
 *.vs
 *.pro.user
+
+build-ASN1_lib-Desktop-Debug/
