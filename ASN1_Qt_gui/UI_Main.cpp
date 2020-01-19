@@ -60,7 +60,7 @@ namespace UI {
   }
 
   QString UI_Main::ASNToX(const QString& asn, eFormat f) {
-    const unsigned int buffSize = asn.size() * 10 + 1;
+    const unsigned int buffSize = static_cast<unsigned int>(asn.size()) * 10 + 1;
     char* buff = new char[buffSize];
     char* errorBuff = new char[500];
 

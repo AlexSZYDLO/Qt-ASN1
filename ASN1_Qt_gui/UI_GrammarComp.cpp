@@ -8,7 +8,7 @@
 
 
 namespace UI {
-  UI_GrammarComp::UI_GrammarComp(UI_Main* main) : m_Main(main), QWidget(main) {
+  UI_GrammarComp::UI_GrammarComp(UI_Main* main) : QWidget(main), m_Main(main) {
     MakeCompGrammarPane();
   }
 

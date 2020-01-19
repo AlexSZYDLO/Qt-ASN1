@@ -180,7 +180,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfMoveUp() {
     ASN1_Item* par = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(par->getGrammarObject());
-    unsigned int idx = m_SelectedItem->row();
+    unsigned int idx = static_cast<unsigned int>(m_SelectedItem->row());
 
     if (idx > 0) {
       QModelIndex parIdx = par->index();
@@ -195,7 +195,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfMoveDown() {
     ASN1_Item* par = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(par->getGrammarObject());
-    unsigned int idx = m_SelectedItem->row();
+    unsigned int idx = static_cast<unsigned int>(m_SelectedItem->row());
 
     if (idx < seqOf->GetSequenceOfSize() - 1) {
       QModelIndex parIdx = par->index();
@@ -210,7 +210,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfDelete() {
     ASN1_Item* seqOfItem = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(seqOfItem->getGrammarObject());
-    unsigned int idx_row = m_SelectedItem->row();
+    unsigned int idx_row = static_cast<unsigned int>(m_SelectedItem->row());
     QModelIndex parIdx = seqOfItem->index();
 
     seqOf->DeleteObjectAt(idx_row);

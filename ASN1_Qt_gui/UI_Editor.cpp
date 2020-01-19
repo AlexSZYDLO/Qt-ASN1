@@ -14,7 +14,7 @@ using namespace Utils;
 
 namespace UI {
 
-  UI_Editor::UI_Editor(UI_Main* main) : m_Main(main), m_Grammar(nullptr), QWidget(main) {
+  UI_Editor::UI_Editor(UI_Main* main) : QWidget(main), m_Main(main), m_Grammar(nullptr) {
     MakeEditorPane();
     SetGrammar(nullptr);
   }

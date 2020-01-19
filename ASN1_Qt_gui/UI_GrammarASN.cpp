@@ -9,7 +9,7 @@
 
 namespace UI {
 
-  UI_GrammarASN::UI_GrammarASN(UI_Main* main) : m_Main(main), QWidget(main) {
+  UI_GrammarASN::UI_GrammarASN(UI_Main* main) : QWidget(main), m_Main(main) {
     MakeASNGrammarPane();
   }
 
