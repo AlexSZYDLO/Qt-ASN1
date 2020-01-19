@@ -4,24 +4,26 @@ CONFIG -= app_bundle
 CONFIG -= qt
 #ICON = icon.png
 
+TARGET = ASN1_console
+
+QMAKE_LFLAGS += -Wl,-rpath='${ORIGIN}'
 
 INCLUDEPATH += $$PWD/../ASN1_lib
+INCLUDEPATH += $$PWD/../ASN1_parser
 
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_console
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/debug/ -lASN1_lib_64d
-   LIBS += -L$$OUT_PWD/../../ASN1_parser/qtcreator/debug/ -lASN1_parser_64d
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/debug/ -lASN1d
+   LIBS += -L$$OUT_PWD/../build-ASN1_parser/debug/ -lASN1_parserd
 }
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
-   TARGET = ASN1_console
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/release/ -lASN1_lib_64
-   LIBS += -L$$OUT_PWD/../../ASN1_parser/qtcreator/release/ -lASN1_parser_64
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/release/ -lASN1
+   LIBS += -L$$OUT_PWD/../build-ASN1_parser/release/ -lASN1_parser
 }
 
 
@@ -47,5 +49,5 @@ CONFIG(release, debug|release) {
   conf_files.path = $$OUT_PWD/release/config
 }
 
-INSTALLS += dlls conf_files
+#INSTALLS += dlls conf_files
 

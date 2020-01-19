@@ -65,15 +65,15 @@ namespace Value {
     }
 
     unsigned int LE = 1;
-    int littleEndian = *(unsigned char*)&LE;
+    unsigned char littleEndian = *reinterpret_cast<unsigned char*>(&LE);
 
     unsigned char dscr[sizeof(double)];
-    unsigned char* mstop = 0; /* Last byte of mantissa */
+    unsigned char* mstop = nullptr; /* Last byte of mantissa */
     unsigned char bmsign; /* binary mask with sign */
 
     if(littleEndian) {
-      unsigned char* s = ((unsigned char*)&input) + sizeof(input) - 2;
-      unsigned char* start = ((unsigned char*)&input);
+      const unsigned char* s = (reinterpret_cast<const unsigned char*>(&input)) + sizeof(input) - 2;
+      const unsigned char* start = (reinterpret_cast<const unsigned char*>(&input));
       unsigned char* d;
 
       bmsign = 0x80 | ((s[1] >> 1) & 0x40); //sets binary encoding (b8=1) and sign (b7)

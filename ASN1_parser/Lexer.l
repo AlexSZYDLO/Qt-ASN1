@@ -13,6 +13,7 @@
 %option outfile="grammar/Lexer.cpp"
 %option header-file="grammar/Lexer.h"
 
+%option never-interactive
 %option nounistd
 %option noyywrap
 %option yylineno

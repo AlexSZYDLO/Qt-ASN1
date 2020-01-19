@@ -7,11 +7,12 @@
 #include <fstream>
 #include <codecvt>
 #include <cstdio>
+#include <cmath>
 #include <stdexcept>
 #include "../Grammar/Grammar_test.h"
-#include "../Grammar/Grammar_DLL.h"
+// #include "../Grammar/Grammar_DLL.h"
 #include "../Grammar/Test_comp.h"
-#include "../ASN1_parser/ASN1_parser.h"
+#include "ASN1_parser.h"
 
 
 using namespace Grammar;
@@ -275,6 +276,131 @@ bool test_Set() {
   return hex1 == hex2;
 }
 
+bool test_IA5String_UTF8String() {
+  using namespace std;
+  wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
+
+  wstring s = L"àë";
+  wstring s2 = L"al";
+  string str = reinterpret_cast<const char*>(s.c_str());
+
+  bool res = true;
+
+  string utf8str = conv.to_bytes(s);
+  string utf8str2 = conv.to_bytes(s2);
+  res &= Utils::IsValidUTF8String(utf8str) == true;
+  res &= Utils::IsValidIA5String(utf8str) == false;
+
+  res &= Utils::IsValidUTF8String(utf8str2) == true;
+  res &= Utils::IsValidIA5String(utf8str2) == true;
+
+  utf8str = "\x9A""\xC6""\x00";
+  res &= Utils::IsValidUTF8String(utf8str) == false;
+
+  utf8str = "\xD0""\xB0""\xD0""\xBB""\x00";
+  res &= Utils::IsValidUTF8String(utf8str) == true;
+
+  wstring recovered = L"";
+  try {
+    recovered = conv.from_bytes(utf8str);
+  }
+  catch (const range_error& e) {
+    cout << e.what() << endl;
+  }
+
+  res &= recovered == L"ал";
+  return res;
+}
+
+bool test_Compare() {
+  ASN1_Integer* a = new ASN1_Integer("test");
+  ASN1_Integer* b = new ASN1_Integer("test2");
+  a->SetIntegerValue(5);
+  b->SetIntegerValue(15);
+
+  char comp[5];
+  unsigned int nbDiffs = 0;
+  a->Compare(*b, nbDiffs, comp, 5);
+
+  return true;
+}
+
+bool test_ParserJS() {
+  char* errorBuff = new char[500];
+  errorBuff[0] = '\0';
+
+  char* jsbuff = new char [1];
+
+  ASNFileToJSFile("PEDefinitions V1.0_edit.asn", "out.js", errorBuff, 500);
+  ASNFileToJSFile("gramm_test.asn", "out2.js", errorBuff, 500);
+  ASNBufferToJSBuffer("", jsbuff, 1, errorBuff, 500); // empty input
+
+
+  string err(errorBuff);
+  if (err != "") {
+    cout << err << endl;
+    return false;
+  }
+  else
+    cout << "Parsing grammar to JS OK." << endl;
+
+  delete[] jsbuff;
+  delete[] errorBuff;
+  return true;
+}
+
+bool test_ParserCPP() {
+  char* errorBuff = new char[500];
+  errorBuff[0] = '\0';
+
+  ASNFileToCPPFile("PEDefinitions V1.0_edit.asn", "out.h", errorBuff, 500);
+  ASNFileToCPPFile("gramm_test.asn", "out2.h", errorBuff, 500);
+
+  string err(errorBuff);
+  if (err != "") {
+    cout << err << endl;
+    return false;
+  }
+  else
+    cout << "Parsing grammar to CPP OK." << endl;
+
+  delete[] errorBuff;
+  return true;
+}
+
+bool test_ParsedGrammar() {
+  ASN1_Object* obj = GetGrammar();
+  ByteArray ba;
+  obj->WriteIntoBuffer(ba);
+  return true;
+}
+
+int main() {
+  bool result = true;
+
+  result &= test_ChoiceList();
+  result &= test_Tags();
+  result &= test_Sequence();
+  result &= test_SequenceOf();
+  result &= test_BitString();
+  result &= test_ObjectID();
+  result &= test_Real();
+  result &= test_Set();
+  // result &= test_DLL();
+  result &= test_IA5String_UTF8String();
+  result &= test_Compare();
+  //result &= test_ParserJS();
+  //result &= test_ParserCPP();
+  result &= test_ParsedGrammar();
+
+  cout << "test result: " << (result ? "OK" : "NOK") << endl;
+  cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << endl;
+
+  getchar();
+  return result ? 0 : -1;
+}
+
+/*
 bool test_DLL() {
   using namespace ASN1_DLL;
 
@@ -401,128 +527,4 @@ bool test_DLL() {
   }
   return res;
 }
-
-bool test_IA5String_UTF8String() {
-  using namespace std;
-  wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
-
-  wstring s = L"àë";
-  wstring s2 = L"al";
-  string str = reinterpret_cast<const char*>(s.c_str());
-
-  bool res = true;
-
-  string utf8str = conv.to_bytes(s);
-  string utf8str2 = conv.to_bytes(s2);
-  res &= Utils::IsValidUTF8String(utf8str) == true;
-  res &= Utils::IsValidIA5String(utf8str) == false;
-
-  res &= Utils::IsValidUTF8String(utf8str2) == true;
-  res &= Utils::IsValidIA5String(utf8str2) == true;
-
-  utf8str = "\x9A""\xC6""\x00";
-  res &= Utils::IsValidUTF8String(utf8str) == false;
-
-  utf8str = "\xD0""\xB0""\xD0""\xBB""\x00";
-  res &= Utils::IsValidUTF8String(utf8str) == true;
-
-  wstring recovered = L"";
-  try {
-    recovered = conv.from_bytes(utf8str);
-  }
-  catch (const range_error& e) {
-    cout << e.what() << endl;
-  }
-
-  res &= recovered == L"ал";
-  return res;
-}
-
-bool test_Compare() {
-  ASN1_Integer* a = new ASN1_Integer("test");
-  ASN1_Integer* b = new ASN1_Integer("test2");
-  a->SetIntegerValue(5);
-  b->SetIntegerValue(15);
-
-  char comp[5];
-  unsigned int nbDiffs = 0;
-  a->Compare(*b, nbDiffs, comp, 5);
-
-  return true;
-}
-
-bool test_ParserJS() {
-  char* errorBuff = new char[500];
-  errorBuff[0] = '\0';
-
-  char* jsbuff = new char [1];
-
-  ASNFileToJSFile("PEDefinitions V1.0_edit.asn", "out.js", errorBuff, 500);
-  ASNFileToJSFile("gramm_test.asn", "out2.js", errorBuff, 500);
-  ASNBufferToJSBuffer("", jsbuff, 1, errorBuff, 500); // empty input
-
-
-  string err(errorBuff);
-  if (err != "") {
-    cout << err << endl;
-    return false;
-  }
-  else
-    cout << "Parsing grammar to JS OK." << endl;
-
-  delete[] jsbuff;
-  delete[] errorBuff;
-  return true;
-}
-
-bool test_ParserCPP() {
-  char* errorBuff = new char[500];
-  errorBuff[0] = '\0';
-
-  ASNFileToCPPFile("PEDefinitions V1.0_edit.asn", "out.h", errorBuff, 500);
-  ASNFileToCPPFile("gramm_test.asn", "out2.h", errorBuff, 500);
-
-  string err(errorBuff);
-  if (err != "") {
-    cout << err << endl;
-    return false;
-  }
-  else
-    cout << "Parsing grammar to CPP OK." << endl;
-
-  delete[] errorBuff;
-  return true;
-}
-
-bool test_ParsedGrammar() {
-  ASN1_Object* obj = GetGrammar();
-  ByteArray ba;
-  obj->WriteIntoBuffer(ba);
-  return true;
-}
-
-int main() {
-  bool result = true;
-
-  result &= test_ChoiceList();
-  result &= test_Tags();
-  result &= test_Sequence();
-  result &= test_SequenceOf();
-  result &= test_BitString();
-  result &= test_ObjectID();
-  result &= test_Real();
-  result &= test_Set();
-  result &= test_DLL();
-  result &= test_IA5String_UTF8String();
-  result &= test_Compare();
-  //result &= test_ParserJS();
-  //result &= test_ParserCPP();
-  result &= test_ParsedGrammar();
-
-  cout << "test result: " << (result ? "OK" : "NOK") << endl;
-  cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << endl;
-
-  getchar();
-  return result ? 0 : -1;
-}
-
+*/

@@ -380,7 +380,7 @@ namespace Utils {
   }
 
   bool IsValidUTF8String(const string& utf8String) {
-    wstring_convert<codecvt_utf8<int>, int> conv;
+    wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
 
     try {
       conv.from_bytes(utf8String);

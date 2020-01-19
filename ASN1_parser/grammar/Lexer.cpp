@@ -1,6 +1,6 @@
-#line 1 "grammar/Lexer.cpp"
+#line 2 "grammar/Lexer.cpp"
 
-#line 3 "grammar/Lexer.cpp"
+#line 4 "grammar/Lexer.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -9,88 +9,10 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 6
-#define YY_FLEX_SUBMINOR_VERSION 3
+#define YY_FLEX_SUBMINOR_VERSION 4
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
-
-    #define yy_create_buffer yy_create_buffer
-
-    #define yy_delete_buffer yy_delete_buffer
-
-    #define yy_scan_buffer yy_scan_buffer
-
-    #define yy_scan_string yy_scan_string
-
-    #define yy_scan_bytes yy_scan_bytes
-
-    #define yy_init_buffer yy_init_buffer
-
-    #define yy_flush_buffer yy_flush_buffer
-
-    #define yy_load_buffer_state yy_load_buffer_state
-
-    #define yy_switch_to_buffer yy_switch_to_buffer
-
-    #define yypush_buffer_state yypush_buffer_state
-
-    #define yypop_buffer_state yypop_buffer_state
-
-    #define yyensure_buffer_stack yyensure_buffer_stack
-
-    #define yylex yylex
-
-    #define yyrestart yyrestart
-
-    #define yylex_init yylex_init
-
-    #define yylex_init_extra yylex_init_extra
-
-    #define yylex_destroy yylex_destroy
-
-    #define yyget_debug yyget_debug
-
-    #define yyset_debug yyset_debug
-
-    #define yyget_extra yyget_extra
-
-    #define yyset_extra yyset_extra
-
-    #define yyget_in yyget_in
-
-    #define yyset_in yyset_in
-
-    #define yyget_out yyget_out
-
-    #define yyset_out yyset_out
-
-    #define yyget_leng yyget_leng
-
-    #define yyget_text yyget_text
-
-    #define yyget_lineno yyget_lineno
-
-    #define yyset_lineno yyset_lineno
-
-    #define yywrap yywrap
-
-    #define yyalloc yyalloc
-
-    #define yyrealloc yyrealloc
-
-    #define yyfree yyfree
-
-    #define yytext yytext
-
-    #define yyleng yyleng
-
-    #define yyin yyin
-
-    #define yyout yyout
-
-    #define yy_flex_debug yy_flex_debug
-
-    #define yylineno yylineno
 
 /* First, we deal with  platform-specific or compiler-specific issues. */
 
@@ -162,9 +84,15 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#ifndef SIZE_MAX
+#define SIZE_MAX               (~(size_t)0)
+#endif
+
 #endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
+
+/* begin standard C++ headers. */
 
 /* TODO: this is always defined, so inline it */
 #define yyconst const
@@ -197,7 +125,7 @@ typedef unsigned int flex_uint32_t;
 /* Action number for EOF rule of a given start state. */
 #define YY_STATE_EOF(state) (YY_END_OF_BUFFER + state + 1)
 /* Special action meaning "start processing a new file". */
-#define YY_NEW_FILE yyrestart(yyin  )
+#define YY_NEW_FILE yyrestart( yyin  )
 #define YY_END_OF_BUFFER_CHAR 0
 
 /* Size of default input buffer. */
@@ -382,7 +310,7 @@ void yypop_buffer_state ( void );
 static void yyensure_buffer_stack ( void );
 static void yy_load_buffer_state ( void );
 static void yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
-#define YY_FLUSH_BUFFER yy_flush_buffer(YY_CURRENT_BUFFER )
+#define YY_FLUSH_BUFFER yy_flush_buffer( YY_CURRENT_BUFFER )
 
 YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
@@ -398,7 +326,7 @@ void yyfree ( void *  );
 	if ( ! YY_CURRENT_BUFFER ){ \
         yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            yy_create_buffer(yyin,YY_BUF_SIZE ); \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
 	}
@@ -407,7 +335,7 @@ void yyfree ( void *  );
 	if ( ! YY_CURRENT_BUFFER ){\
         yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            yy_create_buffer(yyin,YY_BUF_SIZE ); \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
 	}
@@ -698,8 +626,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "Lexer.l"
-#line 2 "Lexer.l"
+#line 1 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
+#line 2 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 /*
  * Copyright (c) 2016, 2017 Alexandre SZYDLOWSKI <alexandre.szydlowski@gmail.com>. All rights reserved.
  * Redistribution and modifications are permitted subject to GPL-V3 license.
@@ -708,7 +636,7 @@ char *yytext;
 #include <iostream>
 #include <string>
 #include "Parser.h"
-#line 711 "grammar/Lexer.cpp"
+#line 640 "grammar/Lexer.cpp"
 #define YY_NO_UNISTD_H 1
 /*
 %option warn nodefault
@@ -716,16 +644,19 @@ char *yytext;
 %option bison-bridge
 */
 
-#line 719 "grammar/Lexer.cpp"
+#line 648 "grammar/Lexer.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
 
-/*windows compatibility case*/
-#include <io.h>
-#define isatty _isatty
-#define fileno _fileno
-    
+#ifndef YY_NO_UNISTD_H
+/* Special case for "unistd.h", since it is non-ANSI. We include it way
+ * down here because we want the user's section 1 to have been scanned first.
+ * The user has a chance to override it with an option.
+ */
+#include <unistd.h>
+#endif
+
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -924,17 +855,17 @@ YY_DECL
 		if ( ! YY_CURRENT_BUFFER ) {
 			yyensure_buffer_stack ();
 			YY_CURRENT_BUFFER_LVALUE =
-				yy_create_buffer(yyin,YY_BUF_SIZE );
+				yy_create_buffer( yyin, YY_BUF_SIZE );
 		}
 
-		yy_load_buffer_state( );
+		yy_load_buffer_state(  );
 		}
 
 	{
-#line 41 "Lexer.l"
+#line 42 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 
 
-#line 937 "grammar/Lexer.cpp"
+#line 869 "grammar/Lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -967,16 +898,12 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 307 );
+		while ( yy_current_state != 251 );
+		yy_cp = (yy_last_accepting_cpos);
+		yy_current_state = (yy_last_accepting_state);
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
-		if ( yy_act == 0 )
-			{ /* have to back up */
-			yy_cp = (yy_last_accepting_cpos);
-			yy_current_state = (yy_last_accepting_state);
-			yy_act = yy_accept[yy_current_state];
-			}
 
 		YY_DO_BEFORE_ACTION;
 
@@ -1003,244 +930,244 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 43 "Lexer.l"
+#line 44 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 BEGIN(COMMENT);
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 44 "Lexer.l"
+#line 45 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 45 "Lexer.l"
+#line 46 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 48 "Lexer.l"
+#line 49 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { /* ignore */ }
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 49 "Lexer.l"
+#line 50 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { /*single line comment*/ }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 50 "Lexer.l"
+#line 51 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { /*single line comment, second method*/ }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "Lexer.l"
+#line 53 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { yylval.i = ConvertToInt(yytext);    return _Int;    }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "Lexer.l"
+#line 54 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { yylval.d = ConvertToDouble(yytext); return _Number; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 56 "Lexer.l"
+#line 57 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _EXPLICIT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 57 "Lexer.l"
+#line 58 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _IMPLICIT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 58 "Lexer.l"
+#line 59 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _AUTOMATIC;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 59 "Lexer.l"
+#line 60 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _TAG;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 60 "Lexer.l"
+#line 61 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _EXTENSIBILITY;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 61 "Lexer.l"
+#line 62 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _IMPLIED;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 62 "Lexer.l"
+#line 63 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return _DEFINITIONS;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 63 "Lexer.l"
+#line 64 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_BEGIN);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 64 "Lexer.l"
+#line 65 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_END);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 66 "Lexer.l"
+#line 67 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_UNIVERSAL);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 67 "Lexer.l"
+#line 68 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_APPLICATION);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 68 "Lexer.l"
+#line 69 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_CONTEXTSPECIFIC);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 69 "Lexer.l"
+#line 70 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_PRIVATE);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 71 "Lexer.l"
+#line 72 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_OPTIONAL);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 73 "Lexer.l"
+#line 74 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_SEQUENCEOF);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 74 "Lexer.l"
+#line 75 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_SEQUENCE);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 75 "Lexer.l"
+#line 76 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_SET);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 76 "Lexer.l"
+#line 77 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_CHOICE);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 78 "Lexer.l"
+#line 79 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_BITSTRING);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 79 "Lexer.l"
+#line 80 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_BOOLEAN);
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 80 "Lexer.l"
+#line 81 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_ENUM);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 81 "Lexer.l"
+#line 82 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_IA5STRING);
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 82 "Lexer.l"
+#line 83 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_INTEGER);
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 83 "Lexer.l"
+#line 84 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_NULL);
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 84 "Lexer.l"
+#line 85 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_OBJECTID);
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 85 "Lexer.l"
+#line 86 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_OCTETSTRING);
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 86 "Lexer.l"
+#line 87 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_REAL);
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 87 "Lexer.l"
+#line 88 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_UTCTIME);
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 88 "Lexer.l"
+#line 89 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_UTF8STRING);
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 90 "Lexer.l"
+#line 91 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { yylval.name = stringAssign(yytext); return _ModuleID; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 91 "Lexer.l"
+#line 92 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 { yylval.name = stringAssign(yytext); return _VarID; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 93 "Lexer.l"
+#line 94 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_ASSIGN);
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 94 "Lexer.l"
+#line 95 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_OPENBRACKET);
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 95 "Lexer.l"
+#line 96 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_CLOSEBRACKET);
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 96 "Lexer.l"
+#line 97 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_OPENSQBRACKET);
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 97 "Lexer.l"
+#line 98 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_CLOSESQBRACKET);
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 98 "Lexer.l"
+#line 99 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_COMMA_);
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 99 "Lexer.l"
+#line 100 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 return(_EXTENSIBILESEQ);
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 100 "Lexer.l"
+#line 101 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"
 ECHO;
 	YY_BREAK
-#line 1243 "grammar/Lexer.cpp"
+#line 1171 "grammar/Lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1308,7 +1235,8 @@ case YY_STATE_EOF(COMMENT):
 
 			else
 				{
-				yy_cp = (yy_c_buf_p);
+				yy_cp = (yy_last_accepting_cpos);
+				yy_current_state = (yy_last_accepting_state);
 				goto yy_find_action;
 				}
 			}
@@ -1319,7 +1247,7 @@ case YY_STATE_EOF(COMMENT):
 				{
 				(yy_did_buffer_switch_on_eof) = 0;
 
-				if ( yywrap( ) )
+				if ( yywrap(  ) )
 					{
 					/* Note: because we've taken care in
 					 * yy_get_next_buffer() to have set up
@@ -1451,7 +1379,8 @@ static int yy_get_next_buffer (void)
 
 				b->yy_ch_buf = (char *)
 					/* Include room in for 2 EOB chars. */
-					yyrealloc((void *) b->yy_ch_buf,(yy_size_t) (b->yy_buf_size + 2)  );
+					yyrealloc( (void *) b->yy_ch_buf,
+							 (yy_size_t) (b->yy_buf_size + 2)  );
 				}
 			else
 				/* Can't grow it, we don't own it. */
@@ -1483,7 +1412,7 @@ static int yy_get_next_buffer (void)
 		if ( number_to_move == YY_MORE_ADJ )
 			{
 			ret_val = EOB_ACT_END_OF_FILE;
-			yyrestart(yyin  );
+			yyrestart( yyin  );
 			}
 
 		else
@@ -1500,9 +1429,12 @@ static int yy_get_next_buffer (void)
 	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
 		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
-		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,(yy_size_t) new_size  );
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc(
+			(void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t) new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
 			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
+		/* "- 2" to take care of EOB's */
+		YY_CURRENT_BUFFER_LVALUE->yy_buf_size = (int) (new_size - 2);
 	}
 
 	(yy_n_chars) += number_to_move;
@@ -1657,13 +1589,13 @@ static int yy_get_next_buffer (void)
 					 */
 
 					/* Reset buffer status. */
-					yyrestart(yyin );
+					yyrestart( yyin );
 
 					/*FALLTHROUGH*/
 
 				case EOB_ACT_END_OF_FILE:
 					{
-					if ( yywrap( ) )
+					if ( yywrap(  ) )
 						return 0;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
@@ -1706,11 +1638,11 @@ static int yy_get_next_buffer (void)
 	if ( ! YY_CURRENT_BUFFER ){
         yyensure_buffer_stack ();
 		YY_CURRENT_BUFFER_LVALUE =
-            yy_create_buffer(yyin,YY_BUF_SIZE );
+            yy_create_buffer( yyin, YY_BUF_SIZE );
 	}
 
-	yy_init_buffer(YY_CURRENT_BUFFER,input_file );
-	yy_load_buffer_state( );
+	yy_init_buffer( YY_CURRENT_BUFFER, input_file );
+	yy_load_buffer_state(  );
 }
 
 /** Switch to a different input buffer.
@@ -1738,7 +1670,7 @@ static int yy_get_next_buffer (void)
 		}
 
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
-	yy_load_buffer_state( );
+	yy_load_buffer_state(  );
 
 	/* We don't actually know whether we did this switch during
 	 * EOF (yywrap()) processing, but the only time this flag
@@ -1766,7 +1698,7 @@ static void yy_load_buffer_state  (void)
 {
 	YY_BUFFER_STATE b;
     
-	b = (YY_BUFFER_STATE) yyalloc(sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
@@ -1775,13 +1707,13 @@ static void yy_load_buffer_state  (void)
 	/* yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
 	 */
-	b->yy_ch_buf = (char *) yyalloc((yy_size_t) (b->yy_buf_size + 2)  );
+	b->yy_ch_buf = (char *) yyalloc( (yy_size_t) (b->yy_buf_size + 2)  );
 	if ( ! b->yy_ch_buf )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
 	b->yy_is_our_buffer = 1;
 
-	yy_init_buffer(b,file );
+	yy_init_buffer( b, file );
 
 	return b;
 }
@@ -1800,9 +1732,9 @@ static void yy_load_buffer_state  (void)
 		YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
 
 	if ( b->yy_is_our_buffer )
-		yyfree((void *) b->yy_ch_buf  );
+		yyfree( (void *) b->yy_ch_buf  );
 
-	yyfree((void *) b  );
+	yyfree( (void *) b  );
 }
 
 /* Initializes or reinitializes a buffer.
@@ -1814,7 +1746,7 @@ static void yy_load_buffer_state  (void)
 {
 	int oerrno = errno;
     
-	yy_flush_buffer(b );
+	yy_flush_buffer( b );
 
 	b->yy_input_file = file;
 	b->yy_fill_buffer = 1;
@@ -1828,7 +1760,7 @@ static void yy_load_buffer_state  (void)
         b->yy_bs_column = 0;
     }
 
-        b->yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
+        b->yy_is_interactive = 0;
     
 	errno = oerrno;
 }
@@ -1857,7 +1789,7 @@ static void yy_load_buffer_state  (void)
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
 	if ( b == YY_CURRENT_BUFFER )
-		yy_load_buffer_state( );
+		yy_load_buffer_state(  );
 }
 
 /** Pushes the new state onto the stack. The new state becomes
@@ -1888,7 +1820,7 @@ void yypush_buffer_state (YY_BUFFER_STATE new_buffer )
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
 
 	/* copied from yy_switch_to_buffer. */
-	yy_load_buffer_state( );
+	yy_load_buffer_state(  );
 	(yy_did_buffer_switch_on_eof) = 1;
 }
 
@@ -1907,7 +1839,7 @@ void yypop_buffer_state (void)
 		--(yy_buffer_stack_top);
 
 	if (YY_CURRENT_BUFFER) {
-		yy_load_buffer_state( );
+		yy_load_buffer_state(  );
 		(yy_did_buffer_switch_on_eof) = 1;
 	}
 }
@@ -1974,7 +1906,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 		/* They forgot to leave room for the EOB's. */
 		return NULL;
 
-	b = (YY_BUFFER_STATE) yyalloc(sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_buffer()" );
 
@@ -1988,7 +1920,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 	b->yy_fill_buffer = 0;
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
-	yy_switch_to_buffer(b  );
+	yy_switch_to_buffer( b  );
 
 	return b;
 }
@@ -2004,7 +1936,7 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 YY_BUFFER_STATE yy_scan_string (const char * yystr )
 {
     
-	return yy_scan_bytes(yystr,(int) strlen(yystr) );
+	return yy_scan_bytes( yystr, (int) strlen(yystr) );
 }
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
@@ -2023,7 +1955,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = (yy_size_t) (_yybytes_len + 2);
-	buf = (char *) yyalloc(n  );
+	buf = (char *) yyalloc( n  );
 	if ( ! buf )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_bytes()" );
 
@@ -2032,7 +1964,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 
 	buf[_yybytes_len] = buf[_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
 
-	b = yy_scan_buffer(buf,n );
+	b = yy_scan_buffer( buf, n );
 	if ( ! b )
 		YY_FATAL_ERROR( "bad buffer in yy_scan_bytes()" );
 
@@ -2050,7 +1982,7 @@ YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 
 static void yynoreturn yy_fatal_error (const char* msg )
 {
-			(void) fprintf( stderr, "%s\n", msg );
+			fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
@@ -2188,7 +2120,7 @@ int yylex_destroy  (void)
     
     /* Pop the buffer stack, destroying each element. */
 	while(YY_CURRENT_BUFFER){
-		yy_delete_buffer(YY_CURRENT_BUFFER  );
+		yy_delete_buffer( YY_CURRENT_BUFFER  );
 		YY_CURRENT_BUFFER_LVALUE = NULL;
 		yypop_buffer_state();
 	}
@@ -2254,4 +2186,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 100 "Lexer.l"
+#line 101 "/home/alexandre/Dev/q-asn1/ASN1_parser/Lexer.l"

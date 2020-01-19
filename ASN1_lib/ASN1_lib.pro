@@ -5,20 +5,18 @@ CONFIG -= qt
 
 DEFINES += MODULE_API_EXPORTS
 
-#TARGET = ASN1_lib
-
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_lib_64d
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
+   TARGET = ASN1d
 }
 
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
-   TARGET = ASN1_lib_64
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
+   TARGET = ASN1
 }
 
 SOURCES += \
