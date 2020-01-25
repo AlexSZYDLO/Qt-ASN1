@@ -1,40 +1,30 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2017-04-10T17:26:49
-#
-#-------------------------------------------------
-
-QT       += script
-QT       -= gui
-
-TARGET = ASN1_Qt_Script_lib
 TEMPLATE = lib
-
-DEFINES += ASN1_QT_SCRIPT_LIBRARY
-DEFINES += DLLCOMPIL
-
 CONFIG += console c++14
+QT += script
+QT -= gui
 
 INCLUDEPATH += $$PWD/../ASN1_lib
 
+DEFINES += MODULE_API_EXPORTS
+
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_Qt_Script_lib_d
+   TARGET = ASN1_Qt_Script_libd
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/debug/ -lASN1_lib_64d
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/debug/ -lASN1d
 }
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
    TARGET = ASN1_Qt_Script_lib
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/release/ -lASN1_lib_64
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/release/ -lASN1
 }
 
 SOURCES += \
-     Script.cpp \
-     ASN1_Script_Node.cpp \
+    Script.cpp \
+    ASN1_Script_Node.cpp \
     Nodes/ASN1_Script_Basic_Nodes.cpp \
     Nodes/ASN1_Script_Choice.cpp \
     Nodes/ASN1_Script_Sequence.cpp \

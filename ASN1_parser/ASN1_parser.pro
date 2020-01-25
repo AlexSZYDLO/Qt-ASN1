@@ -2,11 +2,8 @@ TEMPLATE = lib
 CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
-DEFINES += DLLCOMPIL
 
 INCLUDEPATH += $$PWD/../ASN1_lib
-
-#INCLUDEPATH += $$PWD/../../_bin/win_flex_bison
 
 flex.target += $$PWD/grammar/Lexer.cpp #$$PWD/grammar/Parser.cpp $$PWD/grammar/Lexer.h $$PWD/grammar/Parser.h
 flex.depends += $$PWD/Lexer.l $$PWD/Parser.y
@@ -52,6 +49,8 @@ DISTFILES += \
     grammar.asn \
     Lexer.l \
     Parser.y
+
+#INCLUDEPATH += $$PWD/../../_bin/win_flex_bison
 
 #flex.commands = .\..\..\..\_bin\win_flex_bison\win_flex.exe --wincompat $$quote($$PWD\Lexer.l)
 #bison.commands = .\..\..\..\_bin\win_flex_bison\win_bison -v $$quote($$PWD/Parser.y)

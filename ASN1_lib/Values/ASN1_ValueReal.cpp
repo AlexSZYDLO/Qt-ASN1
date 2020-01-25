@@ -241,7 +241,7 @@ namespace Value {
     int sign = (octv & 0x40); /* bit 7 */
     unsigned int scaleF = (octv & 0x0C) >> 2; /* bits 4 to 3 */
 
-    if(strHexReal.size() <= (int)(1 + (octv & 0x03))) {
+    if(strHexReal.size() <= (unsigned int)(1 + (octv & 0x03))) {
       error = "Double incorrect encoding";
       return;
     }
@@ -271,7 +271,7 @@ namespace Value {
     /* Okay, the exponent is here. Now, what about mantissa? */
     double m = 0.0; /* Initial mantissa value */
     char mIdx = expIdx + elen;
-    unsigned int mlen = (int)strHexReal.size() / 2 - mIdx;
+    unsigned int mlen = (unsigned int)strHexReal.size() / 2 - mIdx;
     for(unsigned int i = mIdx; i < mIdx + mlen; i++) {
       unsigned char byte = (unsigned char)HexAsInt(ByteArray(strHexReal.substr(i * 2, 2).c_str()));
       m = ldexp(m, 8) + byte;

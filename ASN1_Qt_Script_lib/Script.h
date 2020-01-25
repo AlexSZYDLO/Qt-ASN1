@@ -5,26 +5,30 @@
 #pragma once
 #include "EngineInit.h"
 
-#if defined DLLCOMPIL
-#define DLLSPEC __declspec(dllexport)
+#ifdef _MSC_VER
+#ifdef MODULE_API_EXPORTS
+#define MODULE_API __declspec(dllexport)
 #else
-#define DLLSPEC __declspec(dllimport)
+#define MODULE_API __declspec(dllimport)
+#endif
+#else
+#define MODULE_API
 #endif
 
-DLLSPEC ASN1_Object* GrammarFromScript(QScriptEngine* e, const QString& script, QString& error);
-DLLSPEC ASN1_Object* GrammarFromScript(QScriptEngine* e, const QString& script);
-DLLSPEC ASN1_Object* GrammarFromScript(QScriptEngine* e, QFile& file, QString& error);
-DLLSPEC ASN1_Object* GrammarFromScript(QScriptEngine* e, QFile& file);
+MODULE_API ASN1_Object* GrammarFromScript(QScriptEngine* e, const QString& script, QString& error);
+MODULE_API ASN1_Object* GrammarFromScript(QScriptEngine* e, const QString& script);
+MODULE_API ASN1_Object* GrammarFromScript(QScriptEngine* e, QFile& file, QString& error);
+MODULE_API ASN1_Object* GrammarFromScript(QScriptEngine* e, QFile& file);
 
-DLLSPEC void ProcessAdditionalScript(QScriptEngine* e, const QString& script, QString& error);
-DLLSPEC void ProcessAdditionalScript(QScriptEngine* e, const QString& script);
-DLLSPEC void ProcessAdditionalScript(QScriptEngine* e, QFile& file, QString& error);
-DLLSPEC void ProcessAdditionalScript(QScriptEngine* e, QFile& file);
+MODULE_API void ProcessAdditionalScript(QScriptEngine* e, const QString& script, QString& error);
+MODULE_API void ProcessAdditionalScript(QScriptEngine* e, const QString& script);
+MODULE_API void ProcessAdditionalScript(QScriptEngine* e, QFile& file, QString& error);
+MODULE_API void ProcessAdditionalScript(QScriptEngine* e, QFile& file);
 
-DLLSPEC QScriptEngine* InitEngine();
-DLLSPEC void ClearScriptEngine(QScriptEngine* e);
+MODULE_API QScriptEngine* InitEngine();
+MODULE_API void ClearScriptEngine(QScriptEngine* e);
 
 
-DLLSPEC bool ScriptMemoryCheck();
+MODULE_API bool ScriptMemoryCheck();
 
 
