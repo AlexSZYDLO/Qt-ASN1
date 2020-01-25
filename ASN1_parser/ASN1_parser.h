@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef MODULE_API_EXPORTS
 #define MODULE_API __declspec(dllexport)
 #else

@@ -12,7 +12,7 @@ It provides functions to access specific byte(s), and to edit the string.
 This class ensures that it only contains hexadecimal characters.
 */
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef MODULE_API_EXPORTS
 #define MODULE_API __declspec(dllexport)
 #else

@@ -12,7 +12,7 @@ This file contains some global methods that are usefull for ASN1 such like conve
 tag and length encoding, and some specific node practical conversions.
 */
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef MODULE_API_EXPORTS
 #define MODULE_API __declspec(dllexport)
 #else

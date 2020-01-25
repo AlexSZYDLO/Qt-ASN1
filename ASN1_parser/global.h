@@ -3,8 +3,8 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #pragma once
-#include <string>
 #include <iostream>
+#include <string>
 #include "Utils.h"
 
 using namespace Utils;
@@ -34,7 +34,11 @@ inline double ConvertToDouble(const char* str) {
   return d;
 }
 
-enum Explicity { cIgnored, cImplicit, cExplicit };
+enum Explicity {
+  cIgnored,
+  cImplicit,
+  cExplicit
+};
 
 struct Tag {
   bool noTag;
@@ -65,4 +69,3 @@ struct VarModule {
   std::string* name;
   eNodeType type;
 };
-

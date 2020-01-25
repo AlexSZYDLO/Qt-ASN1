@@ -9,7 +9,7 @@ using namespace Utils;
 
 void SetTagConstructed(string& tag) {
   string binary = HexAsBinary8Padded(tag.c_str());
-  if (binary.size() > 2) {
+  if(binary.size() > 2) {
     binary[2] = '1';
     tag = BinaryAsHex(binary).GetString();
   }
@@ -18,10 +18,10 @@ void SetTagConstructed(string& tag) {
 Generator* gGen = nullptr;
 
 Generator::Generator() : m_TagAuto(false),
-  m_TagExplicit(false),
-  m_ExtensibilityImplied(false),
-  tempExtensibility(false),
-  UniqueModuleCount(0) {}
+                         m_TagExplicit(false),
+                         m_ExtensibilityImplied(false),
+                         UniqueModuleCount(0),
+                         tempExtensibility(false) {}
 
 Generator::~Generator() {}
 
@@ -54,13 +54,13 @@ void Generator::SetSequenceExtensibility() {
   tempExtensibility = true;
 }
 
-void Generator::AddTempVariable(const std::string&  module, eNodeType type, bool unknownType) {
-  Variable v = { "", "", m_TagExplicit, false, false, type, unknownType, module };
+void Generator::AddTempVariable(const std::string& module, eNodeType type, bool unknownType) {
+  Variable v = {"", "", m_TagExplicit, false, false, type, unknownType, module};
   currentVariableList->push_back(v);
 }
 
 void Generator::SetLastVariableName(const std::string& newName) {
-  if (!currentVariableList->at(currentVariableList->size() - 1).unknownType)
+  if(!currentVariableList->at(currentVariableList->size() - 1).unknownType)
     log(string("variable: " + Utils::NodeTypeToString(currentVariableList->at(currentVariableList->size() - 1).type) + " - name: " + newName));
   else
     log(string("variable: Unknown type - name: " + newName));
@@ -71,7 +71,7 @@ void Generator::SetLastVariableName(const std::string& newName) {
 void Generator::SetLastVariableTag(Tag tag) {
   Variable& curVar = currentVariableList->at(currentVariableList->size() - 1);
 
-  if (!tag.noTag)
+  if(!tag.noTag)
     log("tag: " + std::to_string(tag.label));
 
   eTagForm f = (IsComplexType(curVar.type)) ? cTagFormConstructed : cTagFormPrimitive;
@@ -79,28 +79,33 @@ void Generator::SetLastVariableTag(Tag tag) {
 
   curVar.tag = t.GetString();
 
-  if (curVar.explicitTag || tag.explicitTag == cExplicit)
+  if(curVar.explicitTag || tag.explicitTag == cExplicit)
     SetTagConstructed(curVar.tag);
 
-  if (tag.explicitTag == cExplicit) {
+  if(tag.explicitTag == cExplicit) {
     log("explicit tag variable");
     currentVariableList->at(currentVariableList->size() - 1).explicitTag = true;
   }
-  if (tag.explicitTag == cImplicit)
+  if(tag.explicitTag == cImplicit) {
     currentVariableList->at(currentVariableList->size() - 1).explicitTag = false;
+  }
 }
 
 void Generator::SetLastVarOptional(bool _optional) {
-  if (_optional) log("optional variable");
-  currentVariableList->at(currentVariableList->size() - 1).optional = _optional;
+  if(_optional) log("optional variable");
+  {
+    currentVariableList->at(currentVariableList->size() - 1).optional = _optional;
+  }
 }
 
 void Generator::AppyAutoTag() {
-  for (size_t i = 0; i < currentVariableList->size(); i++)
-    if (currentVariableList->at(i).tag != "") return; // one tag at least is set manually: dont apply auto tags (unset tags will get the default tag)
-
+  for(size_t i = 0; i < currentVariableList->size(); i++) {
+    if(currentVariableList->at(i).tag != "") {
+      return;
+    } // one tag at least is set manually: dont apply auto tags (unset tags will get the default tag)
+  }
   int lblAsInt = 0;
-  for (size_t i = 0; i < currentVariableList->size(); i++) {
+  for(size_t i = 0; i < currentVariableList->size(); i++) {
     Variable& v = currentVariableList->at(i);
 
     //  /!\ even choice have a tag in  automatic tags context
@@ -120,21 +125,22 @@ void Generator::NewModule() {
 void Generator::EndModule() {
   delete currentVariableList;
   tempVariableLists.pop_back();
-  if (tempVariableLists.size() > 0)
+  if(tempVariableLists.size() > 0) {
     currentVariableList = tempVariableLists.at(tempVariableLists.size() - 1);
+  }
   tempExtensibility = false;
 }
 
 void Generator::AddModule(const std::string& name, eNodeType type) {
   log(string("module: " + NodeTypeToString(type) + " - name: " + name));
 
-  if (IsComplexType(type)) {
-    if (m_TagAuto == true)
+  if(IsComplexType(type)) {
+    if(m_TagAuto == true) {
       AppyAutoTag();
-    m_ModuleList.push_back({ name, type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility });
-  }
-  else {
-    m_ModuleList.push_back({ name, type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility });
+    }
+    m_ModuleList.push_back({name, type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility});
+  } else {
+    m_ModuleList.push_back({name, type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility});
   }
   EndModule();
 }
@@ -142,9 +148,10 @@ void Generator::AddModule(const std::string& name, eNodeType type) {
 string* Generator::AddUniqueModule(eNodeType type) {
   log(string("unique module: " + NodeTypeToString(type) + "_" + to_string(UniqueModuleCount++)));
 
-  if (m_TagAuto == true)
+  if(m_TagAuto == true) {
     AppyAutoTag();
-  m_ModuleList.push_back({ NodeTypeToString(type) + to_string(UniqueModuleCount), type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility });
+  }
+  m_ModuleList.push_back({NodeTypeToString(type) + to_string(UniqueModuleCount), type, *currentVariableList, m_ExtensibilityImplied || tempExtensibility});
 
   EndModule();
 
@@ -152,19 +159,20 @@ string* Generator::AddUniqueModule(eNodeType type) {
 }
 
 Module Generator::ModuleFromName(std::string modName) {
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
-    if (m_ModuleList.at(i).name == modName)
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
+    if(m_ModuleList.at(i).name == modName) {
       return m_ModuleList.at(i);
+    }
   }
-  return{}; // should not happen
+  return {}; // should not happen
 }
 
 bool Generator::CheckUniqueNames() {
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
     string name = m_ModuleList.at(i).name;
-    for (size_t j = 0; j < m_ModuleList.size(); j++)
-      if (i != j) {
-        if (m_ModuleList.at(j).name == name) {
+    for(size_t j = 0; j < m_ModuleList.size(); j++)
+      if(i != j) {
+        if(m_ModuleList.at(j).name == name) {
           string e = "Double module name: " + name + "\n";
           ParsingError += e;
           return false;
@@ -175,29 +183,28 @@ bool Generator::CheckUniqueNames() {
 }
 
 bool Generator::CheckExistingTypes() {
-  vector <string> ModuleNames;
+  vector<string> ModuleNames;
 
-  for (size_t i = 0; i < m_ModuleList.size(); i++)
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
     ModuleNames.push_back(m_ModuleList.at(i).name);
+  }
 
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
-    for (size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
-
-      if (m_ModuleList.at(i).tempVariableList.at(j).customTypeName != "") {
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
+    for(size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
+      if(m_ModuleList.at(i).tempVariableList.at(j).customTypeName != "") {
         bool found = false;
-        for (size_t k = 0; k < ModuleNames.size(); k++) {
-          if (ModuleNames.at(k) == m_ModuleList.at(i).tempVariableList.at(j).customTypeName) {
+        for(size_t k = 0; k < ModuleNames.size(); k++) {
+          if(ModuleNames.at(k) == m_ModuleList.at(i).tempVariableList.at(j).customTypeName) {
             found = true;
             break;
           }
         }
-        if (found == false) {
+        if(found == false) {
           string e = "Custom type not declared: " + m_ModuleList.at(i).tempVariableList.at(j).customTypeName + "\n";
           ParsingError += e;
           return false;
         }
       }
-
     }
   }
   return true;
@@ -207,26 +214,26 @@ void Generator::GrammarEnd() {
   bool b = CheckUniqueNames();
   b &= CheckExistingTypes();
 
-  if (b) {
+  if(b) {
     // set tag primitive/constructed for modules that were unknown
-    for (size_t i = 0; i < m_ModuleList.size(); i++) {
-      for (size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
+    for(size_t i = 0; i < m_ModuleList.size(); i++) {
+      for(size_t j = 0; j < m_ModuleList.at(i).tempVariableList.size(); j++) {
         Variable& v = m_ModuleList.at(i).tempVariableList.at(j);
 
-        if (v.unknownType) {
+        if(v.unknownType) {
           // get the type from the name: the name should now exist and we can get the type
           eNodeType t = ModuleFromName(v.customTypeName).type;
           v.type = t;
 
           // swith to constructed if we find out that the type is complex. no effect on untagged choices that must remain without tag
-          if (IsComplexType(t))
+          if(IsComplexType(t)) {
             SetTagConstructed(v.tag);
+          }
         }
 
         // case choice with a tag (auto tag or specified tag) -> explicit
-        if (v.type == cChoice && v.tag != "")
+        if(v.type == cChoice && v.tag != "")
           v.explicitTag = true;
-
       }
     }
   }
@@ -236,17 +243,17 @@ void ReplaceMinus(string& s) {
   size_t idx;
   do {
     idx = s.find('-');
-    if (idx != string::npos)
+    if(idx != string::npos) {
       s[idx] = '_';
-  }
-  while (idx != string::npos);
+    }
+  } while(idx != string::npos);
 }
 
 void Generator::ReviewNames() {
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
     Module* curMod = &m_ModuleList.at(i);
     ReplaceMinus(curMod->name);
-    for (size_t j = 0; j < curMod->tempVariableList.size(); j++) {
+    for(size_t j = 0; j < curMod->tempVariableList.size(); j++) {
       Variable* curVar;
       curVar = &curMod->tempVariableList.at(j);
       ReplaceMinus(curVar->name);
@@ -260,25 +267,25 @@ void Generator::SortModules() {
   const int cLimit = 100000;
   int limitCount = 0;
 
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
     bool registerModule = true;
     Module curMod = m_ModuleList.at(i);
 
-    for (size_t j = 0; j < curMod.tempVariableList.size(); j++) {
+    for(size_t j = 0; j < curMod.tempVariableList.size(); j++) {
       bool moduleToBePushedAtEnd = false;
 
-      if (curMod.tempVariableList.at(j).customTypeName != "") {
+      if(curMod.tempVariableList.at(j).customTypeName != "") {
         moduleToBePushedAtEnd = true;
-        for (size_t k = 0; k < knownModules.size(); k++) {
+        for(size_t k = 0; k < knownModules.size(); k++) {
           string s = knownModules.at(k);
-          if (s == curMod.tempVariableList.at(j).customTypeName) {
+          if(s == curMod.tempVariableList.at(j).customTypeName) {
             moduleToBePushedAtEnd = false;
             break;
           }
         }
       }
 
-      if (moduleToBePushedAtEnd) {
+      if(moduleToBePushedAtEnd) {
         m_ModuleList.erase(m_ModuleList.begin() + i);
         m_ModuleList.push_back(curMod);
         i--;
@@ -288,16 +295,19 @@ void Generator::SortModules() {
 
       // safety in case of infinite loop
       limitCount++;
-      if (limitCount > cLimit)
+      if(limitCount > cLimit) {
         break;
+      }
     }
 
-    if (registerModule)
+    if(registerModule) {
       knownModules.push_back(curMod.name);
+    }
 
     // safety in case of infinite loop
     limitCount++;
-    if (limitCount > cLimit)
+    if(limitCount > cLimit) {
       break;
+    }
   }
 }

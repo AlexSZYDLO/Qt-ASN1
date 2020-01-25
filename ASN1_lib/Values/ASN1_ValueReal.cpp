@@ -46,18 +46,21 @@ namespace Value {
     //int ex = std::stoi(realAsBinary.substr(1, 11), nullptr, 2);
     //unsigned long long man = std::stoll(realAsBinary.substr(12), nullptr, 2);
 
-    if(std::isnan(input))
+    if(std::isnan(input)) {
       result.Append(ByteArray("42")); // NaN
-    else if(!std::isfinite(input))
-      if(sign == 0)
+    } else if(!std::isfinite(input)) {
+      if(sign == 0) {
         result.Append(ByteArray("40")); // + infinity
-      else
+      } else {
         result.Append(ByteArray("41")); // - infinity
-    else if(input == 0)
-      if(sign == 0)
+      }
+    } else if(input == 0) {
+      if(sign == 0) {
         return; // zero
-      else
+      } else {
         result.Append(ByteArray("43")); // minus zero
+      }
+    }
 
     if(result.Size() == 1) {
       output = result;

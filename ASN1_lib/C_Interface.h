@@ -18,7 +18,7 @@ like the get method, generated as follow: void ASN1_Boolean_GetBooleanValue(cons
 
 */
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef MODULE_API_EXPORTS
 #define MODULE_API __declspec(dllexport)
 #else

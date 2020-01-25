@@ -10,7 +10,6 @@
 
 class Generator {
  public:
-
   Generator();
   virtual ~Generator() = 0;
 
@@ -28,7 +27,7 @@ class Generator {
   void SetLastVariableName(const std::string& newName);
   void SetLastVarOptional(bool _optional);
 
-  void AddTempVariable(const std::string&  module, eNodeType type, bool unknownType);
+  void AddTempVariable(const std::string& module, eNodeType type, bool unknownType);
 
   void NewModule();
   void EndModule();
@@ -60,9 +59,8 @@ class Generator {
 
   bool tempExtensibility;
 
-  std::vector< std::vector<Variable> * > tempVariableLists;
+  std::vector<std::vector<Variable>*> tempVariableLists;
   std::vector<Variable>* currentVariableList;
-
 };
 
 extern Generator* gGen;
