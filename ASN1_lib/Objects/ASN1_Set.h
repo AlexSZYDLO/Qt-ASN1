@@ -13,7 +13,7 @@ If the number does not correspond, it may lead to undefined behavior.
 The set can support extensibility. While reading a buffer, if more data than expected is present, it will be put into an Extensibility Octet String
 */
 
-class DLLSPEC ASN1_Set : public ASN1_Object {
+class MODULE_API ASN1_Set : public ASN1_Object {
  public:
   ASN1_Set(ASN1_Object* valuesArray[],
            unsigned int numberOfValues,
@@ -27,12 +27,11 @@ class DLLSPEC ASN1_Set : public ASN1_Object {
 
   bool IsExtensible() const;
 
-  ASN1_Object* GetObjectAt(int pos) const;
-  ASN1_Object* GetExtensibilityObjectAt(int pos) const;
+  ASN1_Object* GetObjectAt(unsigned int pos) const;
+  ASN1_Object* GetExtensibilityObjectAt(unsigned int pos) const;
 
   unsigned int GetSize() const;
   unsigned int GetExtensibilitySize() const;
 
   //void AppendExtensibilityObject(ASN1_Object* obj);
-
 };

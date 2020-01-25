@@ -1,34 +1,35 @@
 TEMPLATE = lib
-CONFIG += console c++11
+CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 DEFINES += DLLCOMPIL
 
-#TARGET = ASN1_lib
-
-INCLUDEPATH += $$PWD/../../_bin/win_flex_bison
 INCLUDEPATH += $$PWD/../ASN1_lib
+
+#INCLUDEPATH += $$PWD/../../_bin/win_flex_bison
 
 flex.target += $$PWD/grammar/Lexer.cpp #$$PWD/grammar/Parser.cpp $$PWD/grammar/Lexer.h $$PWD/grammar/Parser.h
 flex.depends += $$PWD/Lexer.l $$PWD/Parser.y
-flex.commands += $$PWD/flex_bison.bat
+flex.commands += cd $$PWD ;
+flex.commands += bison $$PWD/Parser.y ;
+flex.commands += flex $$PWD/Lexer.l
 QMAKE_EXTRA_TARGETS += flex
 PRE_TARGETDEPS += $$PWD/grammar/Lexer.cpp #$$PWD/grammar/Parser.cpp $$PWD/grammar/Lexer.h $$PWD/grammar/Parser.h
 
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_parser_64d
+   TARGET = ASN1_parserd
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/debug/ -lASN1_lib_64d
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/debug/ -lASN1d
 }
 
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
-   TARGET = ASN1_parser_64
+   TARGET = ASN1_parser
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/release/ -lASN1_lib_64
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/release/ -lASN1
 }
 
 SOURCES += Generator.cpp \

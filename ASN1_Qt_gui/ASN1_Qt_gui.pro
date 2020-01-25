@@ -133,10 +133,7 @@ DISTFILES += \
 
 RESOURCES += resource.qrc
 
-
 conf_files.files = Config/* ../Grammar/*.js ../Grammar/*.asn
-conf_files2.files = Config/* ../Grammar/*.js ../Grammar/*.asn
-conf_files2.path = $$OUT_PWD/config
 
 CONFIG(debug, debug|release) {
   dlls.files = $$OUT_PWD/../../ASN1_lib/qtcreator/debug/ASN1_lib_64d.dll \
@@ -153,4 +150,4 @@ CONFIG(release, debug|release) {
   conf_files.path = $$OUT_PWD/release/config
 }
 
-INSTALLS += conf_files conf_files2 dlls
+INSTALLS += dlls conf_files

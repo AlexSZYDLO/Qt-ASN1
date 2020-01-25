@@ -23,7 +23,7 @@ namespace Value {
                        bool explicitTag,
                        const ASN1_ValueSequence* defaultValue,
                        bool extensibility);
-    virtual ~ASN1_ValueSequence();
+    virtual ~ASN1_ValueSequence() override;
     virtual void SetHexValue(const ByteArray& rawValue, std::string& error) override;
     virtual void ClearDynamicData() override;
 

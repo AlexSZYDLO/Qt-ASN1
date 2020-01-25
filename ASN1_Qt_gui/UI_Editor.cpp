@@ -14,7 +14,7 @@ using namespace Utils;
 
 namespace UI {
 
-  UI_Editor::UI_Editor(UI_Main* main) : m_Main(main), m_Grammar(nullptr), QWidget(main) {
+  UI_Editor::UI_Editor(UI_Main* main) : QWidget(main), m_Main(main), m_Grammar(nullptr) {
     MakeEditorPane();
     SetGrammar(nullptr);
   }
@@ -161,11 +161,14 @@ namespace UI {
               QString str(c);
               QMessageBox box(QMessageBox::Information, "Comparison differences", str);
               box.exec();
+              m_Main->SetStatus("Compare showed differences.");
             }
-            m_Main->SetStatus("Compare done with no difference.");
+            else {
+              m_Main->SetStatus("Compare done with no difference.");
+            }
           }
           else {
-            m_Main->SetStatus("Compare failed.");
+            m_Main->SetStatus("Comparison failed, grammars are probably incompatible.");
           }
         }
       }

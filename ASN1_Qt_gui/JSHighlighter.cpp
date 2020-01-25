@@ -21,7 +21,8 @@ JSHighlighter::JSHighlighter(QTextDocument* parent)
   keywordPatterns << "\\bchar\\b" << "\\bdelete\\b" << "\\bdouble\\b" << "\\bfunction\\b"
                   << "\\bint\\b" << "\\blong\\b" << "\\bnew\\b" << "\\breturn\\b"
                   << "\\bshort\\b" <<  "\\bstruct\\b" << "\\bunion\\b"
-                  << "\\bunsigned\\b" << "\\bvar\\b" << "\\bvoid\\b";
+                  << "\\bunsigned\\b" << "\\bvar\\b" << "\\bvoid\\b" << "\\bfor\\b" << "\\bif\\b"
+                  << "\\belse\\b" << "\\bwhile\\b" << "\\bdo\\b";
   foreach (const QString& pattern, keywordPatterns) {
     rule.pattern = QRegExp(pattern);
     rule.format = keywordFormat;

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include "../global.h"
-#include "../generator.h"
+#include "../Generator.h"
 
 using namespace std;
 

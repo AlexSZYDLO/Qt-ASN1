@@ -35,7 +35,7 @@ namespace Value {
   }
 
   unsigned int ASN1_ValueSequenceOf::GetSize() const {
-    return (int)m_Objects.size();
+    return static_cast<unsigned int>(m_Objects.size());
   }
 
   const ASN1_Value* ASN1_ValueSequenceOf::GetObjectAt(unsigned int pos) const {

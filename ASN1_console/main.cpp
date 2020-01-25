@@ -7,11 +7,12 @@
 #include <fstream>
 #include <codecvt>
 #include <cstdio>
+#include <cmath>
 #include <stdexcept>
 #include "../Grammar/Grammar_test.h"
-#include "../Grammar/Grammar_DLL.h"
+// #include "../Grammar/Grammar_DLL.h"
 #include "../Grammar/Test_comp.h"
-#include "../ASN1_parser/ASN1_parser.h"
+#include "ASN1_parser.h"
 
 
 using namespace Grammar;
@@ -275,133 +276,6 @@ bool test_Set() {
   return hex1 == hex2;
 }
 
-bool test_DLL() {
-  using namespace ASN1_DLL;
-
-  bool res = true;
-  wstring dllPath;
-
-#if defined (_WIN64)
-#if defined (_DEBUG)
-  dllPath = L"ASN1_lib_64d.dll";
-#elif defined (NDEBUG)
-  dllPath = L"ASN1_lib_64.dll";
-#endif
-#elif defined (_WIN32)
-#if defined (_DEBUG)
-  dllPath = L"ASN1_lib_32d.dll";
-#elif defined (NDEBUG)
-  dllPath = L"ASN1_lib_32.dll";
-#endif
-#endif
-
-  if (!LoadASN1DLL(dllPath))
-    return false;
-
-  {
-    Hex a("010203040506070809AABBCCDDEEFF");
-    Hex b("a");
-    ByteArray_Append(a.p(), b.p());
-    ByteArray_InsertAt(a.p(), a.p(), 0);
-
-    string s(ByteArray_GetString(a.p()));
-    res = s == "010203040506070809AABBCCDDEEFF0A010203040506070809AABBCCDDEEFF0A";
-  }
-
-  {
-    Hex a("");
-    Hex tagLbl("1234");
-    Utils_MakeTag(0, 0, tagLbl.p(), a.p());
-
-    string s(ByteArray_GetString(a.p()));
-    res &= s == "1FA434";
-  }
-
-  {
-    bool boolVar;
-    Hex tag("");
-    DLL_ASN1_Boolean* b = NewObj(ASN1_Boolean_New("Boolean", tag.p(), false, false, nullptr));
-    ASN1_Boolean_SetBooleanValue(b, true);
-
-    ASN1_Boolean_GetBooleanValue(b, &boolVar);
-    res &= boolVar == true;
-
-    ASN1_Boolean_SetBooleanValue(b, false);
-    ASN1_Boolean_GetBooleanValue(b, &boolVar);
-    res &= boolVar == false;
-
-    DLL_ASN1_Sequence* seq = DLL_MakeGrammar();
-    DLL_ASN1_Choice* choice = (DLL_ASN1_Choice*)ASN1_Sequence_GetObjectAt(seq, 1);
-    ASN1_Integer_SetIntegerValue((DLL_ASN1_Integer*)(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
-    DLL_ASN1_Integer* integerChoice = (DLL_ASN1_Integer*)ASN1_Choice_GetSelectedChoice(choice);
-
-    int integerResult;
-    ASN1_Integer_GetIntegerValue(integerChoice, &integerResult);
-    res &= integerResult == 150;
-    res &= ASN1_Choice_GetSelectedChoiceIndex(choice) == 1;
-
-    DLL_ASN1_ObjectID* oid = (DLL_ASN1_ObjectID*)ASN1_Sequence_GetObjectAt(seq, 6);
-    ASN1_ObjectID_SetObjectIDValue(oid, "1.23.5126.3547.652.946321.2");
-
-    Hex buffer("");
-    ASN1_Object_WriteIntoBuffer((DLL_ASN1_Object*)seq, buffer.p());
-    string output(ByteArray_GetString(buffer.p()));
-
-    char charbuff[512];
-
-    DLL_ASN1_Sequence* seq2 = DLL_MakeGrammar();
-    ASN1_Object_ReadFromBuffer((DLL_ASN1_Object*)seq2, buffer.p(), charbuff, 512);
-    DLL_ASN1_ObjectID* oid2 = (DLL_ASN1_ObjectID*)ASN1_Sequence_GetObjectAt(seq2, 6);
-    ASN1_ObjectID_GetObjectIDValue(oid2, charbuff, 512);
-    string oidStr(charbuff);
-    res &= oidStr == "1.23.5126.3547.652.946321.2";
-  }
-
-  for (unsigned int i = 0; i < toDelete.size(); i++)
-    ASN1_Object_Delete(toDelete.at(i));
-
-  {
-    char errorBuff[512];
-    char charBuff[512];
-    Hex buffer("");
-    string str;
-
-    ASN1_ObjectID_ObjectIDToHex("1.12.5236.5", buffer.p(), errorBuff, 512);
-
-    if (string(errorBuff) != "") str = errorBuff;
-    else str = ByteArray_GetString(buffer.p());
-
-    Hex buffer2(str.c_str());
-    ASN1_ObjectID_HexToObjectID(buffer2.p(), charBuff, 512, errorBuff, 512);
-
-    if (string(errorBuff) != "") str = errorBuff;
-    else str = charBuff;
-
-    res = str == "1.12.5236.5";
-  }
-
-  {
-    char errorBuff[512];
-    char charBuff[512];
-    Hex buffer("");
-    string str;
-
-    ASN1_IA5String_IA5StringToHex("alexandre", buffer.p(), errorBuff, 512);
-
-    if (string(errorBuff) != "") str = errorBuff;
-    else str = ByteArray_GetString(buffer.p());
-
-    Hex buffer2(str.c_str());
-    ASN1_IA5String_HexToIA5String(buffer2.p(), charBuff, 512, errorBuff, 512);
-
-    if (string(errorBuff) != "") str = errorBuff;
-    else str = charBuff;
-
-    res = str == "alexandre";
-  }
-  return res;
-}
-
 bool test_IA5String_UTF8String() {
   using namespace std;
   wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
@@ -512,7 +386,7 @@ int main() {
   result &= test_ObjectID();
   result &= test_Real();
   result &= test_Set();
-  result &= test_DLL();
+  // result &= test_DLL();
   result &= test_IA5String_UTF8String();
   result &= test_Compare();
   //result &= test_ParserJS();
@@ -522,7 +396,135 @@ int main() {
   cout << "test result: " << (result ? "OK" : "NOK") << endl;
   cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << endl;
 
-  //getchar();
+  getchar();
   return result ? 0 : -1;
 }
 
+/*
+bool test_DLL() {
+  using namespace ASN1_DLL;
+
+  bool res = true;
+  wstring dllPath;
+
+#if defined (_WIN64)
+#if defined (_DEBUG)
+  dllPath = L"ASN1_lib_64d.dll";
+#elif defined (NDEBUG)
+  dllPath = L"ASN1_lib_64.dll";
+#endif
+#elif defined (_WIN32)
+#if defined (_DEBUG)
+  dllPath = L"ASN1_lib_32d.dll";
+#elif defined (NDEBUG)
+  dllPath = L"ASN1_lib_32.dll";
+#endif
+#endif
+
+  if (!LoadASN1DLL(dllPath))
+    return false;
+
+  {
+    Hex a("010203040506070809AABBCCDDEEFF");
+    Hex b("a");
+    ByteArray_Append(a.p(), b.p());
+    ByteArray_InsertAt(a.p(), a.p(), 0);
+
+    string s(ByteArray_GetString(a.p()));
+    res = s == "010203040506070809AABBCCDDEEFF0A010203040506070809AABBCCDDEEFF0A";
+  }
+
+  {
+    Hex a("");
+    Hex tagLbl("1234");
+    Utils_MakeTag(0, 0, tagLbl.p(), a.p());
+
+    string s(ByteArray_GetString(a.p()));
+    res &= s == "1FA434";
+  }
+
+  {
+    bool boolVar;
+    Hex tag("");
+    DLL_ASN1_Boolean* b = NewObj(ASN1_Boolean_New("Boolean", tag.p(), false, false, nullptr));
+    ASN1_Boolean_SetBooleanValue(b, true);
+
+    ASN1_Boolean_GetBooleanValue(b, &boolVar);
+    res &= boolVar == true;
+
+    ASN1_Boolean_SetBooleanValue(b, false);
+    ASN1_Boolean_GetBooleanValue(b, &boolVar);
+    res &= boolVar == false;
+
+    DLL_ASN1_Sequence* seq = DLL_MakeGrammar();
+    DLL_ASN1_Choice* choice = reinterpret_cast<DLL_ASN1_Choice*>(ASN1_Sequence_GetObjectAt(seq, 1));
+    ASN1_Integer_SetIntegerValue(reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
+    DLL_ASN1_Integer* integerChoice = reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_GetSelectedChoice(choice));
+
+    int integerResult;
+    ASN1_Integer_GetIntegerValue(integerChoice, &integerResult);
+    res &= integerResult == 150;
+    res &= ASN1_Choice_GetSelectedChoiceIndex(choice) == 1;
+
+    DLL_ASN1_ObjectID* oid = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq, 6));
+    ASN1_ObjectID_SetObjectIDValue(oid, "1.23.5126.3547.652.946321.2");
+
+    Hex buffer("");
+    ASN1_Object_WriteIntoBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq), buffer.p());
+    string output(ByteArray_GetString(buffer.p()));
+
+    char charbuff[512];
+
+    DLL_ASN1_Sequence* seq2 = DLL_MakeGrammar();
+    ASN1_Object_ReadFromBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq2), buffer.p(), charbuff, 512);
+    DLL_ASN1_ObjectID* oid2 = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq2, 6));
+    ASN1_ObjectID_GetObjectIDValue(oid2, charbuff, 512);
+    string oidStr(charbuff);
+    res &= oidStr == "1.23.5126.3547.652.946321.2";
+  }
+
+  for (unsigned int i = 0; i < toDelete.size(); i++)
+    ASN1_Object_Delete(toDelete.at(i));
+
+  {
+    char errorBuff[512];
+    char charBuff[512];
+    Hex buffer("");
+    string str;
+
+    ASN1_ObjectID_ObjectIDToHex("1.12.5236.5", buffer.p(), errorBuff, 512);
+
+    if (string(errorBuff) != "") str = errorBuff;
+    else str = ByteArray_GetString(buffer.p());
+
+    Hex buffer2(str.c_str());
+    ASN1_ObjectID_HexToObjectID(buffer2.p(), charBuff, 512, errorBuff, 512);
+
+    if (string(errorBuff) != "") str = errorBuff;
+    else str = charBuff;
+
+    res = str == "1.12.5236.5";
+  }
+
+  {
+    char errorBuff[512];
+    char charBuff[512];
+    Hex buffer("");
+    string str;
+
+    ASN1_IA5String_IA5StringToHex("alexandre", buffer.p(), errorBuff, 512);
+
+    if (string(errorBuff) != "") str = errorBuff;
+    else str = ByteArray_GetString(buffer.p());
+
+    Hex buffer2(str.c_str());
+    ASN1_IA5String_HexToIA5String(buffer2.p(), charBuff, 512, errorBuff, 512);
+
+    if (string(errorBuff) != "") str = errorBuff;
+    else str = charBuff;
+
+    res = str == "alexandre";
+  }
+  return res;
+}
+*/

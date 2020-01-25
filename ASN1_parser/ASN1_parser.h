@@ -4,20 +4,26 @@
  */
 #pragma once
 
-#if defined DLLCOMPIL
-#define DLLSPEC __declspec(dllexport)
-#else
-#define DLLSPEC __declspec(dllimport)
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-DLLSPEC bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
-DLLSPEC bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
+#ifdef _WIN32
+#ifdef MODULE_API_EXPORTS
+#define MODULE_API __declspec(dllexport)
+#else
+#define MODULE_API __declspec(dllimport)
+#endif
+#else
+#define MODULE_API
+#endif
 
-DLLSPEC bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
-DLLSPEC bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
+MODULE_API bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
+MODULE_API bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
 
+MODULE_API bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
+MODULE_API bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
+
+#ifdef __cplusplus
 }
+#endif

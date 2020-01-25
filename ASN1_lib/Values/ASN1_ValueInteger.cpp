@@ -21,17 +21,17 @@ namespace Value {
     while (!Stop) {
       Stop = true;
       if (output.Size() > 1) {
-        b1 = (char)HexAsInt(output[0]);
-        b2 = (char)HexAsInt(output[1]);
+        b1 = static_cast<unsigned char>(HexAsInt(output[0]));
+        b2 = static_cast<unsigned char>(HexAsInt(output[1]));
         if (((b1 == 0) && ((b2 & 128) == 0)) || ((b1 == 255) && ((b2 & 128) == 128))) {
           ByteArray tempHex;
-          output.GetBytesAtRank(1, (int)output.Size() - 1, tempHex);
+          output.GetBytesAtRank(1, output.Size() - 1, tempHex);
           output = tempHex;
           Stop = false;
         }
       }
     }
-    b1 = (char)HexAsInt(output[0]);
+    b1 = static_cast<unsigned char>(HexAsInt(output[0]));
     if ((input > 0) && ((b1 & 128) == 128)) {
       output.InsertAt("00");
     }
@@ -42,15 +42,15 @@ namespace Value {
     // Based on two's complement. ASN1 doesn't use all the bytes of the integer. we remove the '00' or 'FF' that are useless. The sign is coded by the first 'usefull' byte
     // The 'not' is done manually as we dont know the number of bytes that code the integer value
     if (input.Size() > 0 && input.Size() < 5) {
-      unsigned char b1 = (unsigned char)HexAsInt(input[0]);
+      unsigned char b1 = static_cast<unsigned char>(HexAsInt(input[0]));
       if ((b1 & 128) == 128) { // if negative integer
         ByteArray longValue = input;
         while (longValue.Size() < sizeof(int))
           longValue.InsertAt("FF");
-        output = HexAsInt(longValue);
+        output = static_cast<int>(HexAsInt(longValue));
       }
       else {
-        output = HexAsInt(input);
+        output = static_cast<int>(HexAsInt(input));
       }
     }
     else error = "Input buffer must have a size between 1 and 4";

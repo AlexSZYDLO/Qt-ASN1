@@ -13,7 +13,7 @@ If the number does not correspond, it may lead to undefined behavior.
 The sequence can support extensibility. While reading a buffer, if more data than expected is present, it will be put into an Extensibility Octet String
 */
 
-class DLLSPEC ASN1_Sequence : public ASN1_Object {
+class MODULE_API ASN1_Sequence : public ASN1_Object {
  public:
   ASN1_Sequence(ASN1_Object* valuesArray[],
                 unsigned int numberOfValues,
@@ -34,5 +34,4 @@ class DLLSPEC ASN1_Sequence : public ASN1_Object {
   unsigned int GetExtensibilitySize() const;
 
   //void AppendExtensibilityObject(ASN1_Object* obj);
-
 };

@@ -10,7 +10,7 @@
 
 namespace UI {
 
-  UI_Editor_ButtonBar::UI_Editor_ButtonBar(UI_Main* m, UI_Editor* main) : m_Main(main), QWidget(m) {
+  UI_Editor_ButtonBar::UI_Editor_ButtonBar(UI_Main* m, UI_Editor* main) : QWidget(m), m_Main(main) {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     QString p = ":/img/img/icon_set_2/";

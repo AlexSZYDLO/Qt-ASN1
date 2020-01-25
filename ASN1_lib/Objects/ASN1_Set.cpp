@@ -35,11 +35,11 @@ bool ASN1_Set::IsExtensible() const { return static_cast<ASN1_ValueSet*>(GetValu
 //  static_cast<ASN1_ValueSet*>(GetValue())->AppendExtensibilityObject((obj)->GetValue());
 //}
 
-ASN1_Object* ASN1_Set::GetObjectAt(int pos) const {
+ASN1_Object* ASN1_Set::GetObjectAt(unsigned int pos) const {
   return static_cast<ASN1_ValueSet*>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
 }
 
-ASN1_Object* ASN1_Set::GetExtensibilityObjectAt(int pos) const {
+ASN1_Object* ASN1_Set::GetExtensibilityObjectAt(unsigned int pos) const {
   return static_cast<ASN1_ValueSet*>(GetValue())->GetExtensibilityObjectAt(pos)->GetGrammarObject();
 }
 

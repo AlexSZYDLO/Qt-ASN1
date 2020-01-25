@@ -14,7 +14,7 @@ namespace Value {
     std::vector<ASN1_Value*> m_AvailableChoices;
 
     ASN1_Choice::callbackChoice m_Callback;
-    int m_NumberOfChoices;
+    unsigned int m_NumberOfChoices;
 
     bool IsTagAvailableInChoices(ByteArray m_Tag);
 
@@ -27,15 +27,15 @@ namespace Value {
                      bool optional,
                      bool explicitTag,
                      const ASN1_ValueChoice* defaultValue);
-    ~ASN1_ValueChoice();
+    ~ASN1_ValueChoice() override;
     virtual void SetHexValue(const ByteArray& rawValue, std::string& error) override;
-    void ClearDynamicData();
+    virtual void ClearDynamicData() override;
 
     virtual Utils::eNodeType GetType() const override;
 
     ASN1_Value* GetSelectedChoice() const;
     unsigned int GetSelectedChoiceIndex() const;
-    ASN1_Value* SetSelectedChoice(int idx);
+    ASN1_Value* SetSelectedChoice(unsigned int idx);
 
     // functions to access available choices
     unsigned int GetNumberOfPossibleChoices();

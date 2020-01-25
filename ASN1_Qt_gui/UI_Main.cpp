@@ -60,7 +60,7 @@ namespace UI {
   }
 
   QString UI_Main::ASNToX(const QString& asn, eFormat f) {
-    const int buffSize = asn.size() * 10 + 1;
+    const unsigned int buffSize = static_cast<unsigned int>(asn.size()) * 10 + 1;
     char* buff = new char[buffSize];
     char* errorBuff = new char[500];
 
@@ -128,7 +128,7 @@ namespace UI {
         statusBar()->showMessage("Script processed without error.");
     }
     else {
-      ClearScriptEngine(*eng);
+      // ClearScriptEngine(*eng);
       if (!silent)
         statusBar()->showMessage("Script processing failed.");
       QMessageBox box(QMessageBox::Critical, "Cannot run script", err);

@@ -1,23 +1,22 @@
 TEMPLATE = lib
-CONFIG += console c++11
+CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
-DEFINES += DLLCOMPIL
 
-#TARGET = ASN1_lib
+DEFINES += MODULE_API_EXPORTS
 
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_lib_64d
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
+   TARGET = ASN1d
 }
 
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
-   TARGET = ASN1_lib_64
    OBJECTS_DIR = $$DESTDIR/obj
    MOC_DIR = $$DESTDIR/moc
+   TARGET = ASN1
 }
 
 SOURCES += \
@@ -26,7 +25,6 @@ SOURCES += \
    ByteArray.cpp \
    Utils.cpp \
    C_Interface.cpp \
-   \
    Values/ASN1_ValueBitString.cpp \
    Values/ASN1_ValueBoolean.cpp \
    Values/ASN1_ValueUTCTime.cpp \

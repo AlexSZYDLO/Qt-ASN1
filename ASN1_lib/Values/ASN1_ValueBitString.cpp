@@ -33,7 +33,7 @@ namespace Value {
     // first byte of bitstring contains the number of bits to remove. It is a value contained between 0 and 8
     error.clear();
     output.clear();
-    int uselessBits = 0;
+    unsigned int uselessBits = 0;
     ByteArray uselessBitsAsHex, data;
 
     if (input.Size() == 0)
@@ -57,7 +57,7 @@ namespace Value {
     output = HexAsBinary8Padded(data);
 
     // remove the unused bits
-    for (int i = 0; i < uselessBits; i++) output.pop_back();
+    for (unsigned int i = 0; i < uselessBits; i++) output.pop_back();
   }
 
 }

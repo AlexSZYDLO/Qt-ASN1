@@ -3,25 +3,25 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
+#include <string>
 #include "global.h"
 
 //#pragma warning (push)
 //#pragma warning (disable: 4005)
 //#pragma warning (disable: 4065)
-#include "grammar/Parser.h"
 #include "grammar/Lexer.h"
+#include "grammar/Parser.h"
 //#pragma warning (pop)
 
-#pragma warning( disable : 4996 )
+#pragma warning(disable : 4996)
 
 #include "ASN1_parser.h"
+#include "CPPGenerator.h"
 #include "Generator.h"
 #include "JSGenerator.h"
-#include "CPPGenerator.h"
 
 using namespace std;
 string ParsingError = "";
@@ -55,14 +55,12 @@ int parse++(const string& s) {
 */
 
 void FillBufferWithString(string& s, char* buff, unsigned int buffSize) {
-  if (s.size() == 0 && buffSize > 0) { // s empty
+  if(s.size() == 0 && buffSize > 0) { // s empty
     buff[0] = '\0';
-  }
-  else if (s.size() < buffSize && !s.empty()) { // all good copy all s in buffer
+  } else if(s.size() < buffSize && !s.empty()) { // all good copy all s in buffer
     s.copy(buff, s.size());
     buff[s.size()] = '\0';
-  }
-  else if (!s.empty() && buffSize > 0) { // s not empty, but buffer not large enough
+  } else if(!s.empty() && buffSize > 0) { // s not empty, but buffer not large enough
     s.copy(buff, buffSize - 1);
     buff[buffSize - 1] = '\0';
   }
@@ -76,18 +74,18 @@ bool ParseToFormat(const string& in, string& out) {
 
   string e(ParsingError);
 
-  if (ParsingError.empty())
+  if(ParsingError.empty())
     out = gGen->Generate();
 
   delete gGen;
 
-  if (!ParsingError.empty())
+  if(!ParsingError.empty())
     return false;
 
-//  if (!out.empty()) {
-//    string err = "Generation failed after correct parsing.";
-//    return false;
-//  }
+  //  if (!out.empty()) {
+  //    string err = "Generation failed after correct parsing.";
+  //    return false;
+  //  }
   return true;
 }
 
@@ -109,7 +107,7 @@ bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, u
   ParseToFormat<JSGenerator>(s, JS);
   FillBufferWithString(ParsingError, errorBuff, errorBuffSize);
 
-  if (!JS.empty()) {
+  if(!JS.empty()) {
     ofstream myfile(outPath);
     myfile.write(JS.c_str(), JS.size());
     return true;
@@ -135,7 +133,7 @@ bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, 
   ParseToFormat<CPPGenerator>(s, CPP);
   FillBufferWithString(ParsingError, errorBuff, errorBuffSize);
 
-  if (!CPP.empty()) {
+  if(!CPP.empty()) {
     ofstream myfile(outPath);
     myfile.write(CPP.c_str(), CPP.size());
     return true;

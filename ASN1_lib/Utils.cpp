@@ -16,8 +16,8 @@ namespace Utils {
   const regex rxUTCTime(R"(^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})?(Z|([+-])(\d{2})(\d{2}))$)");
   const regex rxIA5String(R"(^[ -~]*$)");
 
-  const string firstBytes = R"(((([01])\.([0-9]|[0-3][0-9]))|(2\.[0-9]+)))"; // if first = 0 or 1, second must be in range 0-39. if first = 2, no restriction on second
-  const string dotGroup = R"((.\d+)*)";
+  const string firstBytes = R"(((([01])\.([0-3][0-9]|[0-9]))|(2\.[0-9]+)))"; // if first = 0 or 1, second must be in range 0-39. if first = 2, no restriction on second
+  const string dotGroup = R"((\.\d+)*)";
   const regex rxOID("^" + firstBytes + dotGroup + "$");
 
   string NodeTypeToString(eNodeType t) {
@@ -304,7 +304,7 @@ namespace Utils {
   ByteArray StringToHex(const string& str) {
     ByteArray returnVal;
     for (size_t i = 0; i < str.size(); i++) {
-      unsigned char c = str[i];
+      unsigned char c = static_cast<unsigned char>(str[i]);
       returnVal.Append(IntAsHex(c));
     }
     return returnVal;
@@ -315,8 +315,8 @@ namespace Utils {
     for (unsigned int i = 0; i < hex.Size(); i++) {
       ByteArray hexByte;
       hex.GetByteAtRank(i, hexByte);
-      unsigned char c = (unsigned char)HexAsInt(hexByte);
-      returnVal += c;
+      unsigned char c = static_cast<unsigned char>(HexAsInt(hexByte));
+      returnVal += static_cast<char>(c);
     }
     return returnVal;
   }
@@ -348,14 +348,14 @@ namespace Utils {
   void ValuesToUTCTime(int year_YY, int month_MM, int day_DD, int hours_HH,
                        int minutes_MM, int seconds_SS, eUTCTimeZone zone, int zoneHours_HH, int zoneMinutes_MM, string& output, string& error) {
     output.clear();
-    if (year_YY < -1 && year_YY > 100) { error = "Year must be between 0 and 99"; return; }
-    if (month_MM < 0 && month_MM > 13) { error = "Month must be between 1 and 12"; return; }
-    if (day_DD < 0 && day_DD > 32) { error = "Day must be between 0 and 99"; return; }
-    if (hours_HH < -1 && hours_HH > 24) { error = "Hours must be between 0 and 23"; return; }
-    if (minutes_MM < -1 && minutes_MM > 61) { error = "Minutes must be between 0 and 60"; return; }
-    if (seconds_SS < -1 && seconds_SS > 61) { error = "Seconds must be between 0 and 60"; return; }
-    if (zoneHours_HH < -1 && zoneHours_HH > 13) { error = "Time Zone Hours must be between 0 and 23"; return; }
-    if (zoneMinutes_MM < -1 && zoneMinutes_MM > 60) { error = "Time Zone Minutes must be between 0 and 60"; return; }
+    if (year_YY < -1 || year_YY > 100) { error = "Year must be between 0 and 99"; return; }
+    if (month_MM < 0 || month_MM > 13) { error = "Month must be between 1 and 12"; return; }
+    if (day_DD < 0 || day_DD > 32) { error = "Day must be between 0 and 99"; return; }
+    if (hours_HH < -1 || hours_HH > 24) { error = "Hours must be between 0 and 23"; return; }
+    if (minutes_MM < -1 || minutes_MM > 61) { error = "Minutes must be between 0 and 60"; return; }
+    if (seconds_SS < -1 || seconds_SS > 61) { error = "Seconds must be between 0 and 60"; return; }
+    if (zoneHours_HH < -1 || zoneHours_HH > 13) { error = "Time Zone Hours must be between 0 and 23"; return; }
+    if (zoneMinutes_MM < -1 || zoneMinutes_MM > 60) { error = "Time Zone Minutes must be between 0 and 60"; return; }
 
     using namespace std;
     stringstream s;
@@ -380,7 +380,7 @@ namespace Utils {
   }
 
   bool IsValidUTF8String(const string& utf8String) {
-    wstring_convert<codecvt_utf8<int>, int> conv;
+    wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
 
     try {
       conv.from_bytes(utf8String);

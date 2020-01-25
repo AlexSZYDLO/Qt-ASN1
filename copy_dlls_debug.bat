@@ -1,4 +1,4 @@
-cd C:\Users\yqgx4n\VSProjects\
+cd D:\Dev_Projects\
 set binfolder=ASN1_bin
 set RorD=debug
 set version=64

@@ -1,1 +1,7 @@
-.svn
+*.svn
+*.vs
+*.pro.user
+
+build-ASN1_lib/
+build-ASN1_parser/
+build-ASN1_console/

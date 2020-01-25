@@ -51,7 +51,7 @@ namespace Value {
   }
 
   unsigned int ASN1_ValueSet::GetSize() const {
-    return (unsigned int) m_Objects.size();
+    return static_cast<unsigned int>(m_Objects.size());
   }
 
   const ASN1_Value* ASN1_ValueSet::GetObjectAt(unsigned int pos) const {
@@ -68,7 +68,7 @@ namespace Value {
   }
 
   unsigned int ASN1_ValueSet::GetExtensibilitySize() const {
-    return (unsigned int) m_ExtensibilityObjects.size();
+    return static_cast<unsigned int>(m_ExtensibilityObjects.size());
   }
 
   const ASN1_Value* ASN1_ValueSet::GetExtensibilityObjectAt(unsigned int pos) const {
@@ -107,7 +107,7 @@ namespace Value {
         throw ParsingEx("Cannot read length of object: " + GetName(), this->GetGrammarObject(), pos);
 
       while (pos < oldPos + L) {
-        int oldPos2 = pos;
+        unsigned int oldPos2 = pos;
 
         try { ReadNextTags(buffer, pos, ImplTag, ExplTag); }
         catch (ParsingEx& e) {

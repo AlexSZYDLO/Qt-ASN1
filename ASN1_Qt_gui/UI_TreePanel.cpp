@@ -11,11 +11,11 @@ namespace UI {
 
   UI_TreePanel::UI_TreePanel(UI_Editor* parent, ASN1_Object* grammar = nullptr) :
     m_Parent(parent),
+    m_Model(nullptr),
     m_Grammar(grammar),
-    m_ShowChoices(true),
-    m_SearchInValue(false),
     m_SearchPattern(""),
-    m_Model(nullptr) {
+    m_ShowChoices(true),
+    m_SearchInValue(false) {
     m_Tree = new MyTreeView(parent);
     m_Tree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_Tree->header()->hide();
@@ -61,6 +61,7 @@ namespace UI {
       case cUTF8String: contextMenu->addAction("UTF8 String Converter", m_Parent, SLOT(action_ConvertUTF8String())); break;
       case cChoice: contextMenu->addAction("Select Choice", this, SLOT(QuickActionChoiceSelect())); break;
       case cSequenceOf: contextMenu->addAction("Add Object", this, SLOT(QuickActionSeqOfAddObject())); break;
+      default: break;
       }
 
       contextMenu->addSeparator();
@@ -179,7 +180,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfMoveUp() {
     ASN1_Item* par = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(par->getGrammarObject());
-    int idx = m_SelectedItem->row();
+    unsigned int idx = static_cast<unsigned int>(m_SelectedItem->row());
 
     if (idx > 0) {
       QModelIndex parIdx = par->index();
@@ -194,7 +195,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfMoveDown() {
     ASN1_Item* par = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(par->getGrammarObject());
-    unsigned int idx = m_SelectedItem->row();
+    unsigned int idx = static_cast<unsigned int>(m_SelectedItem->row());
 
     if (idx < seqOf->GetSequenceOfSize() - 1) {
       QModelIndex parIdx = par->index();
@@ -209,7 +210,7 @@ namespace UI {
   void UI_TreePanel::QuickActionSeqOfDelete() {
     ASN1_Item* seqOfItem = static_cast<ASN1_Item*>(m_SelectedItem->parent());
     ASN1_SequenceOf* seqOf = static_cast<ASN1_SequenceOf*>(seqOfItem->getGrammarObject());
-    int idx_row = m_SelectedItem->row();
+    unsigned int idx_row = static_cast<unsigned int>(m_SelectedItem->row());
     QModelIndex parIdx = seqOfItem->index();
 
     seqOf->DeleteObjectAt(idx_row);
@@ -294,7 +295,7 @@ namespace UI {
     QObject::disconnect(treeSel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(RefreshQuickActions(QModelIndex)));
 
     QLayoutItem* child;
-    while ((child = m_UIQuickActionsLayout->takeAt(0)) != 0) {
+    while ((child = m_UIQuickActionsLayout->takeAt(0)) != nullptr) {
       if (child->widget()) child->widget()->setParent(nullptr);
       delete child;
     }

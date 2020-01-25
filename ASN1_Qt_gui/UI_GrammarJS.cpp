@@ -10,7 +10,7 @@
 
 namespace UI {
 
-  UI_GrammarJS::UI_GrammarJS(UI_Main* main) : m_Main(main), m_JSDebug(false), QWidget(main) {
+  UI_GrammarJS::UI_GrammarJS(UI_Main* main) : QWidget(main), m_Main(main), m_JSDebug(false) {
     MakeJSGrammarPane();
   }
 
