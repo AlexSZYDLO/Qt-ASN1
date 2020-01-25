@@ -17,7 +17,6 @@ CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
    TARGET = ASN1_parserd
    OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
    LIBS += -L$$OUT_PWD/../build-ASN1_lib/debug/ -lASN1d
 }
 
@@ -25,7 +24,6 @@ CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
    TARGET = ASN1_parser
    OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
    LIBS += -L$$OUT_PWD/../build-ASN1_lib/release/ -lASN1
 }
 

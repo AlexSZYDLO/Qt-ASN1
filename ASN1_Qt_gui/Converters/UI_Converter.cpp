@@ -2,7 +2,6 @@
  * Copyright (c) 2016, 2017 Alexandre SZYDLOWSKI <alexandre.szydlowski@gmail.com>. All rights reserved.
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
-#pragma once
 #include "UI_Converter.h"
 #include <QVBoxLayout>
 
