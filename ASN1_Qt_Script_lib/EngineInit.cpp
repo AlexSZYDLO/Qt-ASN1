@@ -2,7 +2,6 @@
  * Copyright (c) 2016, 2017 Alexandre SZYDLOWSKI <alexandre.szydlowski@gmail.com>. All rights reserved.
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
-#pragma once
 #include "EngineInit.h"
 
 using namespace Utils;
@@ -115,7 +114,7 @@ template <>
 QScriptValue NodeCtor<ASN1_Script_Choice>(QScriptContext* context, QScriptEngine* engine) {
   QString error = "", name = "", tag = "";
   QScriptValue callback;
-  int maxNbOfChoices;
+  int maxNbOfChoices = 0;
   bool IsOptional = false, IsExplicitTagging = false;
   ASN1_Script_Choice* defaultValue = nullptr;
 

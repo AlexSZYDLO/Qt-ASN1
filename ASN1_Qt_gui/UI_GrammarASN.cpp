@@ -63,7 +63,7 @@ namespace UI {
   }
 
   void UI_GrammarASN::SetASNGrammar(const QString& path) {
-    QFile asnFile = path;
+    QFile asnFile(path);
     if (asnFile.exists()) {
       asnFile.open(QFile::ReadOnly);
       QString asnContent = QTextStream(&asnFile).readAll();

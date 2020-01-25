@@ -8,14 +8,12 @@ DEFINES += MODULE_API_EXPORTS
 CONFIG(debug, debug|release) {
    DESTDIR = $$OUT_PWD/debug
    OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
    TARGET = ASN1d
 }
 
 CONFIG(release, debug|release) {
    DESTDIR = $$OUT_PWD/release
    OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
    TARGET = ASN1
 }
 

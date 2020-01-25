@@ -11,23 +11,39 @@ JSGenerator::~JSGenerator() {}
 
 
 string JSGenerator::typeToJSClass(eNodeType t) {
-  switch (t) {
-  case cBoolean: return "BooleanASN1";
-  case cBitString: return "BitStringASN1";
-  case cChoice: return "ChoiceASN1";
-  case cEnumerated: return "EnumeratedASN1";
-  case cIA5String: return "IA5StringASN1";
-  case cInteger: return "IntegerASN1";
-  case cNull: return "NullASN1";
-  case cObjectID: return "ObjectIDASN1";
-  case cOctetString: return "OctetStringASN1";
-  case cReal: return "RealASN1";
-  case cSequence: return "SequenceASN1";
-  case cSequenceOf: return "SequenceOfASN1";
-  case cSet: return "SetASN1";
-  case cUTCTime: return "UTCTimeASN1";
-  case cUTF8String: return "UTF8StringASN1";
-  default: return "";
+  switch(t) {
+    case cBoolean:
+      return "BooleanASN1";
+    case cBitString:
+      return "BitStringASN1";
+    case cChoice:
+      return "ChoiceASN1";
+    case cEnumerated:
+      return "EnumeratedASN1";
+    case cIA5String:
+      return "IA5StringASN1";
+    case cInteger:
+      return "IntegerASN1";
+    case cNull:
+      return "NullASN1";
+    case cObjectID:
+      return "ObjectIDASN1";
+    case cOctetString:
+      return "OctetStringASN1";
+    case cReal:
+      return "RealASN1";
+    case cSequence:
+      return "SequenceASN1";
+    case cSequenceOf:
+      return "SequenceOfASN1";
+    case cSet:
+      return "SetASN1";
+    case cUTCTime:
+      return "UTCTimeASN1";
+    case cUTF8String:
+      return "UTF8StringASN1";
+    default:
+      return "";
   }
 }
 
@@ -35,33 +51,20 @@ string JSGenerator::typeToJSClass(eNodeType t) {
 void JSGenerator::GenerateVar(Variable& v, bool tab) {
   string v_name = v.name + "_" + to_string(++count);
 
-  if (tab)
+  if(tab)
     script += "\t";
 
-  if (v.type == cSequence || v.type == cSet) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type)
-              + "( Make_" + v.customTypeName + "(), \'" + v.name + "\', \'" + v.tag + "\', "
-              + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null, "
-              + (ModuleFromName(v.customTypeName).extensible ? "true" : "false") + ");";
-  }
-  else if (v.type == cSequenceOf) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type)
-              + "( " + v.customTypeName + "_SeqOfCallback, \'"
-              + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-  }
-  else if (v.type == cChoice) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type)
-              + "( " + v.customTypeName + "_ChoiceCallback, " + to_string(ModuleFromName(v.customTypeName).tempVariableList.size()) + ", \'"
-              + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-  }
-  else {
-    if (v.customTypeName == "") {
-      script += "var " + v_name + " = new " + typeToJSClass(v.type)
-                + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-    }
-    else {
-      script += "var " + v_name + " = Make_" + v.customTypeName
-                + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+  if(v.type == cSequence || v.type == cSet) {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( Make_" + v.customTypeName + "(), \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null, " + (ModuleFromName(v.customTypeName).extensible ? "true" : "false") + ");";
+  } else if(v.type == cSequenceOf) {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_SeqOfCallback, \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+  } else if(v.type == cChoice) {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_ChoiceCallback, " + to_string(ModuleFromName(v.customTypeName).tempVariableList.size()) + ", \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+  } else {
+    if(v.customTypeName == "") {
+      script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+    } else {
+      script += "var " + v_name + " = Make_" + v.customTypeName + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
     }
   }
   script += "\n";
@@ -73,13 +76,16 @@ void JSGenerator::GenerateSequenceOrSet(Module& m) {
   string functionName = "Make_" + m.name;
   script += "function " + functionName + "() { \n";
 
-  for (size_t j = 0; j < m.tempVariableList.size(); j++) {
+  for(size_t j = 0; j < m.tempVariableList.size(); j++) {
     Variable v = m.tempVariableList.at(j);
     GenerateVar(v);
 
     string v_name = v.name + "_" + to_string(count); // keep same count to get same name
-    if (j == 0) varArray += v_name;
-    else varArray += ", " + v_name;
+    if(j == 0) {
+      varArray += v_name;
+    } else {
+      varArray += ", " + v_name;
+    }
   }
   varArray += " ]";
 
@@ -96,7 +102,7 @@ void JSGenerator::GenerateSequenceOf(Module& m) {
 
 void JSGenerator::GenerateChoice(Module& m) {
   script += "var " + m.name + "_ChoiceCallback = function(index) { \n";
-  for (unsigned int i = 0; i < m.tempVariableList.size(); i++) {
+  for(unsigned int i = 0; i < m.tempVariableList.size(); i++) {
     Variable v = m.tempVariableList.at(i);
     script += "\tif (index === " + to_string(i) + ") {\n\t";
     GenerateVar(v);
@@ -123,29 +129,31 @@ string JSGenerator::Generate() {
   script = "";
   script = "/*  Script auto-generated by Q-ASN1. */\n\n";
 
-  for (size_t i = 0; i < m_ModuleList.size(); i++) {
+  for(size_t i = 0; i < m_ModuleList.size(); i++) {
     Module m = m_ModuleList.at(i);
 
-    if (m.type == cSequence || m.type == cSet)
+    if(m.type == cSequence || m.type == cSet) {
       GenerateSequenceOrSet(m);
-    else if (m.type == cSequenceOf)
+    } else if(m.type == cSequenceOf) {
       GenerateSequenceOf(m);
-    else if (m.type == cChoice)
+    } else if(m.type == cChoice) {
       GenerateChoice(m);
-    else
+    } else {
       GenerateSingleVarModule(m);
+    }
   }
 
-  if (m_ModuleList.size() > 0) {
-    Variable v = { "main", "", false, false, false, m_ModuleList.at(m_ModuleList.size() - 1).type, false, m_ModuleList.at(m_ModuleList.size() - 1).name };
+  if(m_ModuleList.size() > 0) {
+    Variable v = {"main", "", false, false, false, m_ModuleList.at(m_ModuleList.size() - 1).type, false, m_ModuleList.at(m_ModuleList.size() - 1).name};
 
-    if (m_TagExplicit) {
+    if(m_TagExplicit) {
       v.explicitTag = true;
     }
 
     GenerateVar(v, false);
     script += "main_" + to_string(count) + ".registerGrammar();\n";
     return script;
+  } else {
+    return "";
   }
-  else return "";
 }

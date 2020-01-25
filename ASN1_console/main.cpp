@@ -2,12 +2,12 @@
  * Copyright (c) 2016, 2017 Alexandre SZYDLOWSKI <alexandre.szydlowski@gmail.com>. All rights reserved.
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
-#include <sstream>
-#include <iostream>
-#include <fstream>
+#include <cmath>
 #include <codecvt>
 #include <cstdio>
-#include <cmath>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include "../Grammar/Grammar_test.h"
 // #include "../Grammar/Grammar_DLL.h"
@@ -23,7 +23,7 @@ bool test_ChoiceList() {
 
   choice->MakeDummyChoiceList();
   vector<const ASN1_Object*> choiceList;
-  for (unsigned int i = 0; i < choice->AvailableChoices(); i++)
+  for(unsigned int i = 0; i < choice->AvailableChoices(); i++)
     choiceList.push_back(choice->GetChoiceFromIndex(i));
   choice->SetSelectedChoice(1);
   choice->DeleteDummyChoiceList();
@@ -56,9 +56,10 @@ bool test_Tags() {
   b.ReadFromBuffer(output, c, 2000);
   res &= 5 == b.GetIntegerValue();
 
-  if (!Utils::DecomposeTag("CA45", cl, fo, reconstructedLbl)) {}
-  else res = false;
-
+  if(!Utils::DecomposeTag("CA45", cl, fo, reconstructedLbl)) {
+  } else {
+    res = false;
+  }
   return res;
 }
 
@@ -90,7 +91,7 @@ bool test_Sequence() {
   test2->ReadFromBuffer(buffer, cBuff, 2000);
 
   int a = 0;
-  if (varTest2.a->GetSelectedChoiceIndex() == 2) {
+  if(varTest2.a->GetSelectedChoiceIndex() == 2) {
     a = static_cast<ASN1_Integer*>(varTest2.a->GetSelectedChoice())->GetIntegerValue();
   }
   string b = varTest2.b->GetBitStringValue();
@@ -146,8 +147,9 @@ bool test_SequenceOf() {
 
   stringstream s;
   //s << seqof2.StringExtractForResearch();
-  for (unsigned int i = 0; i < seqof2->GetSequenceOfSize(); i++)
+  for(unsigned int i = 0; i < seqof2->GetSequenceOfSize(); i++) {
     s << static_cast<ASN1_Integer*>(seqof2->GetObjectAt(i))->GetIntegerValue();
+  }
   bool result = s.str() == "21465";
 
   delete seqof;
@@ -303,8 +305,7 @@ bool test_IA5String_UTF8String() {
   wstring recovered = L"";
   try {
     recovered = conv.from_bytes(utf8str);
-  }
-  catch (const range_error& e) {
+  } catch(const range_error& e) {
     cout << e.what() << endl;
   }
 
@@ -329,7 +330,7 @@ bool test_ParserJS() {
   char* errorBuff = new char[500];
   errorBuff[0] = '\0';
 
-  char* jsbuff = new char [1];
+  char* jsbuff = new char[1];
 
   ASNFileToJSFile("PEDefinitions V1.0_edit.asn", "out.js", errorBuff, 500);
   ASNFileToJSFile("gramm_test.asn", "out2.js", errorBuff, 500);
@@ -337,11 +338,10 @@ bool test_ParserJS() {
 
 
   string err(errorBuff);
-  if (err != "") {
+  if(err != "") {
     cout << err << endl;
     return false;
-  }
-  else
+  } else
     cout << "Parsing grammar to JS OK." << endl;
 
   delete[] jsbuff;
@@ -357,11 +357,10 @@ bool test_ParserCPP() {
   ASNFileToCPPFile("gramm_test.asn", "out2.h", errorBuff, 500);
 
   string err(errorBuff);
-  if (err != "") {
+  if(err != "") {
     cout << err << endl;
     return false;
-  }
-  else
+  } else
     cout << "Parsing grammar to CPP OK." << endl;
 
   delete[] errorBuff;
@@ -413,7 +412,7 @@ bool test_DLL() {
 #elif defined (NDEBUG)
   dllPath = L"ASN1_lib_64.dll";
 #endif
-#elif defined (_WIN32)
+#elif defined (_MSC_VER)
 #if defined (_DEBUG)
   dllPath = L"ASN1_lib_32d.dll";
 #elif defined (NDEBUG)

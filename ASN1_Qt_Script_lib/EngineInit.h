@@ -105,18 +105,6 @@ inline int ParseChoiceMaxIndexArgument(const QScriptValue& arg, QString argIndex
 }
 
 template <class nodeType>
-void installNode(QScriptEngine* eng, QString CtorName) {
-  qScriptRegisterMetaType<nodeType*>(eng, ptr_toScriptValue, ptr_fromScriptValue);
-
-  nodeType* test = static_cast<nodeType*>(Add(eng, new nodeType()));
-  QScriptValue proto = eng->newQObject(test);
-  eng->setDefaultPrototype(qMetaTypeId<nodeType*>(), proto);
-
-  QScriptValue ctor = eng->newFunction(NodeCtor<nodeType>, proto);
-  eng->globalObject().setProperty(CtorName, ctor);
-}
-
-template <class nodeType>
 QScriptValue NodeCtor(QScriptContext* context, QScriptEngine* engine) {
   QString error = "", name = "", tag = "";
   bool IsOptional = false, IsExplicitTagging = false;
@@ -155,3 +143,15 @@ QScriptValue NodeCtor<ASN1_Script_SequenceOf>(QScriptContext* context, QScriptEn
 
 template <>
 QScriptValue NodeCtor<ASN1_Script_Choice>(QScriptContext* context, QScriptEngine* engine);
+
+template <class nodeType>
+void installNode(QScriptEngine* eng, QString CtorName) {
+  qScriptRegisterMetaType<nodeType*>(eng, ptr_toScriptValue, ptr_fromScriptValue);
+
+  nodeType* test = static_cast<nodeType*>(Add(eng, new nodeType()));
+  QScriptValue proto = eng->newQObject(test);
+  eng->setDefaultPrototype(qMetaTypeId<nodeType*>(), proto);
+
+  QScriptValue ctor = eng->newFunction(NodeCtor<nodeType>, proto);
+  eng->globalObject().setProperty(CtorName, ctor);
+}

@@ -9,14 +9,8 @@
 #include <string>
 #include "global.h"
 
-//#pragma warning (push)
-//#pragma warning (disable: 4005)
-//#pragma warning (disable: 4065)
 #include "grammar/Lexer.h"
 #include "grammar/Parser.h"
-//#pragma warning (pop)
-
-#pragma warning(disable : 4996)
 
 #include "ASN1_parser.h"
 #include "CPPGenerator.h"

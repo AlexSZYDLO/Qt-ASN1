@@ -18,6 +18,4 @@ class CPPGenerator : public Generator {
   std::string cppCode;
 
   std::string typeToCPPClass(eNodeType t);
-
 };
-

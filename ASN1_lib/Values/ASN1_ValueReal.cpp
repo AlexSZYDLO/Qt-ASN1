@@ -46,18 +46,21 @@ namespace Value {
     //int ex = std::stoi(realAsBinary.substr(1, 11), nullptr, 2);
     //unsigned long long man = std::stoll(realAsBinary.substr(12), nullptr, 2);
 
-    if(std::isnan(input))
+    if(std::isnan(input)) {
       result.Append(ByteArray("42")); // NaN
-    else if(!std::isfinite(input))
-      if(sign == 0)
+    } else if(!std::isfinite(input)) {
+      if(sign == 0) {
         result.Append(ByteArray("40")); // + infinity
-      else
+      } else {
         result.Append(ByteArray("41")); // - infinity
-    else if(input == 0)
-      if(sign == 0)
+      }
+    } else if(input == 0) {
+      if(sign == 0) {
         return; // zero
-      else
+      } else {
         result.Append(ByteArray("43")); // minus zero
+      }
+    }
 
     if(result.Size() == 1) {
       output = result;
@@ -238,7 +241,7 @@ namespace Value {
     int sign = (octv & 0x40); /* bit 7 */
     unsigned int scaleF = (octv & 0x0C) >> 2; /* bits 4 to 3 */
 
-    if(strHexReal.size() <= (int)(1 + (octv & 0x03))) {
+    if(strHexReal.size() <= (unsigned int)(1 + (octv & 0x03))) {
       error = "Double incorrect encoding";
       return;
     }
@@ -268,7 +271,7 @@ namespace Value {
     /* Okay, the exponent is here. Now, what about mantissa? */
     double m = 0.0; /* Initial mantissa value */
     char mIdx = expIdx + elen;
-    unsigned int mlen = (int)strHexReal.size() / 2 - mIdx;
+    unsigned int mlen = (unsigned int)strHexReal.size() / 2 - mIdx;
     for(unsigned int i = mIdx; i < mIdx + mlen; i++) {
       unsigned char byte = (unsigned char)HexAsInt(ByteArray(strHexReal.substr(i * 2, 2).c_str()));
       m = ldexp(m, 8) + byte;

@@ -1,14 +1,49 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-12-07T21:09:52
-#
-#-------------------------------------------------
-
-QT       += core gui widgets
-QT       += script scripttools
-
-TARGET = ASN1_Qt
 TEMPLATE = app
+QT += core gui widgets
+QT += script scripttools
+
+INCLUDEPATH += $$PWD/../ASN1_lib
+INCLUDEPATH += $$PWD/../ASN1_Qt_Script_lib
+INCLUDEPATH += $$PWD/../ASN1_parser
+
+CONFIG(debug, debug|release) {
+   DESTDIR = $$OUT_PWD/debug
+   TARGET = ASN1_Qt_gui
+   OBJECTS_DIR = $$DESTDIR/obj
+   MOC_DIR = $$DESTDIR/moc
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/debug/ -lASN1d
+   LIBS += -L$$OUT_PWD/../build-ASN1_parser/debug/ -lASN1_parserd
+   LIBS += -L$$OUT_PWD/../build-ASN1_Qt_Script_lib/debug/ -lASN1_Qt_Script_libd
+}
+CONFIG(release, debug|release) {
+   DESTDIR = $$OUT_PWD/release
+   TARGET = ASN1_Qt_gui
+   OBJECTS_DIR = $$DESTDIR/obj
+   MOC_DIR = $$DESTDIR/moc
+   LIBS += -L$$OUT_PWD/../build-ASN1_lib/release/ -lASN1
+   LIBS += -L$$OUT_PWD/../build-ASN1_parser/release/ -lASN1_parser
+   LIBS += -L$$OUT_PWD/../build-ASN1_Qt_Script_lib/release/ -lASN1_Qt_Script_lib
+}
+
+
+conf_files.files = Config/* ../Grammar/*.js ../Grammar/*.asn
+
+CONFIG(debug, debug|release) {
+  libraries.files = $$OUT_PWD/../build-ASN1_lib/debug/libASN1* \
+                    $$OUT_PWD/../build-ASN1_parser/debug/libASN1_parser* \
+                    $$OUT_PWD/../build-ASN1_Qt_Script_lib/debug/libASN1_Qt_Script_lib*
+  libraries.path  = $$OUT_PWD/debug
+  conf_files.path = $$OUT_PWD/debug/config
+}
+CONFIG(release, debug|release) {
+  libraries.files = $$OUT_PWD/../build-ASN1_lib/release/libASN1* \
+                    $$OUT_PWD/../build-ASN1_parser/release/libASN1_parser* \
+                    $$OUT_PWD/../build-ASN1_Qt_Script_lib/release/libASN1_Qt_Script_lib*
+  libraries.path  = $$OUT_PWD/release
+  conf_files.path = $$OUT_PWD/release/config
+}
+
+INSTALLS += libraries conf_files
 
 SOURCES += main.cpp\
     ASN1_TreeModel.cpp \
@@ -75,29 +110,6 @@ HEADERS  += \
 #    Forms/MainWindow.ui \
 #    Forms/ValueMain.ui
 
-INCLUDEPATH += $$PWD/../ASN1_lib
-INCLUDEPATH += $$PWD/../ASN1_Qt_Script_lib
-INCLUDEPATH += $$PWD/../ASN1_parser
-
-CONFIG(debug, debug|release) {
-   DESTDIR = $$OUT_PWD/debug
-   TARGET = ASN1_Qt_gui
-   OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/debug/ -lASN1_lib_64d
-   LIBS += -L$$OUT_PWD/../../ASN1_parser/qtcreator/debug/ -lASN1_parser_64d
-   LIBS += -L$$OUT_PWD/../../ASN1_Qt_Script_lib/qtcreator/debug/ -lASN1_Qt_Script_lib_d
-}
-CONFIG(release, debug|release) {
-   DESTDIR = $$OUT_PWD/release
-   TARGET = ASN1_Qt_gui
-   OBJECTS_DIR = $$DESTDIR/obj
-   MOC_DIR = $$DESTDIR/moc
-   LIBS += -L$$OUT_PWD/../../ASN1_lib/qtcreator/release/ -lASN1_lib_64
-   LIBS += -L$$OUT_PWD/../../ASN1_parser/qtcreator/release/ -lASN1_parser_64
-   LIBS += -L$$OUT_PWD/../../ASN1_Qt_Script_lib/qtcreator/release/ -lASN1_Qt_Script_lib
-}
-
 DISTFILES += \
     StyleSheet.css \
     LICENSE.txt \
@@ -113,8 +125,7 @@ DISTFILES += \
     img/icon_set_2/cpp.png \
     img/icon_set_2/down.png \
     img/icon_set_2/expand.png \
-    img/icon_set_2/help.png \
-    img/icon_set_2/info.png \
+    img/icon_set_2/help.png \    img/icon_set_2/info.png \
     img/icon_set_2/js.png \
     img/icon_set_2/minus.png \
     img/icon_set_2/ok.png \
@@ -132,22 +143,3 @@ DISTFILES += \
     img/icon_set_2/write.png
 
 RESOURCES += resource.qrc
-
-conf_files.files = Config/* ../Grammar/*.js ../Grammar/*.asn
-
-CONFIG(debug, debug|release) {
-  dlls.files = $$OUT_PWD/../../ASN1_lib/qtcreator/debug/ASN1_lib_64d.dll \
-               $$OUT_PWD/../../ASN1_parser/qtcreator/debug/ASN1_parser_64d.dll \
-               $$OUT_PWD/../../ASN1_Qt_Script_lib/qtcreator/debug/ASN1_Qt_Script_lib_d.dll
-  dlls.path  = $$OUT_PWD/debug
-  conf_files.path = $$OUT_PWD/debug/config
-}
-CONFIG(release, debug|release) {
-  dlls.files = $$OUT_PWD/../../ASN1_lib/qtcreator/release/ASN1_lib_64.dll \
-               $$OUT_PWD/../../ASN1_parser/qtcreator/release/ASN1_parser_64.dll \
-               $$OUT_PWD/../../ASN1_Qt_Script_lib/qtcreator/release/ASN1_Qt_Script_lib.dll
-  dlls.path  = $$OUT_PWD/release
-  conf_files.path = $$OUT_PWD/release/config
-}
-
-INSTALLS += dlls conf_files
