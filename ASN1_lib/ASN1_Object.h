@@ -19,7 +19,7 @@ It is also the interface for encoding and decoding.
   The grammar of both tree must correspond. It does not compare the grammars, but the values inside.
 */
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #ifdef MODULE_API_EXPORTS
 #define MODULE_API __declspec(dllexport)
 #else
