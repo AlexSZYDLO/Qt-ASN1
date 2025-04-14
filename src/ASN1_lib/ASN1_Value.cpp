@@ -103,13 +103,13 @@ namespace Value {
     if(m_Tag != "") {
       if(m_Tag != ImplTag) {
         if(throwEx)
-          throw ParsingEx("First tag check failed: read " + ImplTag.GetString() + ", expecting " + m_Tag.GetString(), this->GetGrammarObject(), pos);
+          throw ParsingEx("First tag check failed: read " + std::string(ImplTag.GetString()) + ", expecting " + std::string(m_Tag.GetString()), this->GetGrammarObject(), pos);
         return false;
       }
     } else if(m_DefaultTag != "") {
       if(m_DefaultTag != ImplTag) {
         if(throwEx)
-          throw ParsingEx("First tag check failed: read " + ImplTag.GetString() + ", expecting " + m_DefaultTag.GetString(), this->GetGrammarObject(), pos);
+          throw ParsingEx("First tag check failed: read " + std::string(ImplTag.GetString()) + ", expecting " + std::string(m_DefaultTag.GetString()), this->GetGrammarObject(), pos);
         return false;
       }
       return true;
@@ -117,7 +117,7 @@ namespace Value {
     if(IsExplicit()) {
       if(m_DefaultTag != "" && m_DefaultTag != ExplTag) {
         if(throwEx)
-          throw ParsingEx("Second tag check failed: read " + ImplTag.GetString() + ", expecting " + m_DefaultTag.GetString(), this->GetGrammarObject(), pos);
+          throw ParsingEx("Second tag check failed: read " + std::string(ImplTag.GetString()) + ", expecting " + std::string(m_DefaultTag.GetString()), this->GetGrammarObject(), pos);
         return false;
       }
     }
@@ -223,8 +223,8 @@ namespace Value {
         const ByteArray& SecondValue = SecondTree->GetValue();
         if(m_Value != SecondValue) {
           errorReport.append("Node: " + GetName() + " - Value check failed.\n");
-          errorReport.append("Tree Node: " + m_Value.GetString() + "\n");
-          errorReport.append("Compared Node: " + SecondValue.GetString() + "\n\n");
+          errorReport.append("Tree Node: " + std::string(m_Value.GetString()) + "\n");
+          errorReport.append("Compared Node: " + std::string(SecondValue.GetString()) + "\n\n");
           NbDiff++;
         }
       }
@@ -245,9 +245,9 @@ namespace Value {
       s << "L=" << ValueSize << " Value=0x";
 
       if(ValueSize <= cMaxLengthValue)
-        s << m_Value.GetString();
+        s << std::string(m_Value.GetString());
       else
-        s << m_Value.GetString().substr(0, cMaxLengthValue) << "...";
+        s << std::string(m_Value.GetString()).substr(0, cMaxLengthValue) << "...";
     }
     return s.str();
   }
@@ -273,10 +273,10 @@ namespace Value {
     else
       s << "[" << m_Name << "]";
 
-    s << IsMandatory() ? " [Mandatory, " : " [Optional, ";
+    s << std::string(IsMandatory() ? " [Mandatory, " : " [Optional, ");
     if(HasDefaultValue())
       s << "Use Default, ";
-    s << IsExplicit() ? "Explicit]" : "Implicit]";
+    s << std::string(IsExplicit() ? "Explicit]" : "Implicit]");
 
     return s.str();
   }

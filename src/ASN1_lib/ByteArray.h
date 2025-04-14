@@ -4,7 +4,6 @@
  */
 #pragma once
 #include <string>
-#include <vector>
 
 /*
 The ByteArray class is an hexadecimal buffer. It works internally with a std::string, that can be read with GetString()
@@ -28,8 +27,7 @@ class ByteArray {
   friend bool operator==(const ByteArray& hexStr, const ByteArray& hexStr2);
 
  private:
-  // std::string m_HexValue;
-  std::vector<unsigned char> m_HexValue;
+  std::string m_HexValue;
 
  public:
   MODULE_API ~ByteArray();
@@ -39,13 +37,12 @@ class ByteArray {
   MODULE_API unsigned int Size() const;
   MODULE_API bool Equals(const ByteArray& hex) const;
 
-  MODULE_API std::string GetString() const;
+  MODULE_API const char* GetString() const;
   MODULE_API bool GetByteAtRank(unsigned int ByteRank, ByteArray& theByte) const;
   MODULE_API bool GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfBytes, ByteArray& theBytes) const;
   MODULE_API ByteArray operator[](unsigned int index) const;
 
   MODULE_API void Clear();
-  MODULE_API void Append(unsigned char ByteToAppend);
   MODULE_API void Append(const ByteArray& bufferToAppend);
   MODULE_API bool InsertAt(const ByteArray& bufferToAppend, unsigned int pos = 0);
 };

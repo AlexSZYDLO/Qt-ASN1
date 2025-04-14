@@ -65,9 +65,7 @@ namespace Utils {
   extern const std::regex rxIA5String;
 
   MODULE_API ByteArray IntAsHex(int i);
-  MODULE_API std::string IntAsHexStr(int i);
   MODULE_API unsigned int HexAsInt(const ByteArray& hexStr);
-  MODULE_API unsigned int HexAsInt(const std::string& hexStr);
 
   MODULE_API ByteArray BinaryAsHex(const std::string& binary);
   MODULE_API std::string HexAsBinary(const ByteArray& hexString);

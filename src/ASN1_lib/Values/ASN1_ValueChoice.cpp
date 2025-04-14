@@ -178,8 +178,8 @@ namespace Value {
         if (IsMandatory() && !HasDefaultValue()) {
           try { CheckTags(ImplTag, ExplTag, true, oldPos); }
           catch (ParsingEx& e) {
-            e.AddError("Cannot find a matching tag in choice: " + GetName() + ". Read tags are: first tag " + ImplTag.GetString() + ", second tag (to be ignored for implicit objects) " +
-                       ExplTag.GetString());
+            e.AddError("Cannot find a matching tag in choice: " + GetName() + ". Read tags are: first tag " + std::string(ImplTag.GetString()) + ", second tag (to be ignored for implicit objects) " +
+                       std::string(ExplTag.GetString()));
             throw e;
           }
         }

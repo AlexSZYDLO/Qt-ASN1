@@ -380,7 +380,7 @@ int main() {
 
   result &= test_ChoiceList();
   result &= test_Tags();
-  // result &= test_Sequence();
+  result &= test_Sequence();
   result &= test_SequenceOf();
   result &= test_BitString();
   result &= test_ObjectID();
@@ -396,7 +396,7 @@ int main() {
   cout << "test result: " << (result ? "OK" : "NOK") << endl;
   cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << endl;
 
-  getchar();
+  cout << "test done" << endl;
   return result ? 0 : -1;
 }
 
