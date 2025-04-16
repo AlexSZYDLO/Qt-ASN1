@@ -13,14 +13,16 @@ unsigned int ASN1_Object::static_ObjectCount = 0;
 bool ASN1_Object::memoryCheck() { return ASN1_Object::static_ObjectCount == 0 && ASN1_Value::static_ObjectCount == 0; }
 
 ASN1_Object::ASN1_Object(const char* objectName) {
-  // std::cout << "ctor: ASN1_Object " << objectName << " : " << ++static_ObjectCount << std::endl;
+  if (ASN1_DEBUG_MEMORY)
+    std::cout << "ctor: ASN1_Object " << objectName << " : " << ++static_ObjectCount << std::endl;
 }
 
 ASN1_Object::~ASN1_Object() {
   if(Value->GetDefaultValue() != nullptr) {
     delete Value->GetDefaultValue()->GetGrammarObject();
   }
-  // std::cout << "dest: ASN1_Object " << GetName() << " : " << --static_ObjectCount << std::endl;
+  if (ASN1_DEBUG_MEMORY)
+    std::cout << "dest: ASN1_Object " << GetName() << " : " << --static_ObjectCount << std::endl;
   delete Value;
 }
 
@@ -65,7 +67,6 @@ std::string ASN1_Object::StringExtract() const {
 std::string ASN1_Object::StringExtractForResearch() const {
   return GetValue()->StringExtractForReasearch();
 }
-
 
 eNodeType ASN1_Object::GetType() const {
   return Value->GetType();

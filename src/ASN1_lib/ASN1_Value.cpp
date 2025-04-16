@@ -31,11 +31,13 @@ namespace Value {
                                                            m_DefaultTag(defaultTag),
                                                            m_Optional(optional),
                                                            m_Explicit(explicitTag) {
-    // std::cout << "ctor: ASN1_Value " << GetName() << " : " << ++static_ObjectCount << std::endl;
+    if (ASN1_DEBUG_MEMORY)
+      std::cout << "ctor: ASN1_Value " << GetName() << " : " << ++static_ObjectCount << std::endl;
   }
 
   ASN1_Value::~ASN1_Value() {
-    // std::cout << "dest: ASN1_Value " << GetName() << " : " << --static_ObjectCount << std::endl;
+    if (ASN1_DEBUG_MEMORY)
+      std::cout << "dest: ASN1_Value " << GetName() << " : " << --static_ObjectCount << std::endl;
   }
 
   void ASN1_Value::ClearDynamicData() {}

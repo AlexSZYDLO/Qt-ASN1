@@ -7,6 +7,8 @@
 #include <vector>
 #include "Utils.h"
 
+#define ASN1_DEBUG_MEMORY 0 // enable ctor and dtor logging
+
 /*
 Base class for grammar node. This class is abstract.
 It provides accessor the the node properties that are generic.
