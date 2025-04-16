@@ -3,14 +3,13 @@ find_package(Qt6 REQUIRED COMPONENTS Core Qml)
 
 set(asn1_qt_script_SRCS
   Script.cpp
-  # EngineInit.cpp
   ASN1_Script_Node.cpp
 
   Nodes/ASN1_Script_Basic_Nodes.cpp
-  # Nodes/ASN1_Script_Choice.cpp
+  Nodes/ASN1_Script_Choice.cpp
   Nodes/ASN1_Script_Sequence.cpp
-  # Nodes/ASN1_Script_SequenceOf.cpp
-  # Nodes/ASN1_Script_Set.cpp
+  Nodes/ASN1_Script_SequenceOf.cpp
+  Nodes/ASN1_Script_Set.cpp
 )
 
 set(CMAKE_AUTOMOC ON)

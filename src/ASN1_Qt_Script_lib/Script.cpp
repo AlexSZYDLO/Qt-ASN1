@@ -4,10 +4,10 @@
  */
 #include "Script.h"
 #include "Nodes/ASN1_Script_Basic_Nodes.h"
-// #include "Nodes/ASN1_Script_Choice.h"
+#include "Nodes/ASN1_Script_Choice.h"
 #include "Nodes/ASN1_Script_Sequence.h"
-// #include "Nodes/ASN1_Script_SequenceOf.h"
-// #include "Nodes/ASN1_Script_Set.h"
+#include "Nodes/ASN1_Script_SequenceOf.h"
+#include "Nodes/ASN1_Script_Set.h"
 #include <QTextStream>
 
 
@@ -31,10 +31,10 @@ QJSEngine* InitEngine() {
   installNode<ASN1_Script_UTCTime>(scriptEngine, "UTCTimeASN1");
   installNode<ASN1_Script_UTF8String>(scriptEngine, "UTF8StringASN1");
 
-  // installNode<ASN1_Script_Choice>(scriptEngine, "ChoiceASN1");
+  installNode<ASN1_Script_Choice>(scriptEngine, "ChoiceASN1");
   installNode<ASN1_Script_Sequence>(scriptEngine, "SequenceASN1");
-  // installNode<ASN1_Script_SequenceOf>(scriptEngine, "SequenceOfASN1");
-  // installNode<ASN1_Script_Set>(scriptEngine, "SetASN1");
+  installNode<ASN1_Script_SequenceOf>(scriptEngine, "SequenceOfASN1");
+  installNode<ASN1_Script_Set>(scriptEngine, "SetASN1");
   return scriptEngine;
 }
 
