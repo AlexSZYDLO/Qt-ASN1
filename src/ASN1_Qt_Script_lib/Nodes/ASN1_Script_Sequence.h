@@ -17,22 +17,16 @@ class ASN1_Script_Sequence : public ASN1_Script_Node_Base {
                        bool explicitTag = false,
                        ASN1_Script_Sequence* defaultValue = nullptr,
                        bool extensibility = false);
-  Q_INVOKABLE ~ASN1_Script_Sequence();
-  Q_INVOKABLE ASN1_Object* getGrammar() const override;
+  ASN1_Object* getGrammar() const override;
 
  public slots:
   QObject* getObjectAt(unsigned int pos) const;
   unsigned int getSize() const;
 
-  // QObject* getExtensibilityObjectAt(unsigned int pos) const;
-  unsigned int getExtensibilityeSize() const;
-
-  bool isExtensible() const;
-
-  virtual void clearDynamicData() override;
+  void clearDynamicData() override;
 
  protected:
-  ASN1_Sequence* m_GrammarSpe;
+  ASN1_Sequence* m_GrammarSpe{};
 
   QList<ASN1_Script_Node_Base*> m_Objects;
 };

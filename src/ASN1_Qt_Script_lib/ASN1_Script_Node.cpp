@@ -10,11 +10,14 @@ std::shared_ptr<ASN1_Object> TheGrammar;
 int ASN1_Script_Node_Base::ObjectCount = 0;
 
 ASN1_Script_Node_Base::ASN1_Script_Node_Base(const QString& _name) : name(_name.toStdString()) {
-  std::cout << "ctor: Script " << name << " : " << ++ObjectCount << std::endl;
+  if (ASN1_DEBUG_MEMORY)
+    std::cout << "ctor: Script " << name << " : " << ++ObjectCount << std::endl;
 }
 
 ASN1_Script_Node_Base::~ASN1_Script_Node_Base() {
-  std::cout << "dest: Script " << name << " : " << --ObjectCount << std::endl;
+  if (ASN1_DEBUG_MEMORY)
+    std::cout << "dest: Script " << name << " : " << --ObjectCount << std::endl;
+  if (!used) delete m_GrammarSpeBase;
 }
 
 bool ASN1_Script_Node_Base::memoryCheck() {

@@ -5,14 +5,10 @@
 #include "ASN1_Script_Sequence.h"
 #include "ASN1_Script_Basic_Nodes.h"
 
-ASN1_Script_Sequence::ASN1_Script_Sequence(QObjectList objects,
-    const QString& name,
-    const QString& tag,
-    bool optional,
-    bool explicitTag,
-    ASN1_Script_Sequence* defaultValue,
-    bool extensibility) {
-
+ASN1_Script_Sequence::ASN1_Script_Sequence(QObjectList objects, const QString& name, const QString& tag, bool optional, bool explicitTag,
+                                           ASN1_Script_Sequence* defaultValue, bool extensibility)
+    : ASN1_Script_Node_Base(name)
+{
   typedef ASN1_Object* tpObj;
 
   tpObj* arr = new tpObj[objects.size()];
@@ -29,10 +25,7 @@ ASN1_Script_Sequence::ASN1_Script_Sequence(QObjectList objects,
   m_GrammarSpe = new ASN1_Sequence(
       arr, objects.size(), name.toStdString().c_str(),
       ByteArray(tag.toStdString().c_str()), optional, explicitTag, def, extensibility);
-}
-
-ASN1_Script_Sequence::~ASN1_Script_Sequence() {
-  m_Objects.clear();
+  m_GrammarSpeBase = m_GrammarSpe;
 }
 
 ASN1_Object* ASN1_Script_Sequence::getGrammar() const {
@@ -45,23 +38,6 @@ QObject* ASN1_Script_Sequence::getObjectAt(unsigned int pos) const {
 
 unsigned int ASN1_Script_Sequence::getSize() const {
   return m_GrammarSpe->GetSize();
-}
-
-// QObject* ASN1_Script_Sequence::getExtensibilityObjectAt(unsigned int pos) const {
-//   // Create the object in the script environment if needed, and add it to clean list
-//   return engine()->toScriptValue(
-//            Add(engine(), new ASN1_Script_OctetString(m_GrammarSpe->GetExtensibilityObjectAt(pos)->GetName().c_str(),
-//                m_GrammarSpe->GetExtensibilityObjectAt(pos)->GetTag().GetString()))
-//          ).toQObject();
-//   //return nullptr;
-// }
-
-unsigned int ASN1_Script_Sequence::getExtensibilityeSize() const {
-  return m_GrammarSpe->GetExtensibilitySize();
-}
-
-bool ASN1_Script_Sequence::isExtensible() const {
-  return m_GrammarSpe->IsExtensible();
 }
 
 void ASN1_Script_Sequence::clearDynamicData() {

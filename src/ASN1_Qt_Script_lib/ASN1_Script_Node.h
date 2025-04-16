@@ -17,11 +17,12 @@ class ASN1_Script_Node_Base : public QObject {
   static int ObjectCount;
   std::string name;
   bool used = false;
+  ASN1_Object* m_GrammarSpeBase{};
 
  public:
   static bool memoryCheck();
 
-  ASN1_Script_Node_Base(const QString& name = "");
+  ASN1_Script_Node_Base(const QString& name);
   virtual ~ASN1_Script_Node_Base() = 0;
   virtual ASN1_Object* getGrammar() const = 0;
   void setUsed(bool used = true);
@@ -38,7 +39,7 @@ class ASN1_Script_Node_Base : public QObject {
 template <class T>
 class ASN1_Script_Template_Base : public ASN1_Script_Node_Base {
  protected:
-  T* m_GrammarSpe;
+  T* m_GrammarSpe{};
 
  public:
   Q_INVOKABLE ASN1_Script_Template_Base(const QString& name = "", const QString& tag = "", bool optional = false, bool explicitTag = false,
@@ -50,11 +51,7 @@ class ASN1_Script_Template_Base : public ASN1_Script_Node_Base {
     m_GrammarSpe = new T(
         name.toStdString().c_str(), ByteArray(tag.toStdString().c_str()),
         optional, explicitTag, def);
-  }
-
-  Q_INVOKABLE ~ASN1_Script_Template_Base()
-  {
-    if (!used) delete m_GrammarSpe;
+    m_GrammarSpeBase = m_GrammarSpe;
   }
 
   Q_INVOKABLE ASN1_Object* getGrammar() const override { return m_GrammarSpe; }
