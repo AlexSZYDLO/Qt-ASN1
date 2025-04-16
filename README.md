@@ -27,4 +27,4 @@ It can be linked directly in a project and recompiled, so that it allows you to 
 or it can be dynamically linked and used via the C interface. This way you don't need to recompile it.
 
 # DEPENDENCIES - Ubuntu 22.04
-apt install qt6-base-dev qt6-base-dev-tools flex bison
+apt install qt6-base-dev qt6-base-dev-tools qt6-webengine-dev flex bison
