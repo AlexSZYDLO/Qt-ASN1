@@ -14,7 +14,7 @@ ASN1_Set::ASN1_Set(ASN1_Object* valuesArray[],
                    bool optional,
                    bool explicitTag,
                    const ASN1_Set* defaultSet,
-                   bool extensibility) {
+                   bool extensibility) : ASN1_Object(name) {
   ASN1_ValueSet* defaultValue = static_cast<ASN1_ValueSet*>(defaultSet != nullptr ? defaultSet->GetValue() : nullptr);
 
   typedef ASN1_Value* tpVal;

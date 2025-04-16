@@ -13,7 +13,7 @@ ASN1_##name::ASN1_##name(const char* objectName, \
   const ByteArray& tag, \
   bool optional, \
   bool explicitTag, \
-  const ASN1_##name *defaultValue) { \
+  const ASN1_##name *defaultValue) : ASN1_Object(objectName) { \
   ASN1_Value##name *def = static_cast<ASN1_Value##name *>(defaultValue != nullptr ? defaultValue->GetValue() : nullptr); \
     Value = new ASN1_Value##name(objectName, this, tag, optional, explicitTag, def); \
 }

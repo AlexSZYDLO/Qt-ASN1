@@ -45,7 +45,7 @@ class MODULE_API ASN1_Object {
   Value::ASN1_Value* Value;
 
  public:
-  ASN1_Object();
+  ASN1_Object(const char* objectName);
   virtual ~ASN1_Object() = 0;
 
   // Should not be called by client. The client does not have the definition of this class

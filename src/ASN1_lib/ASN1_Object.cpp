@@ -12,7 +12,9 @@ using namespace Value;
 unsigned int ASN1_Object::static_ObjectCount = 0;
 bool ASN1_Object::memoryCheck() { return ASN1_Object::static_ObjectCount == 0 && ASN1_Value::static_ObjectCount == 0; }
 
-ASN1_Object::ASN1_Object() {} // std::cout << "ctor: ASN1_Object"<< " : " << ++static_ObjectCount << std::endl;
+ASN1_Object::ASN1_Object(const char* objectName) {
+  // std::cout << "ctor: ASN1_Object " << objectName << " : " << ++static_ObjectCount << std::endl;
+}
 
 ASN1_Object::~ASN1_Object() {
   if(Value->GetDefaultValue() != nullptr) {

@@ -13,7 +13,7 @@ ASN1_Choice::ASN1_Choice(callbackChoice choiceFromIdx,
                          const ByteArray& tag,
                          bool optional,
                          bool explicitTag,
-                         const ASN1_Choice* defaultChoice) {
+                         const ASN1_Choice* defaultChoice) : ASN1_Object(name) {
   ASN1_ValueChoice* defaultValue = static_cast<ASN1_ValueChoice*>(defaultChoice != nullptr ? defaultChoice->GetValue() : nullptr);
   Value = new ASN1_ValueChoice(choiceFromIdx, numberOfChoices, name, this, tag, optional, explicitTag, defaultValue);
 }

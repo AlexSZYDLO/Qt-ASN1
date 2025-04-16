@@ -14,7 +14,7 @@ ASN1_Sequence::ASN1_Sequence(ASN1_Object* valuesArray[],
                              bool optional,
                              bool explicitTag,
                              const ASN1_Sequence* defaultSequence,
-                             bool extensibility) {
+                             bool extensibility) : ASN1_Object(name) {
   ASN1_ValueSequence* defaultValue = static_cast<ASN1_ValueSequence*>(defaultSequence != nullptr ? defaultSequence->GetValue() : nullptr);
 
   typedef ASN1_Value* tpVal;

@@ -12,7 +12,7 @@ ASN1_SequenceOf::ASN1_SequenceOf(callbackSequenceOf newSeqOfObject,
                                  const ByteArray& tag,
                                  bool optional,
                                  bool explicitTag,
-                                 const ASN1_SequenceOf* defaultSequenceOf) {
+                                 const ASN1_SequenceOf* defaultSequenceOf) : ASN1_Object(name) {
   ASN1_ValueSequenceOf* defaultValue = static_cast<ASN1_ValueSequenceOf*>(defaultSequenceOf != nullptr ? defaultSequenceOf->GetValue() : nullptr);
   Value = new ASN1_ValueSequenceOf(newSeqOfObject, name, this, tag, optional, explicitTag, defaultValue);
 }
