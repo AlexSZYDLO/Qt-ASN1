@@ -26,5 +26,11 @@ to serialize it in DER format, and deserialize it from a DER encoded buffer.
 It can be linked directly in a project and recompiled, so that it allows you to use the c++ interface,
 or it can be dynamically linked and used via the C interface. This way you don't need to recompile it.
 
+## GUI
+Q-ASN1. This executable is to be used with the ASN1 DLL and QT Script DLL. The DLL must be recompiled together with this program.
+Q-ASN1 provides a GUI interface to view and edit an ASN1 tree.
+It also provides a script editor to allow the user to define an ASN1 grammar in JavaScript.
+It is still able to use hardcoded grammars, base on the DLL interface, but they need to be included and compiled in the project to be used.
+
 # DEPENDENCIES - Ubuntu 22.04
 apt install qt6-base-dev qt6-base-dev-tools qt6-webengine-dev flex bison

@@ -26,6 +26,7 @@ add_subdirectory(src/ASN1_lib)
 add_subdirectory(src/ASN1_parser)
 add_subdirectory(src/ASN1_console)
 add_subdirectory(src/ASN1_Qt_Script_lib)
+add_subdirectory(src/ASN1_Qt_gui)
 
 # SET(asn1_lib_SRCS  ASN1_Value.cpp ..... )
 
