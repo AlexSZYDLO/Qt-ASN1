@@ -20,6 +20,7 @@ install(FILES
   ${CMAKE_SOURCE_DIR}/Grammar/gramm_test.asn
   "${CMAKE_SOURCE_DIR}/Grammar/PEDefinitions V1.0.asn"
   "${CMAKE_SOURCE_DIR}/Grammar/PEDefinitions V1.0_edit.asn"
+  "${CMAKE_SOURCE_DIR}/Grammar/JS1.js"
   DESTINATION Grammar)
 
 add_subdirectory(src/ASN1_lib)

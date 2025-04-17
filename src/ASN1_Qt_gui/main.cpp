@@ -3,6 +3,7 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 
+#include <iostream>
 #include <QApplication>
 #include <QTextStream>
 #include "UI_Main.h"
@@ -13,7 +14,7 @@ int main(int argc, char* argv[]) {
 
   //QFile cssFile("../../../../ASN1/ASN1_Qt_gui/Config/StyleSheet.css");
   //if (!cssFile.exists())
-  QFile cssFile("config/StyleSheet.css");
+  QFile cssFile(":/_resources/StyleSheet.css");
 
   QString cssContent;
   if (cssFile.exists()) {
@@ -27,5 +28,8 @@ int main(int argc, char* argv[]) {
   w.show();
   app.exec();
 
-  return (ASN1_Object::memoryCheck() && ScriptMemoryCheck()) ? 0 : -1;
+  bool memCheck = ASN1_Object::memoryCheck() && ScriptMemoryCheck();
+  std::cout << "memCheck: " << (memCheck ? "OK" : "NOK") << std::endl;
+
+  return memCheck;
 }

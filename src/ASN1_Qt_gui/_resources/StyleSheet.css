@@ -3,8 +3,8 @@
 * Redistribution and modifications are permitted subject to GPL-V3 license.
 */
 
-QMainWindow { 
-  background-color: rgb(240, 240, 240); 
+QMainWindow {
+  background-color: rgb(240, 240, 240);
 }
 
 QStatusBar {
@@ -44,15 +44,15 @@ QSplitter::handle {
     stop:0.4 rgba(200, 200, 200, 255),
     stop:0.6 rgba(101, 104, 113, 235),
     stop:1   rgba(255, 255, 255, 0));
-  image             : url(:/img/img/splitter.png);
+  image             : url(:/_resources/img/splitter.png);
 }
 
-QSplitter::handle:vertical { 
-  height            : 5px; 
+QSplitter::handle:vertical {
+  height            : 5px;
 }
 
 QSplitter::handle:pressed {
-    image           : url(:/img/img/splitter_pressed.png);
+    image           : url(:/_resources/img/splitter_pressed.png);
 }
 
 
@@ -78,9 +78,9 @@ QGroupBox {
   font-size         : 12px;
 }
 
-QGroupBox::title { 
-  top               : 2px; 
-  left              : 8px; 
+QGroupBox::title {
+  top               : 2px;
+  left              : 8px;
 }
 
 QGroupBox#treeOptBox,

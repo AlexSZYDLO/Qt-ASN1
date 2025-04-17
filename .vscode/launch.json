@@ -11,8 +11,9 @@
       // "MIMode": "gdb",
       // "miDebuggerPath": "/usr/bin/gdb",
 
-      "program": "${workspaceFolder}/build/bin/asn1_console",
-      "cwd": "${workspaceFolder}",
+      // "program": "${workspaceFolder}/build/bin/asn1_console",
+      "program": "${workspaceFolder}/build/bin/asn1_qt_gui",
+      "cwd": "${workspaceFolder}/build/bin/",
       "args": [
         // "/home/videos/graphs/graph.xml" //, "-c",
       ],
