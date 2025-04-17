@@ -117,7 +117,7 @@ namespace UI {
       QHBoxLayout* hLay_ButtonsLayout = new QHBoxLayout();
       QSpacerItem* horizontalSpacer = new QSpacerItem(30, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-      QString p = ":/img/img/icon_set_2/";
+      QString p = ":/_resources/img/icon_set_2/";
       ClickableLabel* CloseButton = MakeClickableLabel("commonButton", "Close", p + "cancel.png", parent);
 
       hLay_ButtonsLayout->addItem(horizontalSpacer);
@@ -138,7 +138,7 @@ namespace UI {
       QHBoxLayout* hLay_ButtonsLayout = new QHBoxLayout();
       QSpacerItem* horizontalSpacer = new QSpacerItem(30, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-      QString p = ":/img/img/icon_set_2/";
+      QString p = ":/_resources/img/icon_set_2/";
       ClickableLabel* OkButton = MakeClickableLabel("commonButton", "Ok", p + "ok.png", parent);
       ClickableLabel* CancelButton = MakeClickableLabel("commonButton", "Cancel", p + "cancel.png", parent);
 

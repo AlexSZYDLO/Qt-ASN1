@@ -18,7 +18,7 @@ namespace UI {
     buttonBarWidget->setObjectName("actionBox");
     buttonBarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* buttonToEditor = MakeClickableLabel("actionButton", "Process to editor", p + "run.png", this);
     ClickableLabel* buttonToJS = MakeClickableLabel("actionButton", "Process ASN grammar to JavaScript", p + "js.png", this);
     ClickableLabel* buttonToCPP = MakeClickableLabel("actionButton", "Process ASN grammar to C++", p + "cpp.png", this);
@@ -247,13 +247,14 @@ namespace UI {
       m_Main->SetEditorObj(o);
       if (o != nullptr)
         m_Main->SelectTab(3);
+      else
+        m_Main->SetStatus("Failed to parse the script.");
     }
   }
 
   void UI_GrammarASN::LoadASN() {
     QString fileName =
-      QFileDialog::getOpenFileName(this, "Open ASN File",
-                                   "", "ASN file (*.asn *)");
+      QFileDialog::getOpenFileName(this, "Open ASN File", "../Grammar", "ASN file (*.asn *)");
     if (fileName != "") {
       QFile f(fileName);
       if (f.exists()) {

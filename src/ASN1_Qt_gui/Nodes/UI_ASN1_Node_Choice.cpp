@@ -17,7 +17,7 @@ namespace UI {
     QVBoxLayout* vLayValueLayout = new QVBoxLayout(inBox);
     QHBoxLayout* hLayValueLayout = new QHBoxLayout();
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* setChoiceWid = MakeClickableLabel("commonButton", "Set Selected Choice", p + "run.png", inBox);
 
     listView = new MyListView(inBox);

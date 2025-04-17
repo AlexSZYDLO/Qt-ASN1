@@ -27,7 +27,7 @@ namespace UI {
     }
     listView->setModel(listModel);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* addButton = MakeClickableLabel("commonButton", "Add", p + "plus.png", inBox);
     ClickableLabel* deleteButton = MakeClickableLabel("commonButton", "Delete", p + "minus.png", inBox);
     ClickableLabel* moveUpButton = MakeClickableLabel("commonButton", "Move Up", p + "up.png", inBox);

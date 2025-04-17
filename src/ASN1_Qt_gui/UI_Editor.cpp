@@ -96,7 +96,7 @@ namespace UI {
 
   void UI_Editor::Read(ASN1_Object* obj) {
     m_Main->SetStatus("Reading...");
-    char c[2000];
+    char c[2001]{};
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
     if (obj->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), c, 2000)) {
@@ -119,11 +119,22 @@ namespace UI {
 // ---------------------- ACTIONS -------------------
 
   void UI_Editor::action_WriteAll() {
-    if (m_Grammar) Write(m_Grammar.get());
+    if (!m_Grammar)
+    {
+      m_Main->SetStatus("Grammar not set, nothing to write.");
+      return;
+    }
+    Write(m_Grammar.get());
   }
 
   void UI_Editor::action_ReadAll() {
-    if (m_Grammar) Read(m_Grammar.get());
+    if (!m_Grammar)
+    {
+      m_Main->SetStatus("Grammar not set, cannot read.");
+      return;
+    }
+    if (m_HexaTextEdit->CorrectOddHexa())
+      Read(m_Grammar.get());
   }
 
   void UI_Editor::action_Write() {
@@ -136,6 +147,12 @@ namespace UI {
   }
 
   void UI_Editor::action_Compare() {
+    if (!m_Grammar)
+    {
+      m_Main->SetStatus("Grammar not set, nothing to compare with.");
+      return;
+    }
+
     m_Main->SetStatus("Compare...");
 
     QJSEngine* newEng = InitEngine();
@@ -147,7 +164,7 @@ namespace UI {
       secondTree = m_Main->JSToObj(&newEng, m_Main->GetLastScript(), false, true); // no debug + silent
 
     if (secondTree != nullptr) {
-      char c[2000];
+      char c[2001]{};
       if (m_HexaTextEdit->CorrectOddHexa()) {
         if (!secondTree->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), c, 2000)) {
           m_Main->SetStatus("Compare failed at reading hexadecimal data.");

@@ -17,7 +17,7 @@ namespace UI {
 
     layHexBox->addWidget(hexaTextEdit);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* buttonTypeToHex = MakeClickableLabel("commonButton", "To Hex", p + "up.png", this);
     ClickableLabel* buttonHexToType = MakeClickableLabel("commonButton", "From Hex", p + "down.png", this);
 

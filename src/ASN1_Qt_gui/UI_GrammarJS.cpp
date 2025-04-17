@@ -19,7 +19,7 @@ namespace UI {
     buttonBarWidget->setObjectName("actionBox");
     buttonBarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* buttonLoadScript = MakeClickableLabel("actionButton", "Load JS file", p + "open.png", this);
     ClickableLabel* buttonSaveScript = MakeClickableLabel("actionButton", "Save to file", p + "save.png", this);
     ClickableLabel* buttonNewScript = MakeClickableLabel("actionButton", "Process as new script", p + "run.png", this);
@@ -349,11 +349,17 @@ namespace UI {
   }
 
   void UI_GrammarJS::RunJSScript() {
+    if (JSedit->toPlainText().isEmpty()) {
+      m_Main->SetStatus("No script to process.");
+      return;
+    }
     std::shared_ptr<ASN1_Object> grammar = m_Main->JSToObj(m_Main->GetScriptEngine(), JSedit->toPlainText(), m_JSDebug);
     m_Main->SetLastScript(JSedit->toPlainText());
     m_Main->SetEditorObj(grammar);
     if (grammar)
       m_Main->SelectTab(3);
+    else
+      m_Main->SetStatus("Failed to parse the script.");
   }
 
   void UI_GrammarJS::RunAdditionalJSScript() {
@@ -364,8 +370,7 @@ namespace UI {
 
   void UI_GrammarJS::LoadJSScript() {
     QString fileName =
-      QFileDialog::getOpenFileName(this, "Open Script File",
-                                   "", "JavaScript file (*.js *)");
+      QFileDialog::getOpenFileName(this, "Open Script File", "../Grammar", "JavaScript file (*.js *)");
     if (fileName != "") {
       QFile f(fileName);
       if (f.exists()) {
@@ -392,8 +397,7 @@ namespace UI {
     if (m_LoadedScriptFile != "")
       defaultFile = m_LoadedScriptFile;
     QString fileName =
-      QFileDialog::getSaveFileName(this, "Save Script File",
-                                   defaultFile, "JavaScript file (*.js *)");
+      QFileDialog::getSaveFileName(this, "Save Script File", defaultFile, "JavaScript file (*.js *)");
     QFile f(fileName);
     if (f.open(QIODevice::WriteOnly))
       f.write(JSedit->toPlainText().toStdString().c_str());

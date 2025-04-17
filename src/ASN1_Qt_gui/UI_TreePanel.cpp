@@ -149,6 +149,8 @@ namespace UI {
     ASN1_Choice* choice = static_cast<ASN1_Choice*>(m_SelectedItem->getGrammarObject());
 
     QDialog d(m_Parent);
+    d.setWindowTitle("Choice selection");
+
     QDialogButtonBox* b = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &d);
 
     QVBoxLayout* l = new QVBoxLayout(&d);
@@ -278,7 +280,8 @@ namespace UI {
   void UI_TreePanel::ShowNode(QModelIndex idx) {
     QStandardItem* qsi = static_cast<QStandardItemModel*>(m_Tree->model())->itemFromIndex(idx);
     ASN1_Object* GrammarNode = static_cast<ASN1_Item*>(qsi)->getGrammarObject();
-
+    if (!GrammarNode)
+      return;
     UI_ASN1_ValueMain_Editable valueWindow(GrammarNode, m_Parent);
     if (valueWindow.exec() == QDialog::Accepted) {
       if (m_Tree->isExpanded(qsi->index()))
@@ -306,7 +309,7 @@ namespace UI {
     ASN1_Object* grammar = m_SelectedItem->getGrammarObject();
     if (!grammar) return;
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     bool empty = true;
     if (grammar->GetType() == cChoice) {
       ClickableLabel* selectChoice = MakeClickableLabel("commonButton", "Select choice", p + "select.png", m_UIQuickActionsBox, QSize(25, 25));
@@ -419,7 +422,7 @@ namespace UI {
     SearchInVal->setToolTip("Include the values in the research.");
     SearchLineEdit* patternEdit = new SearchLineEdit(box);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* pushButtonSearch = MakeClickableLabel("commonButton", "Search", p + "search.png", box, QSize(25, 25));
 
     QHBoxLayout* hl = new QHBoxLayout();
@@ -445,7 +448,7 @@ namespace UI {
     QVBoxLayout* verticalLayout = new QVBoxLayout(box);
     QCheckBox* showChoiceNodes = new QCheckBox("Show Choices", box);
 
-    QString p = ":/img/img/icon_set_2/";
+    QString p = ":/_resources/img/icon_set_2/";
     ClickableLabel* collapseAll = MakeClickableLabel("commonButton", "Collapse Tree", p + "collapse.png", box, QSize(25, 25));
     ClickableLabel* expandAll = MakeClickableLabel("commonButton", "Expand Tree", p + "expand.png", box, QSize(25, 25));
 

@@ -220,17 +220,17 @@ namespace UI {
     QLabel::mouseReleaseEvent(event);
   }
 
-  void ClickableLabel::mouseMoveEvent(QMouseEvent* event) {
-    if (!rect().contains(event->pos())) {
-      setProperty("pressed", false);
-    }
-    else if (m_Clicked) {
-      setProperty("pressed", true);
-    }
-    style()->unpolish(this);
-    style()->polish(this);
-    QLabel::mouseMoveEvent(event);
-  }
+  // void ClickableLabel::mouseMoveEvent(QMouseEvent* event) {
+  //   if (!rect().contains(event->pos())) {
+  //     setProperty("pressed", false);
+  //   }
+  //   else if (m_Clicked) {
+  //     setProperty("pressed", true);
+  //   }
+  //   style()->unpolish(this);
+  //   style()->polish(this);
+  //   QLabel::mouseMoveEvent(event);
+  // }
 
   ClickableLabel* MakeClickableLabel(const QString& name, const QString& tooltip, const QString& icon, QWidget* parent, QSize size) {
     ClickableLabel* lbl = new ClickableLabel(parent);

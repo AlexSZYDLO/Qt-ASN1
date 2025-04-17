@@ -96,7 +96,7 @@ namespace UI {
 
     virtual void mousePressEvent(QMouseEvent* event) override;
     virtual void mouseReleaseEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
+    // void mouseMoveEvent(QMouseEvent* event) override;
   };
 
   ClickableLabel* MakeClickableLabel(const QString& name, const QString& tooltip, const QString& icon, QWidget* parent, QSize size = QSize(30, 30));

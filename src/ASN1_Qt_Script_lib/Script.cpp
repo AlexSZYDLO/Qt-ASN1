@@ -43,6 +43,7 @@ void ClearScriptEngine(QJSEngine* e) {
 }
 
 std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, const QString& script, QString& error) {
+  TheGrammar = nullptr;
   QJSValue result = e->evaluate(script);
 
   if (result.isError())
