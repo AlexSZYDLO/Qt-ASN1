@@ -19,7 +19,7 @@ namespace UI {
     buttonBarWidget->setObjectName("actionBox");
     buttonBarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     ClickableLabel* buttonLoadScript = MakeClickableLabel("actionButton", "Load JS file", p + "open.png", this);
     ClickableLabel* buttonSaveScript = MakeClickableLabel("actionButton", "Save to file", p + "save.png", this);
     ClickableLabel* buttonNewScript = MakeClickableLabel("actionButton", "Process as new script", p + "run.png", this);

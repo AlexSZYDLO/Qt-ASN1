@@ -17,7 +17,7 @@ namespace UI {
     buttonBarWidget->setObjectName("actionBox");
     buttonBarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     ClickableLabel* buttonLoad = MakeClickableLabel("actionButton", "Load grammar", p + "run.png", this);
 
     QHBoxLayout* buttonLay = new QHBoxLayout();

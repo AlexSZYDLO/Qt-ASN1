@@ -27,7 +27,7 @@ namespace UI {
   UI_Main::UI_Main(QWidget* parent) : QMainWindow(parent), m_Grammar(nullptr), m_ScriptEngine(nullptr) {
     resize(1024, 600);
     setWindowTitle("Q-ASN1");
-    setWindowIcon(QIcon(":/_resources/img/icon.png"));
+    setWindowIcon(QIcon(":/img/icon.png"));
     setStatusBar(new QStatusBar(this));
 
     m_GrammarComp = new UI_GrammarComp(this);

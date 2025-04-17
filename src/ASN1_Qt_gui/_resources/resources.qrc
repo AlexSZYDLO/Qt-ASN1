@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/_resources">
+    <qresource prefix="/">
         <file>StyleSheet.css</file>
         <file>img/splitter.png</file>
         <file>img/splitter_pressed.png</file>

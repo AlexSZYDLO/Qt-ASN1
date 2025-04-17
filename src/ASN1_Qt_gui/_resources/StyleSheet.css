@@ -44,7 +44,7 @@ QSplitter::handle {
     stop:0.4 rgba(200, 200, 200, 255),
     stop:0.6 rgba(101, 104, 113, 235),
     stop:1   rgba(255, 255, 255, 0));
-  image             : url(:/_resources/img/splitter.png);
+  image             : url(:/img/splitter.png);
 }
 
 QSplitter::handle:vertical {
@@ -52,7 +52,7 @@ QSplitter::handle:vertical {
 }
 
 QSplitter::handle:pressed {
-    image           : url(:/_resources/img/splitter_pressed.png);
+    image           : url(:/img/splitter_pressed.png);
 }
 
 

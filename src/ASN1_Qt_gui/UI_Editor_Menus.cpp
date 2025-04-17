@@ -13,7 +13,7 @@ namespace UI {
   UI_Editor_ButtonBar::UI_Editor_ButtonBar(UI_Main* m, UI_Editor* main) : QWidget(m), m_Main(main) {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     QString name = "actionButton";
     ClickableLabel* buttonOpen = MakeClickableLabel(name, "Open menu", p + "open.png", this);
     ClickableLabel* buttonSave = MakeClickableLabel(name, "Save to .der", p + "save.png", this);

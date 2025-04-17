@@ -1,6 +1,11 @@
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
+set(CMAKE_AUTOMOC ON) # process moc files automatically
+set(CMAKE_AUTORCC ON) # process qrc files automatically
+
 set(asn1_qt_gui_SRCS
+  _resources/resources.qrc
+
   main.cpp
   UI_Main.cpp
   UI_GrammarASN.cpp
@@ -52,10 +57,7 @@ set(asn1_qt_gui_SRCS
   Nodes/UI_ASN1_Node_UTF8String.cpp
 )
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-add_executable(asn1_qt_gui ${asn1_qt_gui_SRCS} resource.qrc)
+add_executable(asn1_qt_gui ${asn1_qt_gui_SRCS})
 target_include_directories(asn1_qt_gui PRIVATE . .. ../ASN1_lib ../ASN1_parser ../ASN1_Qt_Script_lib)
 target_link_libraries(asn1_qt_gui PRIVATE asn1 asn1_parser asn1_qt_script Qt6::Widgets)
 

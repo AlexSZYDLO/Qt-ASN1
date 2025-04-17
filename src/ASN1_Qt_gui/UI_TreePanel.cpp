@@ -309,7 +309,7 @@ namespace UI {
     ASN1_Object* grammar = m_SelectedItem->getGrammarObject();
     if (!grammar) return;
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     bool empty = true;
     if (grammar->GetType() == cChoice) {
       ClickableLabel* selectChoice = MakeClickableLabel("commonButton", "Select choice", p + "select.png", m_UIQuickActionsBox, QSize(25, 25));
@@ -422,7 +422,7 @@ namespace UI {
     SearchInVal->setToolTip("Include the values in the research.");
     SearchLineEdit* patternEdit = new SearchLineEdit(box);
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     ClickableLabel* pushButtonSearch = MakeClickableLabel("commonButton", "Search", p + "search.png", box, QSize(25, 25));
 
     QHBoxLayout* hl = new QHBoxLayout();
@@ -448,7 +448,7 @@ namespace UI {
     QVBoxLayout* verticalLayout = new QVBoxLayout(box);
     QCheckBox* showChoiceNodes = new QCheckBox("Show Choices", box);
 
-    QString p = ":/_resources/img/icon_set_2/";
+    QString p = ":/img/icon_set_2/";
     ClickableLabel* collapseAll = MakeClickableLabel("commonButton", "Collapse Tree", p + "collapse.png", box, QSize(25, 25));
     ClickableLabel* expandAll = MakeClickableLabel("commonButton", "Expand Tree", p + "expand.png", box, QSize(25, 25));
 
