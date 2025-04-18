@@ -1,9 +1,2 @@
-*.svn
-*.vs
-*.pro.user
-
-build-ASN1_lib/
-build-ASN1_parser/
-build-ASN1_console/
-build-ASN1_Qt_Script_lib/
-build-ASN1_Qt_gui/
+build/
+cmake-build/

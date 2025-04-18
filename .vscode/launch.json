@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [{
+      "name": "(gdb) Launch",
+      "request": "launch",
+      // "type": "lldb",
+      "type": "cppdbg",
+      // "MIMode": "gdb",
+      // "miDebuggerPath": "/usr/bin/gdb",
+
+      // "program": "${workspaceFolder}/build/bin/asn1_console",
+      "program": "${workspaceFolder}/build/bin/asn1_qt_gui",
+      "cwd": "${workspaceFolder}/build/bin/",
+      "args": [],
+
+      "stopAtEntry": false,
+      "environment": [],
+      "externalConsole": false,
+      "setupCommands": [{
+        "description": "Enable pretty-printing for gdb",
+        "text": "-enable-pretty-printing",
+      }],
+    }
+  ]
+}
