@@ -389,8 +389,8 @@ int main() {
   // result &= test_DLL();
   result &= test_IA5String_UTF8String();
   result &= test_Compare();
-  //result &= test_ParserJS();
-  //result &= test_ParserCPP();
+  // result &= test_ParserJS();
+  // result &= test_ParserCPP();
   result &= test_ParsedGrammar();
 
   cout << "test result: " << (result ? "OK" : "NOK") << endl;

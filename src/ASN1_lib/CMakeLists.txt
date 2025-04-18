@@ -23,6 +23,8 @@ set(asn1_SRCS
   Objects/ASN1_Sequence.cpp
   Objects/ASN1_Set.cpp
   Objects/ASN1_SequenceOf.cpp
+
+  # C_Interface.cpp
 )
 
 add_library(asn1 SHARED ${asn1_SRCS})
