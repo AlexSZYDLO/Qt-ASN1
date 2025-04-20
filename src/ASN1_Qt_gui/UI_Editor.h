@@ -7,67 +7,69 @@
 #include "ASN1_includes.h"
 #include "Widgets/CustomWidgets.h"
 
-namespace UI {
-  class UI_TreePanel;
-  class UI_Editor_ButtonBar;
-  class UI_Main;
+namespace UI
+{
+class UI_TreePanel;
+class UI_Editor_ButtonBar;
+class UI_Main;
 
-  class UI_Editor : public QWidget {
-    Q_OBJECT
+class UI_Editor : public QWidget
+{
+  Q_OBJECT
 
-   public:
-    UI_Editor(UI_Main* main);
-    ~UI_Editor();
+public:
+  UI_Editor(UI_Main *main);
+  ~UI_Editor();
 
-    void RefreshTree();
-    void SetGrammar(std::shared_ptr<ASN1_Object> obj);
-    void SetMainStatus(const QString& s);
+  void RefreshTree();
+  void SetGrammar(std::shared_ptr<ASN1_Object> obj);
+  void SetMainStatus(const QString &s);
 
-   protected:
-    // functions
-    void Write(ASN1_Object* obj);
-    void Read(ASN1_Object* obj);
+protected:
+  // functions
+  void Write(ASN1_Object *obj);
+  void Read(ASN1_Object *obj);
 
-    QWidget* CreateButtonBar();
-    QWidget* MakeLeftPanel(QWidget* parent);
-    QWidget* MakeRightPanel(QWidget* parent);
-    QWidget* MakeSplitter(QWidget* parent);
+  QWidget *CreateButtonBar();
+  QWidget *MakeLeftPanel(QWidget *parent);
+  QWidget *MakeRightPanel(QWidget *parent);
+  QWidget *MakeSplitter(QWidget *parent);
 
-    void CreateMenuBar();
-    void CreateStatusBar();
-    void MakeEditorPane();
+  void CreateMenuBar();
+  void CreateStatusBar();
+  void MakeEditorPane();
 
-    // variables
-    UI_Main* m_Main;
+  // variables
+  UI_Main *m_Main;
 
-    std::shared_ptr<ASN1_Object> m_Grammar;
+  std::shared_ptr<ASN1_Object> m_Grammar;
 
-    myQTextEdit* m_HexaTextEdit;
-    UI_TreePanel* m_Tree;
-    UI_Editor_ButtonBar* m_ButtonBar;
+  myQTextEdit *m_HexaTextEdit;
+  UI_TreePanel *m_Tree;
+  UI_Editor_ButtonBar *m_ButtonBar;
 
-   public slots:
-    void action_Write();
-    void action_Read();
-    void action_WriteAll();
-    void action_ReadAll();
-    void action_Compare();
+public slots:
+  void action_Write();
+  void action_Read();
+  void action_WriteAll();
+  void action_ReadAll();
+  void action_Compare();
 
-    void action_OpenHex();
-    void action_OpenASN();
-    void action_OpenScript();
-    void action_RunScript();
-    void action_Save();
+  void action_OpenHex();
+  void action_OpenASN();
+  void action_OpenScript();
+  void action_RunScript();
+  void action_Save();
 
-    void action_ConvertBitString();
-    void action_ConvertBoolean();
-    void action_ConvertEnumerated();
-    void action_ConvertIA5String();
-    void action_ConvertInteger();
-    void action_ConvertObjectID();
-    void action_ConvertOctetString();
-    void action_ConvertReal();
-    void action_ConvertUTCTime();
-    void action_ConvertUTF8String();
-  };
-}
+  void action_ConvertBitString();
+  void action_ConvertBoolean();
+  void action_ConvertEnumerated();
+  void action_ConvertIA5String();
+  void action_ConvertInteger();
+  void action_ConvertObjectID();
+  void action_ConvertOctetString();
+  void action_ConvertReal();
+  void action_ConvertUTCTime();
+  void action_ConvertUTF8String();
+};
+} // namespace UI

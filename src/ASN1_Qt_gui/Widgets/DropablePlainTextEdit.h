@@ -5,13 +5,13 @@
 #pragma once
 #include <QPlainTextEdit>
 
-class DropablePlainTextEdit : public QPlainTextEdit {
- public:
-  DropablePlainTextEdit(QWidget* parent);
+class DropablePlainTextEdit : public QPlainTextEdit
+{
+public:
+  DropablePlainTextEdit(QWidget *parent);
 
- protected:
+protected:
   //virtual void dragEnterEvent(QDragEnterEvent* event) override;
   //virtual void dragMoveEvent(QDragMoveEvent* event) override;
-  virtual void dropEvent(QDropEvent* event) override;
-
+  virtual void dropEvent(QDropEvent *event) override;
 };

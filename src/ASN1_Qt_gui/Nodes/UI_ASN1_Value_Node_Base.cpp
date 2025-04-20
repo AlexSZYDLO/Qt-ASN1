@@ -4,8 +4,9 @@
  */
 #include "UI_ASN1_Value_Node_Base.h"
 
-namespace UI {
+namespace UI
+{
 
-  UI_ASN1_Value_Node::~UI_ASN1_Value_Node() = default;
+UI_ASN1_Value_Node::~UI_ASN1_Value_Node() = default;
 
 }

@@ -5,99 +5,117 @@
 #pragma once
 #include <QtWidgets>
 
-namespace UI {
-  class myQTextEdit : public QPlainTextEdit {
-    Q_OBJECT
-    using QPlainTextEdit::QPlainTextEdit;
-   public:
-    enum  cLineEditType {
-      cLineEditBinary,
-      cLineEditNumeric,
-      cLineEditHexa,
-      cLineEditOID,
-      cLineEditIA5String,
-      cLineEditUTF8String
-    };
-    myQTextEdit(QWidget* parent, cLineEditType aType);
-    QString toTextWithoutSpace() const;
+namespace UI
+{
+class myQTextEdit : public QPlainTextEdit
+{
+  Q_OBJECT
+  using QPlainTextEdit::QPlainTextEdit;
 
-    bool CorrectOddHexa();
-
-   protected:
-    cLineEditType filterType;
-    const int cPackSize;
-
-    QString prevText;
-    int prevCursorPos;
-
-    bool bCheckText;
-    bool bInsertSpaces;
-
-    static int GetPackSize(myQTextEdit::cLineEditType type);
-    int CalculateCursorLocation(int textSizeWithoutSpaces) const;
-    bool CheckValue(QString& text) const;
-
-   public slots:
-    void OnTextChanged();
+public:
+  enum cLineEditType
+  {
+    cLineEditBinary,
+    cLineEditNumeric,
+    cLineEditHexa,
+    cLineEditOID,
+    cLineEditIA5String,
+    cLineEditUTF8String
   };
+  myQTextEdit(QWidget *parent, cLineEditType aType);
+  QString toTextWithoutSpace() const;
 
-  class SearchLineEdit : public QLineEdit {
-    Q_OBJECT
-    using QLineEdit::QLineEdit;
-   protected:
-    virtual void keyPressEvent(QKeyEvent* event) override;
-   signals:
-    void EnterPressed();
-  };
+  bool CorrectOddHexa();
 
-  class MyTreeView : public QTreeView {
-    Q_OBJECT
-    using QTreeView::QTreeView;
-   protected:
-    virtual void keyPressEvent(QKeyEvent* event) override;
-   signals:
-    void EnterPressed(QModelIndex);
-  };
+protected:
+  cLineEditType filterType;
+  const int cPackSize;
 
-  class MyListView : public QListView {
-    Q_OBJECT
-    using QListView::QListView;
-   protected:
-    virtual void keyPressEvent(QKeyEvent* event) override;
-   signals:
-    void EnterPressed(QModelIndex);
-  };
+  QString prevText;
+  int prevCursorPos;
 
-  class ValueDialog : public QDialog {
-    Q_OBJECT
-    using QDialog::QDialog;
-   protected:
-    virtual void keyPressEvent(QKeyEvent* event) override;
-   signals:
-    void EnterPressed();
-    void EscapePressed();
-  };
+  bool bCheckText;
+  bool bInsertSpaces;
 
-  class ClickableLabel : public QLabel {
-    Q_OBJECT
-    Q_PROPERTY(bool pressed READ IsPressed WRITE SetPressed)
+  static int GetPackSize(myQTextEdit::cLineEditType type);
+  int CalculateCursorLocation(int textSizeWithoutSpaces) const;
+  bool CheckValue(QString &text) const;
 
-   public:
-    explicit ClickableLabel(QWidget* parent = 0);
-    ~ClickableLabel();
-    bool m_Clicked; // keeps the press event until it is released
-   signals:
-    void clicked(bool);
-    void rightClicked(bool);
-   protected:
-    bool pressed; // true while m_Clicked is true, AND mouse is on the widget
-    bool IsPressed() const;
-    void SetPressed(bool _pressed);
+public slots:
+  void OnTextChanged();
+};
 
-    virtual void mousePressEvent(QMouseEvent* event) override;
-    virtual void mouseReleaseEvent(QMouseEvent* event) override;
-    // void mouseMoveEvent(QMouseEvent* event) override;
-  };
+class SearchLineEdit : public QLineEdit
+{
+  Q_OBJECT
+  using QLineEdit::QLineEdit;
 
-  ClickableLabel* MakeClickableLabel(const QString& name, const QString& tooltip, const QString& icon, QWidget* parent, QSize size = QSize(30, 30));
-}
+protected:
+  virtual void keyPressEvent(QKeyEvent *event) override;
+signals:
+  void EnterPressed();
+};
+
+class MyTreeView : public QTreeView
+{
+  Q_OBJECT
+  using QTreeView::QTreeView;
+
+protected:
+  virtual void keyPressEvent(QKeyEvent *event) override;
+signals:
+  void EnterPressed(QModelIndex);
+};
+
+class MyListView : public QListView
+{
+  Q_OBJECT
+  using QListView::QListView;
+
+protected:
+  virtual void keyPressEvent(QKeyEvent *event) override;
+signals:
+  void EnterPressed(QModelIndex);
+};
+
+class ValueDialog : public QDialog
+{
+  Q_OBJECT
+  using QDialog::QDialog;
+
+protected:
+  virtual void keyPressEvent(QKeyEvent *event) override;
+signals:
+  void EnterPressed();
+  void EscapePressed();
+};
+
+class ClickableLabel : public QLabel
+{
+  Q_OBJECT
+  Q_PROPERTY(bool pressed READ IsPressed WRITE SetPressed)
+
+public:
+  explicit ClickableLabel(QWidget *parent = 0);
+  ~ClickableLabel();
+  bool m_Clicked; // keeps the press event until it is released
+signals:
+  void clicked(bool);
+  void rightClicked(bool);
+
+protected:
+  bool pressed; // true while m_Clicked is true, AND mouse is on the widget
+  bool IsPressed() const;
+  void SetPressed(bool _pressed);
+
+  virtual void mousePressEvent(QMouseEvent *event) override;
+  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+  // void mouseMoveEvent(QMouseEvent* event) override;
+};
+
+ClickableLabel *MakeClickableLabel(const QString &name,
+                                   const QString &tooltip,
+                                   const QString &icon,
+                                   QWidget *parent,
+                                   QSize size = QSize(30, 30));
+} // namespace UI

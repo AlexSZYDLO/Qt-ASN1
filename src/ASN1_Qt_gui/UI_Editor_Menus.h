@@ -6,32 +6,34 @@
 #pragma once
 #include "UI_Main.h"
 
-namespace UI {
-  class UI_Editor;
+namespace UI
+{
+class UI_Editor;
 
-  class UI_Editor_ButtonBar : public QWidget {
-    Q_OBJECT
+class UI_Editor_ButtonBar : public QWidget
+{
+  Q_OBJECT
 
-   public:
-    UI_Editor_ButtonBar(UI_Main* m, UI_Editor* main);
+public:
+  UI_Editor_ButtonBar(UI_Main *m, UI_Editor *main);
 
-   private:
-    UI_Editor* m_Main;
-    bool debug;
+private:
+  UI_Editor *m_Main;
+  bool debug;
 
-    void paintEvent(QPaintEvent*) {
-      QStyleOption o;
-      o.initFrom(this);
-      QPainter p(this);
-      style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
-    }
+  void paintEvent(QPaintEvent *)
+  {
+    QStyleOption o;
+    o.initFrom(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
+  }
 
-   public slots:
-    void saveClicked();
-    void openClicked();
-    void toolsClicked();
+public slots:
+  void saveClicked();
+  void openClicked();
+  void toolsClicked();
 
-    void toggleDebug();
-
-  };
-}
+  void toggleDebug();
+};
+} // namespace UI

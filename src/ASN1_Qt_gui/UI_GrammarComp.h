@@ -6,27 +6,31 @@
 #pragma once
 #include "Widgets/CustomWidgets.h"
 
-namespace UI {
-  class UI_Main;
+namespace UI
+{
+class UI_Main;
 
-  class UI_GrammarComp : public QWidget {
-    Q_OBJECT
+class UI_GrammarComp : public QWidget
+{
+  Q_OBJECT
 
-   public:
-    UI_GrammarComp(UI_Main* main);
-    virtual ~UI_GrammarComp() {}
+public:
+  UI_GrammarComp(UI_Main *main);
+  virtual ~UI_GrammarComp()
+  {
+  }
 
-   protected:
-    // functions
-    QWidget* MakeMenuBar();
-    void MakeCompGrammarPane();
+protected:
+  // functions
+  QWidget *MakeMenuBar();
+  void MakeCompGrammarPane();
 
-    // variables
-    UI_Main* m_Main;
-    QComboBox* m_List;
+  // variables
+  UI_Main *m_Main;
+  QComboBox *m_List;
 
-   public slots:
-    void LoadGrammar();
-  };
+public slots:
+  void LoadGrammar();
+};
 
-}
+} // namespace UI

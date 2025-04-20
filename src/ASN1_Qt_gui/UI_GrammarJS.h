@@ -8,42 +8,46 @@
 #include "Widgets/DraggableTreeWidget.h"
 #include "Widgets/DropablePlainTextEdit.h"
 
-namespace UI {
-  class UI_Main;
+namespace UI
+{
+class UI_Main;
 
-  class UI_GrammarJS : public QWidget {
-    Q_OBJECT
+class UI_GrammarJS : public QWidget
+{
+  Q_OBJECT
 
-   public:
-    UI_GrammarJS(UI_Main* main);
-    virtual ~UI_GrammarJS() {}
+public:
+  UI_GrammarJS(UI_Main *main);
+  virtual ~UI_GrammarJS()
+  {
+  }
 
-    void SetScript(const QString& script);
+  void SetScript(const QString &script);
 
-   protected:
-    // functions
-    QGroupBox* MakeJSEditor(QWidget* parent);
-    QGroupBox* MakeHintPanel(QWidget* parent);
-    QWidget* MakeMenuBar();
-    void MakeJSGrammarPane();
+protected:
+  // functions
+  QGroupBox *MakeJSEditor(QWidget *parent);
+  QGroupBox *MakeHintPanel(QWidget *parent);
+  QWidget *MakeMenuBar();
+  void MakeJSGrammarPane();
 
-    // variables
-    UI_Main* m_Main;
-    DropablePlainTextEdit* JSedit;
-    DraggableTreeWidget* HintPanel;
-    QLabel* HintText;
-    bool m_JSDebug;
+  // variables
+  UI_Main *m_Main;
+  DropablePlainTextEdit *JSedit;
+  DraggableTreeWidget *HintPanel;
+  QLabel *HintText;
+  bool m_JSDebug;
 
-    QString m_LoadedScriptFile;
+  QString m_LoadedScriptFile;
 
-   public slots:
-    void RefreshHint(const QModelIndex& i);
-    void ToggleJSDebugMode();
-    void debugMenu();
-    void RunJSScript();
-    void RunAdditionalJSScript();
-    void LoadJSScript();
-    void SaveJSScript();
-  };
+public slots:
+  void RefreshHint(const QModelIndex &i);
+  void ToggleJSDebugMode();
+  void debugMenu();
+  void RunJSScript();
+  void RunAdditionalJSScript();
+  void LoadJSScript();
+  void SaveJSScript();
+};
 
-}
+} // namespace UI

@@ -5,8 +5,9 @@
 
 #include "JSHighlighter.h"
 
-JSHighlighter::JSHighlighter(QTextDocument* parent)
-  : QSyntaxHighlighter(parent) {
+JSHighlighter::JSHighlighter(QTextDocument *parent)
+    : QSyntaxHighlighter(parent)
+{
   HighlightingRule rule;
 
   QTextCharFormat keywordFormat;
@@ -20,10 +21,11 @@ JSHighlighter::JSHighlighter(QTextDocument* parent)
   QStringList keywordPatterns;
   keywordPatterns << "\\bchar\\b" << "\\bdelete\\b" << "\\bdouble\\b" << "\\bfunction\\b"
                   << "\\bint\\b" << "\\blong\\b" << "\\bnew\\b" << "\\breturn\\b"
-                  << "\\bshort\\b" <<  "\\bstruct\\b" << "\\bunion\\b"
+                  << "\\bshort\\b" << "\\bstruct\\b" << "\\bunion\\b"
                   << "\\bunsigned\\b" << "\\bvar\\b" << "\\bvoid\\b" << "\\bfor\\b" << "\\bif\\b"
                   << "\\belse\\b" << "\\bwhile\\b" << "\\bdo\\b";
-  foreach (const QString& pattern, keywordPatterns) {
+  foreach (const QString &pattern, keywordPatterns)
+  {
     rule.pattern = QRegularExpression(pattern);
     rule.format = keywordFormat;
     highlightingRules.append(rule);
@@ -56,35 +58,39 @@ JSHighlighter::JSHighlighter(QTextDocument* parent)
   commentEndExpression = QRegularExpression("\\*/");
 }
 
-void JSHighlighter::highlightBlock(const QString& text) {
-
-  for (const HighlightingRule &rule : std::as_const(highlightingRules)) {
+void JSHighlighter::highlightBlock(const QString &text)
+{
+  for (const HighlightingRule &rule : std::as_const(highlightingRules))
+  {
     QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
-    while (matchIterator.hasNext()) {
-        QRegularExpressionMatch match = matchIterator.next();
-        setFormat(match.capturedStart(), match.capturedLength(), rule.format);
+    while (matchIterator.hasNext())
+    {
+      QRegularExpressionMatch match = matchIterator.next();
+      setFormat(match.capturedStart(), match.capturedLength(), rule.format);
     }
   }
 
   setCurrentBlockState(0);
 
   int startIndex = 0;
-  if(previousBlockState() != 1)
+  if (previousBlockState() != 1)
     startIndex = text.indexOf(commentStartExpression);
 
-  while(startIndex >= 0) {
+  while (startIndex >= 0)
+  {
     QRegularExpressionMatch match = commentEndExpression.match(text, startIndex);
     int endIndex = match.capturedStart();
     int commentLength = 0;
-    if(endIndex == -1) {
+    if (endIndex == -1)
+    {
       setCurrentBlockState(1);
       commentLength = text.length() - startIndex;
     }
-    else {
+    else
+    {
       commentLength = endIndex - startIndex + match.capturedLength();
     }
     setFormat(startIndex, commentLength, multiLineCommentFormat);
     startIndex = text.indexOf(commentStartExpression, startIndex + commentLength);
   }
-
 }

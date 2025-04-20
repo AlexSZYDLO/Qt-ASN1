@@ -5,8 +5,9 @@
 
 #include "ASNHighlighter.h"
 
-ASNHighlighter::ASNHighlighter(QTextDocument* parent)
-  : QSyntaxHighlighter(parent) {
+ASNHighlighter::ASNHighlighter(QTextDocument *parent)
+    : QSyntaxHighlighter(parent)
+{
   HighlightingRule rule;
 
   QTextCharFormat keywordFormat;
@@ -19,15 +20,16 @@ ASNHighlighter::ASNHighlighter(QTextDocument* parent)
   QStringList keywordPatterns;
   keywordPatterns << "\\bDEFINITIONS\\b" << "\\bAUTOMATIC TAGS\\b" << "\\bIMPLICIT TAGS\\b" << "\\bEXPLICIT TAGS\\b"
                   << "\\bEXTENSIBILITY IMPLIED\\b" << "\\bBEGIN\\b" << "\\bEND\\b" << "\\bOPTIONAL\\b"
-                  << "\\bEXPLICIT\\b" <<  "\\bIMPLICIT\\b" << "\\bUNIVERSAL\\b"
+                  << "\\bEXPLICIT\\b" << "\\bIMPLICIT\\b" << "\\bUNIVERSAL\\b"
                   << "\\bCONTEXT SPECIFIC\\b" << "\\bPRIVATE\\b" << "\\bAPPLICATION\\b"
-                  << "\\bBIT STRING\\b" <<  "\\bBOOLEAN\\b" << "\\bENUMERATED\\b"
+                  << "\\bBIT STRING\\b" << "\\bBOOLEAN\\b" << "\\bENUMERATED\\b"
                   << "\\bIA5String\\b" << "\\bINTEGER\\b" << "\\bNULL\\b"
-                  << "\\bOBJECT IDENTIFIER\\b" <<  "\\bOCTET STRING\\b" << "\\bREAL\\b"
-                  << "\\bUTCTime\\b" << "\\bUTF8String\\b" << "\\bSEQUENCE\\b" <<  "\\bSEQUENCE OF\\b" << "\\bCHOICE\\b"
+                  << "\\bOBJECT IDENTIFIER\\b" << "\\bOCTET STRING\\b" << "\\bREAL\\b"
+                  << "\\bUTCTime\\b" << "\\bUTF8String\\b" << "\\bSEQUENCE\\b" << "\\bSEQUENCE OF\\b" << "\\bCHOICE\\b"
                   << "\\bSET\\b";
 
-  foreach (const QString& pattern, keywordPatterns) {
+  foreach (const QString &pattern, keywordPatterns)
+  {
     rule.pattern = QRegularExpression(pattern);
     rule.format = keywordFormat;
     highlightingRules.append(rule);
@@ -54,35 +56,39 @@ ASNHighlighter::ASNHighlighter(QTextDocument* parent)
   commentEndExpression = QRegularExpression("\\*/");
 }
 
-void ASNHighlighter::highlightBlock(const QString& text) {
-
-  for (const HighlightingRule &rule : std::as_const(highlightingRules)) {
+void ASNHighlighter::highlightBlock(const QString &text)
+{
+  for (const HighlightingRule &rule : std::as_const(highlightingRules))
+  {
     QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
-    while (matchIterator.hasNext()) {
-        QRegularExpressionMatch match = matchIterator.next();
-        setFormat(match.capturedStart(), match.capturedLength(), rule.format);
+    while (matchIterator.hasNext())
+    {
+      QRegularExpressionMatch match = matchIterator.next();
+      setFormat(match.capturedStart(), match.capturedLength(), rule.format);
     }
   }
 
   setCurrentBlockState(0);
 
   int startIndex = 0;
-  if(previousBlockState() != 1)
+  if (previousBlockState() != 1)
     startIndex = text.indexOf(commentStartExpression);
 
-  while(startIndex >= 0) {
+  while (startIndex >= 0)
+  {
     QRegularExpressionMatch match = commentEndExpression.match(text, startIndex);
     int endIndex = match.capturedStart();
     int commentLength = 0;
-    if(endIndex == -1) {
+    if (endIndex == -1)
+    {
       setCurrentBlockState(1);
       commentLength = text.length() - startIndex;
     }
-    else {
+    else
+    {
       commentLength = endIndex - startIndex + match.capturedLength();
     }
     setFormat(startIndex, commentLength, multiLineCommentFormat);
     startIndex = text.indexOf(commentStartExpression, startIndex + commentLength);
   }
-
 }

@@ -5,23 +5,25 @@
 
 #pragma once
 
+#include <QRegularExpression>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
-#include <QRegularExpression>
 
 class QTextDocument;
 
-class ASNHighlighter : public QSyntaxHighlighter {
+class ASNHighlighter : public QSyntaxHighlighter
+{
   Q_OBJECT
 
- public:
-  ASNHighlighter(QTextDocument* parent = 0);
+public:
+  ASNHighlighter(QTextDocument *parent = 0);
 
- protected:
-  void highlightBlock(const QString& text) override;
+protected:
+  void highlightBlock(const QString &text) override;
 
- private:
-  struct HighlightingRule {
+private:
+  struct HighlightingRule
+  {
     QRegularExpression pattern;
     QTextCharFormat format;
   };

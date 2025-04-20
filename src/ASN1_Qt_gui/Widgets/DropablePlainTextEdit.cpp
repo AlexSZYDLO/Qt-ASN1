@@ -5,12 +5,15 @@
 #include "DropablePlainTextEdit.h"
 #include <QMimeData>
 
-DropablePlainTextEdit::DropablePlainTextEdit(QWidget* parent) : QPlainTextEdit(parent)  {
+DropablePlainTextEdit::DropablePlainTextEdit(QWidget *parent)
+    : QPlainTextEdit(parent)
+{
   setAcceptDrops(true);
   setCursorWidth(2);
 }
 
-void DropablePlainTextEdit::dropEvent(QDropEvent* event) {
+void DropablePlainTextEdit::dropEvent(QDropEvent *event)
+{
   setFocus();
   QPlainTextEdit::dropEvent(event);
 }
@@ -27,5 +30,3 @@ void DropablePlainTextEdit::dragEnterEvent(QDragEnterEvent* event) {
 void DropablePlainTextEdit::dragMoveEvent(QDragMoveEvent* event) {
 }
 */
-
-

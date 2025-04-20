@@ -3,21 +3,25 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #include "DraggableTreeWidget.h"
-#include <QMouseEvent>
 #include <QDrag>
 #include <QMimeData>
+#include <QMouseEvent>
 #include <QTreeWidgetItem>
 
-DraggableTreeWidget::DraggableTreeWidget(QWidget* parent) : QTreeView(parent) {
+DraggableTreeWidget::DraggableTreeWidget(QWidget *parent)
+    : QTreeView(parent)
+{
   setDragEnabled(true);
   setModel(new customModel);
 }
 
-void DraggableTreeWidget::dragMoveEvent(QDragMoveEvent* event) {
+void DraggableTreeWidget::dragMoveEvent(QDragMoveEvent *event)
+{
   QTreeView::dragMoveEvent(event);
 }
 
-void DraggableTreeWidget::mousePressEvent(QMouseEvent* event) {
+void DraggableTreeWidget::mousePressEvent(QMouseEvent *event)
+{
   QTreeView::mousePressEvent(event);
   /*
     if (event->button() == Qt::LeftButton) {
