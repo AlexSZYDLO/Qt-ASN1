@@ -18,11 +18,19 @@ extern "C" {
 #define MODULE_API
 #endif
 
-MODULE_API bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
-MODULE_API bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
+MODULE_API bool ASNBufferToJSBuffer(const char *inBuffer,
+                                    char *outBuffer,
+                                    unsigned int bufferSize,
+                                    char *errorBuff,
+                                    unsigned int errorBuffSize);
+MODULE_API bool ASNFileToJSFile(const char *inPath, const char *outPath, char *errorBuff, unsigned int errorBuffSize);
 
-MODULE_API bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize);
-MODULE_API bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize);
+MODULE_API bool ASNBufferToCPPBuffer(const char *inBuffer,
+                                     char *outBuffer,
+                                     unsigned int bufferSize,
+                                     char *errorBuff,
+                                     unsigned int errorBuffSize);
+MODULE_API bool ASNFileToCPPFile(const char *inPath, const char *outPath, char *errorBuff, unsigned int errorBuffSize);
 
 #ifdef __cplusplus
 }

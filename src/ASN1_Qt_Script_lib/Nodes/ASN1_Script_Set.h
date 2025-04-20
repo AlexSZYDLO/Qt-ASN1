@@ -3,32 +3,32 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #pragma once
-#include "../ASN1_Script_Node.h"
 #include <QJSEngine>
+#include "../ASN1_Script_Node.h"
 
-class ASN1_Script_Set : public ASN1_Script_Node_Base {
+class ASN1_Script_Set : public ASN1_Script_Node_Base
+{
   Q_OBJECT
- public:
+public:
   Q_INVOKABLE ASN1_Script_Set(QObjectList _objects = QObjectList(),
-                  const QString& name = "",
-                  const QString& tag = "",
-                  bool optional = false,
-                  bool explicitTag = false,
-                  ASN1_Script_Set* defaultValue = nullptr,
-                  bool extensibility = false);
-  ASN1_Set* getGrammar() const override;
+                              const QString &name = "",
+                              const QString &tag = "",
+                              bool optional = false,
+                              bool explicitTag = false,
+                              ASN1_Script_Set *defaultValue = nullptr,
+                              bool extensibility = false);
+  ASN1_Set *getGrammar() const override;
 
- public slots:
-  QObject* GetObjectAt(unsigned int pos) const;
+public slots:
+  QObject *GetObjectAt(unsigned int pos) const;
   unsigned int GetSetSize() const;
 
   void clearDynamicData() override;
 
- protected:
-  ASN1_Set* m_GrammarSpe{};
+protected:
+  ASN1_Set *m_GrammarSpe{};
 
-  QList<ASN1_Script_Node_Base*> m_Objects;
+  QList<ASN1_Script_Node_Base *> m_Objects;
 };
 
-Q_DECLARE_METATYPE(ASN1_Script_Set*)
-
+Q_DECLARE_METATYPE(ASN1_Script_Set *)

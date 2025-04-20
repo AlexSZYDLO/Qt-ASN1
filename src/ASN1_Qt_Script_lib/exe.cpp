@@ -1,5 +1,5 @@
-#include <iostream>
 #include <QCoreApplication>
+#include <iostream>
 
 #include "Script.h"
 
@@ -10,17 +10,17 @@ const QString script4(); // sequence of
 const QString script5(); // choice
 const QString script6(); // set
 
-
-int main(int argc, char const* argv[])
+int main(int argc, char const *argv[])
 {
   std::cout << "/* start */" << std::endl;
-  QCoreApplication app(argc, const_cast<char**>(argv));
+  QCoreApplication app(argc, const_cast<char **>(argv));
   QString error;
   bool res = true;
   bool all = false;
 
-  if (false || all) {
-    QJSEngine* eng = InitEngine();
+  if (false || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script1(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cBitString;
@@ -33,8 +33,9 @@ int main(int argc, char const* argv[])
     res &= std::string(buffer.GetString()) == "0300";
   }
 
-  if (false || all) {
-    QJSEngine* eng = InitEngine();
+  if (false || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script2(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cUTCTime;
@@ -48,8 +49,9 @@ int main(int argc, char const* argv[])
     res &= std::string(buffer.GetString()) == "170F393130333131313033302B30313030";
   }
 
-  if (false || all) {
-    QJSEngine* eng = InitEngine();
+  if (false || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script3(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cSequence;
@@ -61,8 +63,9 @@ int main(int argc, char const* argv[])
     res &= std::string(buffer.GetString()) == "AA080A0204A00C020520";
   }
 
-  if (false || all) {
-    QJSEngine* eng = InitEngine();
+  if (false || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script4(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cSequenceOf;
@@ -74,8 +77,9 @@ int main(int argc, char const* argv[])
     res &= std::string(buffer.GetString()) == "CC0D030200FF030200C3030303FF00";
   }
 
-  if (false || all) {
-    QJSEngine* eng = InitEngine();
+  if (false || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script5(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cChoice;
@@ -88,8 +92,9 @@ int main(int argc, char const* argv[])
     res &= std::string(buffer.GetString()) == "AA030B0103";
   }
 
-  if (true || all) {
-    QJSEngine* eng = InitEngine();
+  if (true || all)
+  {
+    QJSEngine *eng = InitEngine();
     std::shared_ptr<ASN1_Object> obj = GrammarFromScript(eng, script6(), error);
     res &= error.isEmpty();
     res &= obj->GetType() == Utils::eNodeType::cSet;
@@ -112,7 +117,8 @@ int main(int argc, char const* argv[])
 
 // Scripts
 
-const QString script6() {
+const QString script6()
+{
   return R"(
   var a = new BooleanASN1('bool', '0A');
   var b = new EnumeratedASN1('enum', '0B');
@@ -144,7 +150,8 @@ const QString script6() {
 )";
 }
 
-const QString script5() {
+const QString script5()
+{
   return R"(
   var chCallBack = function(i) {
       if (i === 0) return new BitStringASN1('bitstring c1', '0A');
@@ -162,7 +169,8 @@ const QString script5() {
 )";
 }
 
-const QString script4() {
+const QString script4()
+{
   return R"(
   var seqofcallback = function() {
     return new BitStringASN1('seqof bitstring');
@@ -213,7 +221,8 @@ const QString script2()
 )";
 }
 
-const QString script1() {
+const QString script1()
+{
   return R"(
   var defA = new BitStringASN1('def A');
   defA.setBitStringValue('11');

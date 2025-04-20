@@ -5,20 +5,21 @@
 #pragma once
 #include "Generator.h"
 
-class JSGenerator : public Generator {
- public:
+class JSGenerator : public Generator
+{
+public:
   JSGenerator();
   virtual ~JSGenerator();
 
   virtual std::string Generate() override;
 
-  void GenerateVar(Variable& v, bool tab = true);
-  void GenerateSequenceOrSet(Module& m);
-  void GenerateSequenceOf(Module& m);
-  void GenerateChoice(Module& m);
-  void GenerateSingleVarModule(Module& m);
+  void GenerateVar(Variable &v, bool tab = true);
+  void GenerateSequenceOrSet(Module &m);
+  void GenerateSequenceOf(Module &m);
+  void GenerateChoice(Module &m);
+  void GenerateSingleVarModule(Module &m);
 
- protected:
+protected:
   int count;
   std::string script;
 

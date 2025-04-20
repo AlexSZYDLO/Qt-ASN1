@@ -6,12 +6,18 @@
 
 using namespace std;
 
-JSGenerator::JSGenerator() : Generator() {}
-JSGenerator::~JSGenerator() {}
+JSGenerator::JSGenerator()
+    : Generator()
+{
+}
+JSGenerator::~JSGenerator()
+{
+}
 
-
-string JSGenerator::typeToJSClass(eNodeType t) {
-  switch(t) {
+string JSGenerator::typeToJSClass(eNodeType t)
+{
+  switch (t)
+  {
     case cBoolean:
       return "BooleanASN1";
     case cBitString:
@@ -47,43 +53,66 @@ string JSGenerator::typeToJSClass(eNodeType t) {
   }
 }
 
-
-void JSGenerator::GenerateVar(Variable& v, bool tab) {
+void JSGenerator::GenerateVar(Variable &v, bool tab)
+{
   string v_name = v.name + "_" + to_string(++count);
 
-  if(tab)
+  if (tab)
     script += "\t";
 
-  if(v.type == cSequence || v.type == cSet) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( Make_" + v.customTypeName + "(), \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null, " + (ModuleFromName(v.customTypeName).extensible ? "true" : "false") + ");";
-  } else if(v.type == cSequenceOf) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_SeqOfCallback, \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-  } else if(v.type == cChoice) {
-    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_ChoiceCallback, " + to_string(ModuleFromName(v.customTypeName).tempVariableList.size()) + ", \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-  } else {
-    if(v.customTypeName == "") {
-      script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
-    } else {
-      script += "var " + v_name + " = Make_" + v.customTypeName + "( \'" + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+  if (v.type == cSequence || v.type == cSet)
+  {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( Make_" + v.customTypeName + "(), \'" + v.name
+              + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false")
+              + ", null, " + (ModuleFromName(v.customTypeName).extensible ? "true" : "false") + ");";
+  }
+  else if (v.type == cSequenceOf)
+  {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_SeqOfCallback, \'"
+              + v.name + "\', \'" + v.tag + "\', " + (v.optional ? "true" : "false") + ", "
+              + (v.explicitTag ? "true" : "false") + ", null );";
+  }
+  else if (v.type == cChoice)
+  {
+    script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( " + v.customTypeName + "_ChoiceCallback, "
+              + to_string(ModuleFromName(v.customTypeName).tempVariableList.size()) + ", \'" + v.name + "\', \'" + v.tag
+              + "\', " + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+  }
+  else
+  {
+    if (v.customTypeName == "")
+    {
+      script += "var " + v_name + " = new " + typeToJSClass(v.type) + "( \'" + v.name + "\', \'" + v.tag + "\', "
+                + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
+    }
+    else
+    {
+      script += "var " + v_name + " = Make_" + v.customTypeName + "( \'" + v.name + "\', \'" + v.tag + "\', "
+                + (v.optional ? "true" : "false") + ", " + (v.explicitTag ? "true" : "false") + ", null );";
     }
   }
   script += "\n";
 }
 
-void JSGenerator::GenerateSequenceOrSet(Module& m) {
+void JSGenerator::GenerateSequenceOrSet(Module &m)
+{
   string varArray = "[ ";
 
   string functionName = "Make_" + m.name;
   script += "function " + functionName + "() { \n";
 
-  for(size_t j = 0; j < m.tempVariableList.size(); j++) {
+  for (size_t j = 0; j < m.tempVariableList.size(); j++)
+  {
     Variable v = m.tempVariableList.at(j);
     GenerateVar(v);
 
     string v_name = v.name + "_" + to_string(count); // keep same count to get same name
-    if(j == 0) {
+    if (j == 0)
+    {
       varArray += v_name;
-    } else {
+    }
+    else
+    {
       varArray += ", " + v_name;
     }
   }
@@ -92,7 +121,8 @@ void JSGenerator::GenerateSequenceOrSet(Module& m) {
   script += "\treturn " + varArray + "; \n} \n\n";
 }
 
-void JSGenerator::GenerateSequenceOf(Module& m) {
+void JSGenerator::GenerateSequenceOf(Module &m)
+{
   script += "var " + m.name + "_SeqOfCallback = function() { \n";
   Variable v = m.tempVariableList.at(0);
   v.name = "SeqOfVar";
@@ -100,9 +130,11 @@ void JSGenerator::GenerateSequenceOf(Module& m) {
   script += "\treturn " + v.name + "_" + to_string(count) + "; \n} \n\n";
 }
 
-void JSGenerator::GenerateChoice(Module& m) {
+void JSGenerator::GenerateChoice(Module &m)
+{
   script += "var " + m.name + "_ChoiceCallback = function(index) { \n";
-  for(unsigned int i = 0; i < m.tempVariableList.size(); i++) {
+  for (unsigned int i = 0; i < m.tempVariableList.size(); i++)
+  {
     Variable v = m.tempVariableList.at(i);
     script += "\tif (index === " + to_string(i) + ") {\n\t";
     GenerateVar(v);
@@ -111,7 +143,8 @@ void JSGenerator::GenerateChoice(Module& m) {
   script += "}\n\n";
 }
 
-void JSGenerator::GenerateSingleVarModule(Module& m) {
+void JSGenerator::GenerateSingleVarModule(Module &m)
+{
   script += "var Make_" + m.name + " = function(name, tag, optional, explicit, defaultVal) { \n";
   Variable v = m.tempVariableList.at(0);
   string v_name = "var_" + to_string(++count);
@@ -119,8 +152,8 @@ void JSGenerator::GenerateSingleVarModule(Module& m) {
   script += "\treturn var_" + to_string(count) + "; \n} \n\n";
 }
 
-
-string JSGenerator::Generate() {
+string JSGenerator::Generate()
+{
   SortModules();
   ReviewNames();
 
@@ -129,31 +162,50 @@ string JSGenerator::Generate() {
   script = "";
   script = "/*  Script auto-generated by Q-ASN1. */\n\n";
 
-  for(size_t i = 0; i < m_ModuleList.size(); i++) {
+  for (size_t i = 0; i < m_ModuleList.size(); i++)
+  {
     Module m = m_ModuleList.at(i);
 
-    if(m.type == cSequence || m.type == cSet) {
+    if (m.type == cSequence || m.type == cSet)
+    {
       GenerateSequenceOrSet(m);
-    } else if(m.type == cSequenceOf) {
+    }
+    else if (m.type == cSequenceOf)
+    {
       GenerateSequenceOf(m);
-    } else if(m.type == cChoice) {
+    }
+    else if (m.type == cChoice)
+    {
       GenerateChoice(m);
-    } else {
+    }
+    else
+    {
       GenerateSingleVarModule(m);
     }
   }
 
-  if(m_ModuleList.size() > 0) {
-    Variable v = {"main", "", false, false, false, m_ModuleList.at(m_ModuleList.size() - 1).type, false, m_ModuleList.at(m_ModuleList.size() - 1).name};
+  if (m_ModuleList.size() > 0)
+  {
+    Variable v = {"main",
+                  "",
+                  false,
+                  false,
+                  false,
+                  m_ModuleList.at(m_ModuleList.size() - 1).type,
+                  false,
+                  m_ModuleList.at(m_ModuleList.size() - 1).name};
 
-    if(m_TagExplicit) {
+    if (m_TagExplicit)
+    {
       v.explicitTag = true;
     }
 
     GenerateVar(v, false);
     script += "main_" + to_string(count) + ".registerGrammar();\n";
     return script;
-  } else {
+  }
+  else
+  {
     return "";
   }
 }

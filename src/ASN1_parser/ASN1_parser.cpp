@@ -20,7 +20,8 @@
 using namespace std;
 string ParsingError = "";
 
-int parse(const string& s) {
+int parse(const string &s)
+{
   yylineno = 1;
   ParsingError = "";
   YY_BUFFER_STATE ybuf;
@@ -30,7 +31,6 @@ int parse(const string& s) {
 
   return 0;
 }
-
 
 /*
 int parse++(const string& s) {
@@ -48,32 +48,39 @@ int parse++(const string& s) {
 }
 */
 
-void FillBufferWithString(string& s, char* buff, unsigned int buffSize) {
-  if(s.size() == 0 && buffSize > 0) { // s empty
+void FillBufferWithString(string &s, char *buff, unsigned int buffSize)
+{
+  if (s.size() == 0 && buffSize > 0)
+  { // s empty
     buff[0] = '\0';
-  } else if(s.size() < buffSize && !s.empty()) { // all good copy all s in buffer
+  }
+  else if (s.size() < buffSize && !s.empty())
+  { // all good copy all s in buffer
     s.copy(buff, s.size());
     buff[s.size()] = '\0';
-  } else if(!s.empty() && buffSize > 0) { // s not empty, but buffer not large enough
+  }
+  else if (!s.empty() && buffSize > 0)
+  { // s not empty, but buffer not large enough
     s.copy(buff, buffSize - 1);
     buff[buffSize - 1] = '\0';
   }
 }
 
 template <class gen>
-bool ParseToFormat(const string& in, string& out) {
+bool ParseToFormat(const string &in, string &out)
+{
   ParsingError = "";
   gGen = new gen();
   parse(in);
 
   string e(ParsingError);
 
-  if(ParsingError.empty())
+  if (ParsingError.empty())
     out = gGen->Generate();
 
   delete gGen;
 
-  if(!ParsingError.empty())
+  if (!ParsingError.empty())
     return false;
 
   //  if (!out.empty()) {
@@ -83,7 +90,12 @@ bool ParseToFormat(const string& in, string& out) {
   return true;
 }
 
-bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize) {
+bool ASNBufferToJSBuffer(const char *inBuffer,
+                         char *outBuffer,
+                         unsigned int bufferSize,
+                         char *errorBuff,
+                         unsigned int errorBuffSize)
+{
   string JS;
   bool b = ParseToFormat<JSGenerator>(inBuffer, JS);
 
@@ -93,7 +105,8 @@ bool ASNBufferToJSBuffer(const char* inBuffer, char* outBuffer, unsigned int buf
   return b;
 }
 
-bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize) {
+bool ASNFileToJSFile(const char *inPath, const char *outPath, char *errorBuff, unsigned int errorBuffSize)
+{
   ifstream myfile(inPath);
   string s((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));
   string JS;
@@ -101,7 +114,8 @@ bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, u
   ParseToFormat<JSGenerator>(s, JS);
   FillBufferWithString(ParsingError, errorBuff, errorBuffSize);
 
-  if(!JS.empty()) {
+  if (!JS.empty())
+  {
     ofstream myfile(outPath);
     myfile.write(JS.c_str(), JS.size());
     return true;
@@ -109,7 +123,12 @@ bool ASNFileToJSFile(const char* inPath, const char* outPath, char* errorBuff, u
   return false;
 }
 
-bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bufferSize, char* errorBuff, unsigned int errorBuffSize) {
+bool ASNBufferToCPPBuffer(const char *inBuffer,
+                          char *outBuffer,
+                          unsigned int bufferSize,
+                          char *errorBuff,
+                          unsigned int errorBuffSize)
+{
   string CPP;
   bool b = ParseToFormat<CPPGenerator>(inBuffer, CPP);
 
@@ -119,7 +138,8 @@ bool ASNBufferToCPPBuffer(const char* inBuffer, char* outBuffer, unsigned int bu
   return b;
 }
 
-bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, unsigned int errorBuffSize) {
+bool ASNFileToCPPFile(const char *inPath, const char *outPath, char *errorBuff, unsigned int errorBuffSize)
+{
   ifstream myfile(inPath);
   string s((istreambuf_iterator<char>(myfile)), (istreambuf_iterator<char>()));
   string CPP;
@@ -127,7 +147,8 @@ bool ASNFileToCPPFile(const char* inPath, const char* outPath, char* errorBuff, 
   ParseToFormat<CPPGenerator>(s, CPP);
   FillBufferWithString(ParsingError, errorBuff, errorBuffSize);
 
-  if(!CPP.empty()) {
+  if (!CPP.empty())
+  {
     ofstream myfile(outPath);
     myfile.write(CPP.c_str(), CPP.size());
     return true;

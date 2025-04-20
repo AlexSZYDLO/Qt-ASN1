@@ -3,21 +3,23 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #include "Script.h"
+#include <QTextStream>
 #include "Nodes/ASN1_Script_Basic_Nodes.h"
 #include "Nodes/ASN1_Script_Choice.h"
 #include "Nodes/ASN1_Script_Sequence.h"
 #include "Nodes/ASN1_Script_SequenceOf.h"
 #include "Nodes/ASN1_Script_Set.h"
-#include <QTextStream>
 
-
-template <class nodeType> void installNode(QJSEngine* eng, QString CtorName) {
+template <class nodeType>
+void installNode(QJSEngine *eng, QString CtorName)
+{
   QJSValue injectedObject = eng->newQMetaObject(&nodeType::staticMetaObject);
   eng->globalObject().setProperty(CtorName, injectedObject);
 }
 
-QJSEngine* InitEngine() {
-  QJSEngine* scriptEngine = new QJSEngine();
+QJSEngine *InitEngine()
+{
+  QJSEngine *scriptEngine = new QJSEngine();
 
   installNode<ASN1_Script_BitString>(scriptEngine, "BitStringASN1");
   installNode<ASN1_Script_Boolean>(scriptEngine, "BooleanASN1");
@@ -38,11 +40,13 @@ QJSEngine* InitEngine() {
   return scriptEngine;
 }
 
-void ClearScriptEngine(QJSEngine* e) {
+void ClearScriptEngine(QJSEngine *e)
+{
   delete e;
 }
 
-std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, const QString& script, QString& error) {
+std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine *e, const QString &script, QString &error)
+{
   TheGrammar = nullptr;
   QJSValue result = e->evaluate(script);
 
@@ -55,11 +59,13 @@ std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, const QString& scri
   return error.isEmpty() ? TheGrammar : nullptr;
 }
 
-std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, QFile& file, QString& error) {
+std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine *e, QFile &file, QString &error)
+{
   if (file.exists())
     file.open(QFile::ReadOnly);
-  else {
-    error += "Cannot open script file" ;
+  else
+  {
+    error += "Cannot open script file";
     return nullptr;
   }
 
@@ -69,27 +75,32 @@ std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, QFile& file, QStrin
   return GrammarFromScript(e, jsContent, error);
 }
 
-std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, QFile& file) {
+std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine *e, QFile &file)
+{
   QString err;
   return GrammarFromScript(e, file, err);
 }
 
-std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine* e, const QString& script) {
+std::shared_ptr<ASN1_Object> GrammarFromScript(QJSEngine *e, const QString &script)
+{
   QString err;
   return GrammarFromScript(e, script, err);
 }
 
-void ProcessAdditionalScript(QJSEngine* e, const QString& script, QString& error) {
+void ProcessAdditionalScript(QJSEngine *e, const QString &script, QString &error)
+{
   QJSValue result = e->evaluate(script);
   if (result.isError())
     error = result.toString();
 }
 
-void ProcessAdditionalScript(QJSEngine* e, QFile& file, QString& error) {
+void ProcessAdditionalScript(QJSEngine *e, QFile &file, QString &error)
+{
   if (file.exists())
     file.open(QFile::ReadOnly);
-  else {
-    error += "Cannot open script file" ;
+  else
+  {
+    error += "Cannot open script file";
     return;
   }
 
@@ -98,21 +109,25 @@ void ProcessAdditionalScript(QJSEngine* e, QFile& file, QString& error) {
   ProcessAdditionalScript(e, jsContent, error);
 }
 
-void ProcessAdditionalScript(QJSEngine* e, QFile& file) {
+void ProcessAdditionalScript(QJSEngine *e, QFile &file)
+{
   QString err;
   return ProcessAdditionalScript(e, file, err);
 }
 
-void ProcessAdditionalScript(QJSEngine* e, const QString& script) {
+void ProcessAdditionalScript(QJSEngine *e, const QString &script)
+{
   QString err;
   return ProcessAdditionalScript(e, script, err);
 }
 
-void ClearGrammar() {
+void ClearGrammar()
+{
   TheGrammar.reset();
 }
 
 // --------------- memory check ---------------
-bool ScriptMemoryCheck() {
+bool ScriptMemoryCheck()
+{
   return ASN1_Script_Node_Base::memoryCheck() && ASN1_Object::memoryCheck();
 }

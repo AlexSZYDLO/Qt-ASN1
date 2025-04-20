@@ -3,34 +3,35 @@
  * Redistribution and modifications are permitted subject to GPL-V3 license.
  */
 #pragma once
-#include "../ASN1_Script_Node.h"
-#include <QObject>
 #include <QJSValue>
+#include <QObject>
+#include "../ASN1_Script_Node.h"
 
-class ASN1_Script_Choice : public ASN1_Script_Node_Base {
+class ASN1_Script_Choice : public ASN1_Script_Node_Base
+{
   Q_OBJECT
- public:
+public:
   Q_INVOKABLE ASN1_Script_Choice(QJSValue m_Callback = QJSValue(),
-                     int numberOfChoices = 0,
-                     const QString& name = "",
-                     const QString& tag = "",
-                     bool optional = false,
-                     bool explicitTag = false,
-                     ASN1_Script_Choice* defaultValue = nullptr);
+                                 int numberOfChoices = 0,
+                                 const QString &name = "",
+                                 const QString &tag = "",
+                                 bool optional = false,
+                                 bool explicitTag = false,
+                                 ASN1_Script_Choice *defaultValue = nullptr);
 
-  ASN1_Choice* getGrammar() const override;
+  ASN1_Choice *getGrammar() const override;
 
- public slots:
-  QObject* setSelectedChoice(int idx);
-  QObject* getSelectedChoice() const;
+public slots:
+  QObject *setSelectedChoice(int idx);
+  QObject *getSelectedChoice() const;
   unsigned int getSelectedChoiceIndex() const;
 
   void clearDynamicData() override;
 
- protected:
-  ASN1_Choice* m_GrammarSpe{};
+protected:
+  ASN1_Choice *m_GrammarSpe{};
 
   QJSValue m_Callback;
 
-  ASN1_Script_Node_Base* m_ChosenValue{};
+  ASN1_Script_Node_Base *m_ChosenValue{};
 };
