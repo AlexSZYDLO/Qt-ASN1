@@ -8,40 +8,52 @@
 using namespace Value;
 
 ASN1_SequenceOf::ASN1_SequenceOf(callbackSequenceOf newSeqOfObject,
-                                 const char* name,
-                                 const ByteArray& tag,
+                                 const char *name,
+                                 const ByteArray &tag,
                                  bool optional,
                                  bool explicitTag,
-                                 const ASN1_SequenceOf* defaultSequenceOf) : ASN1_Object(name) {
-  ASN1_ValueSequenceOf* defaultValue = static_cast<ASN1_ValueSequenceOf*>(defaultSequenceOf != nullptr ? defaultSequenceOf->GetValue() : nullptr);
+                                 const ASN1_SequenceOf *defaultSequenceOf)
+    : ASN1_Object(name)
+{
+  ASN1_ValueSequenceOf *defaultValue = static_cast<ASN1_ValueSequenceOf *>(
+      defaultSequenceOf != nullptr ? defaultSequenceOf->GetValue() : nullptr);
   Value = new ASN1_ValueSequenceOf(newSeqOfObject, name, this, tag, optional, explicitTag, defaultValue);
 }
-ASN1_SequenceOf::~ASN1_SequenceOf() {}
-
-ASN1_Object* ASN1_SequenceOf::GetObjectAt(unsigned int pos) const {
-  return static_cast<ASN1_ValueSequenceOf*>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
+ASN1_SequenceOf::~ASN1_SequenceOf()
+{
 }
 
-unsigned int ASN1_SequenceOf::GetSequenceOfSize() const {
-  return static_cast<ASN1_ValueSequenceOf*>(GetValue())->GetSize();
+ASN1_Object *ASN1_SequenceOf::GetObjectAt(unsigned int pos) const
+{
+  return static_cast<ASN1_ValueSequenceOf *>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
 }
 
-ASN1_Object* ASN1_SequenceOf::AppendNewObject() {
-  return static_cast<ASN1_ValueSequenceOf*>(GetValue())->AppendNewObject()->GetGrammarObject();
+unsigned int ASN1_SequenceOf::GetSequenceOfSize() const
+{
+  return static_cast<ASN1_ValueSequenceOf *>(GetValue())->GetSize();
 }
 
-void ASN1_SequenceOf::DeleteObjectAt(unsigned int pos) {
-  static_cast<ASN1_ValueSequenceOf*>(GetValue())->DeleteObjectAt(pos);
+ASN1_Object *ASN1_SequenceOf::AppendNewObject()
+{
+  return static_cast<ASN1_ValueSequenceOf *>(GetValue())->AppendNewObject()->GetGrammarObject();
 }
 
-void ASN1_SequenceOf::MoveUpObject(unsigned int pos) {
-  static_cast<ASN1_ValueSequenceOf*>(GetValue())->MoveUpObject(pos);
+void ASN1_SequenceOf::DeleteObjectAt(unsigned int pos)
+{
+  static_cast<ASN1_ValueSequenceOf *>(GetValue())->DeleteObjectAt(pos);
 }
 
-void ASN1_SequenceOf::MoveDownObject(unsigned int pos) {
-  static_cast<ASN1_ValueSequenceOf*>(GetValue())->MoveDownObject(pos);
+void ASN1_SequenceOf::MoveUpObject(unsigned int pos)
+{
+  static_cast<ASN1_ValueSequenceOf *>(GetValue())->MoveUpObject(pos);
 }
 
-ASN1_Object* ASN1_SequenceOf::GetDummyNewObject() const {
-  return static_cast<ASN1_ValueSequenceOf*>(GetValue())->GetDummyNewObject()->GetGrammarObject();
+void ASN1_SequenceOf::MoveDownObject(unsigned int pos)
+{
+  static_cast<ASN1_ValueSequenceOf *>(GetValue())->MoveDownObject(pos);
+}
+
+ASN1_Object *ASN1_SequenceOf::GetDummyNewObject() const
+{
+  return static_cast<ASN1_ValueSequenceOf *>(GetValue())->GetDummyNewObject()->GetGrammarObject();
 }

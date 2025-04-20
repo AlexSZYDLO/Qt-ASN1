@@ -6,16 +6,19 @@
 
 using namespace Utils;
 
-namespace Value {
+namespace Value
+{
 
-  void ASN1_ValueNull::NullToHex(const bool&, ByteArray& output, std::string& error) {
-    output = "";
-    error = "To use the Null node, set it ignored or not directly on the node";
-  }
-
-  void ASN1_ValueNull::HexToNull(const ByteArray& input, bool&, std::string& error) {
-    if (input != "")
-      error = "The value of a Null node must be empty";
-  }
-
+void ASN1_ValueNull::NullToHex(const bool &, ByteArray &output, std::string &error)
+{
+  output = "";
+  error = "To use the Null node, set it ignored or not directly on the node";
 }
+
+void ASN1_ValueNull::HexToNull(const ByteArray &input, bool &, std::string &error)
+{
+  if (input != "")
+    error = "The value of a Null node must be empty";
+}
+
+} // namespace Value

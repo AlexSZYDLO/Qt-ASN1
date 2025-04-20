@@ -9,24 +9,40 @@
 #include <vector>
 #include "ASN1_Object.h"
 
-namespace Utils {
-  class ParsingEx : public std::exception {
-   protected:
-    std::string m_ConcatenatedErrors;
-    ASN1_Object* m_Obj;
-    unsigned int m_BufferIndex;
+namespace Utils
+{
+class ParsingEx : public std::exception
+{
+protected:
+  std::string m_ConcatenatedErrors;
+  ASN1_Object *m_Obj;
+  unsigned int m_BufferIndex;
 
-   public:
-    ParsingEx(std::string error, ASN1_Object* obj, unsigned int index)
-        : m_Obj(obj), m_BufferIndex(index) {
-      AddError(error);
-    }
+public:
+  ParsingEx(std::string error, ASN1_Object *obj, unsigned int index)
+      : m_Obj(obj)
+      , m_BufferIndex(index)
+  {
+    AddError(error);
+  }
 
-    void AddError(std::string error) { m_ConcatenatedErrors.append(error + '\n'); }
+  void AddError(std::string error)
+  {
+    m_ConcatenatedErrors.append(error + '\n');
+  }
 
-    virtual const char* what() const noexcept override { return m_ConcatenatedErrors.c_str(); }
-    ASN1_Object* GetFailingObject() { return m_Obj; }
-    unsigned int GetIndex() { return m_BufferIndex; }
-    bool ErrorEmptyBuffer();
-  };
+  virtual const char *what() const noexcept override
+  {
+    return m_ConcatenatedErrors.c_str();
+  }
+  ASN1_Object *GetFailingObject()
+  {
+    return m_Obj;
+  }
+  unsigned int GetIndex()
+  {
+    return m_BufferIndex;
+  }
+  bool ErrorEmptyBuffer();
+};
 } // namespace Utils

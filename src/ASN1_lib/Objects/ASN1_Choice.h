@@ -7,7 +7,7 @@
 
 /*
 ASN1 nodes definition for choice. See comment in ASN1_Object_Nodes.h for further explanations.
-Choice works with a callback that must be defined on caller side. This callback is called to instanciate the object associated with the choice, based on an index.
+Choice works with a callback that must be defined on caller side. This callback is called to instantiate the object associated with the choice, based on an index.
 
 if a choice proposes 3 possibilities:
 - INTGER
@@ -30,40 +30,42 @@ ASN1_Choice::callbackChoice callback{
  The second parameter MUST be the number of possible return values. If it is incorrect, it may lead to undefined behaviors.
 
 
- The choice object does not keep the possible choices instanciated at all times. 
- It only keeps the selected one, and instanciates only the required one when calling SetSelectedChoice(int)
+ The choice object does not keep the possible choices instantiated at all times.
+ It only keeps the selected one, and instantiates only the required one when calling SetSelectedChoice(int)
  However, for choice selection, it may be usefull to see all the possible choices at the same time (eg. in GUIs). To do so,
- - call MakeDummyChoiceList() to instanciate one of each possible choice
+ - call MakeDummyChoiceList() to instantiate one of each possible choice
  - you can call GetChoiceFromIndex(int) to access the available choices. This does NOT set the value, they are just dummies
  - Select the choice you want with SetSelectedChoice(int) (can be done as many times as you want)
  - Clean the list of possibilities with DeleteDummyChoiceList(). Facultative, but if you keep the list, you increase the memory used
  The dummy choices must be deleted only with the DeleteDummyChoiceList() function.
 */
 
-class MODULE_API ASN1_Choice : public ASN1_Object {
- public:
-  struct callbackChoice {
-    typedef ASN1_Object* (*callbackFunctionType)(unsigned int i, void* context);
+class MODULE_API ASN1_Choice : public ASN1_Object
+{
+public:
+  struct callbackChoice
+  {
+	typedef ASN1_Object *(*callbackFunctionType)(unsigned int i, void *context);
 
-    callbackFunctionType f;
-    void* context;
+	callbackFunctionType f;
+	void *context;
   };
 
   ASN1_Choice(callbackChoice choiceFromIdx,
               unsigned int maxChoiceIdx,
-              const char* name = "",
-              const ByteArray& tag = "",
+              const char *name = "",
+              const ByteArray &tag = "",
               bool optional = false,
               bool explicitTag = false,
-              const ASN1_Choice* defaultChoice = nullptr);
+              const ASN1_Choice *defaultChoice = nullptr);
   ~ASN1_Choice();
 
   unsigned int AvailableChoices() const;
-  const ASN1_Object* GetChoiceFromIndex(unsigned int pos) const;
+  const ASN1_Object *GetChoiceFromIndex(unsigned int pos) const;
   void MakeDummyChoiceList() const;
   void DeleteDummyChoiceList() const;
 
-  ASN1_Object* SetSelectedChoice(int idx);
-  ASN1_Object* GetSelectedChoice() const;
+  ASN1_Object *SetSelectedChoice(int idx);
+  ASN1_Object *GetSelectedChoice() const;
   unsigned int GetSelectedChoiceIndex() const;
 };

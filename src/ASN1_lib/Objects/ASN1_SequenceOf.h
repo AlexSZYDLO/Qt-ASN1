@@ -15,30 +15,32 @@ The GetDummyNewObject() function returns an object that is not appended to the s
 The dummy object must be deleted manually after use to clean the memory.
 */
 
-class MODULE_API ASN1_SequenceOf : public ASN1_Object {
- public:
-  struct callbackSequenceOf {
-    typedef ASN1_Object* (*callbackFunctionType)(void* context);
+class MODULE_API ASN1_SequenceOf : public ASN1_Object
+{
+public:
+  struct callbackSequenceOf
+  {
+    typedef ASN1_Object *(*callbackFunctionType)(void *context);
 
     callbackFunctionType f;
-    void* context;
+    void *context;
   };
 
   ASN1_SequenceOf(callbackSequenceOf newSeqOfObject,
-                  const char* name = "",
-                  const ByteArray& tag = "",
+                  const char *name = "",
+                  const ByteArray &tag = "",
                   bool optional = false,
                   bool explicitTag = false,
-                  const ASN1_SequenceOf* defaultSequenceOf = nullptr);
+                  const ASN1_SequenceOf *defaultSequenceOf = nullptr);
   virtual ~ASN1_SequenceOf();
 
-  ASN1_Object* GetObjectAt(unsigned int pos) const;
+  ASN1_Object *GetObjectAt(unsigned int pos) const;
   unsigned int GetSequenceOfSize() const;
 
-  ASN1_Object* AppendNewObject();
+  ASN1_Object *AppendNewObject();
   void DeleteObjectAt(unsigned int pos);
   void MoveUpObject(unsigned int pos);
   void MoveDownObject(unsigned int pos);
 
-  ASN1_Object* GetDummyNewObject() const;
+  ASN1_Object *GetDummyNewObject() const;
 };

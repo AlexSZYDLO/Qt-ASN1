@@ -33,29 +33,31 @@ It is also the interface for encoding and decoding.
 
 // This class is just declared here, but the user must not access it.
 // It contains the technical behavior of the nodes. We only need to keep a pointer to it
-namespace Value {
-  class ASN1_Value;
+namespace Value
+{
+class ASN1_Value;
 }
 
-class MODULE_API ASN1_Object {
+class MODULE_API ASN1_Object
+{
   static unsigned int static_ObjectCount;
 
- public:
+public:
   static bool memoryCheck();
 
- protected:
-  Value::ASN1_Value* Value;
+protected:
+  Value::ASN1_Value *Value;
 
- public:
-  ASN1_Object(const char* objectName);
+public:
+  ASN1_Object(const char *objectName);
   virtual ~ASN1_Object() = 0;
 
   // Should not be called by client. The client does not have the definition of this class
-  Value::ASN1_Value* GetValue() const;
+  Value::ASN1_Value *GetValue() const;
 
   // Access grammar information
-  const ASN1_Object* GetMyOwner() const;
-  const ASN1_Object* GetDefaultValue() const;
+  const ASN1_Object *GetMyOwner() const;
+  const ASN1_Object *GetDefaultValue() const;
   ByteArray GetDefaultTag() const;
   ByteArray GetTag() const;
   Utils::eNodeType GetType() const;
@@ -77,16 +79,16 @@ class MODULE_API ASN1_Object {
   void ClearDynamicData();
 
   // Setters for changeable values
-  void SetDescription(const char* desc);
+  void SetDescription(const char *desc);
   void Ignore(bool ignore = true);
 
   //The output is set in the buffer passed as argument. The buffer is cleared before starting. This function should never fail.
-  void WriteIntoBuffer(ByteArray& buffer) const;
+  void WriteIntoBuffer(ByteArray &buffer) const;
 
   // The data to read must correspond with the grammar encoded in this objet. If a problem happens during reading , the function returns false,
   // and the error will be written in the given error buffer
-  bool ReadFromBuffer(const ByteArray& buffer, std::string& error);
+  bool ReadFromBuffer(const ByteArray &buffer, std::string &error);
 
   // Compares two trees, that should be of the same grammar. The report will contain the differences in the values, optionality, selected choices, number of objects in sequences of...
-  bool Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, std::string& diffReport) const;
+  bool Compare(const ASN1_Object &secondTree, unsigned int &nbDiffs, std::string &diffReport) const;
 };

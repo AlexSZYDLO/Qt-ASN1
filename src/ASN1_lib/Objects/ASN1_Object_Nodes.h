@@ -42,11 +42,11 @@ For example, Boolean node, with type bool will look like:
 */
 
 #ifndef OBJECT_CONSTRUCTOR_DECL
-#define OBJECT_CONSTRUCTOR_DECL(name)      \
-  ASN1_##name(const char *objectName = "", \
-              const ByteArray &tag = "",   \
-              bool optional = false,       \
-              bool explicitTag = false,    \
+#define OBJECT_CONSTRUCTOR_DECL(name)                                                                                  \
+  ASN1_##name(const char *objectName = "",                                                                             \
+              const ByteArray &tag = "",                                                                               \
+              bool optional = false,                                                                                   \
+              bool explicitTag = false,                                                                                \
               const ASN1_##name *default##name = nullptr);
 #endif
 
@@ -67,28 +67,29 @@ For example, Boolean node, with type bool will look like:
 #endif
 
 #ifndef STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL
-#define STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type) \
+#define STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type)                                                           \
   static void name##ToHex(const type &input, ByteArray &output, std::string &error);
 #endif
 
 #ifndef STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL
-#define STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type) \
+#define STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type)                                                           \
   static void HexTo##name(const ByteArray &input, type &output, std::string &error);
 #endif
 
 #ifndef OBJECT_CLASS_DECL
-#define OBJECT_CLASS_DECL(name, type)                    \
-  class MODULE_API ASN1_##name : public ASN1_Object {    \
-   public:                                               \
-    OBJECT_CONSTRUCTOR_DECL(name)                        \
-    OBJECT_DESTRUCTOR_DECL(name)                         \
-                                                         \
-    OBJECT_SET_VALUE_FUNCTION_DECL(name, type)           \
-    OBJECT_SET_VALUE_CHECK_FUNCTION_DECL(name, type)     \
-    OBJECT_GET_VALUE_FUNCTION_DECL(name, type)           \
-                                                         \
-    STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type) \
-    STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type) \
+#define OBJECT_CLASS_DECL(name, type)                                                                                  \
+  class MODULE_API ASN1_##name : public ASN1_Object                                                                    \
+  {                                                                                                                    \
+  public:                                                                                                              \
+    OBJECT_CONSTRUCTOR_DECL(name)                                                                                      \
+    OBJECT_DESTRUCTOR_DECL(name)                                                                                       \
+                                                                                                                       \
+    OBJECT_SET_VALUE_FUNCTION_DECL(name, type)                                                                         \
+    OBJECT_SET_VALUE_CHECK_FUNCTION_DECL(name, type)                                                                   \
+    OBJECT_GET_VALUE_FUNCTION_DECL(name, type)                                                                         \
+                                                                                                                       \
+    STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_DECL(name, type)                                                               \
+    STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_DECL(name, type)                                                               \
   };
 #endif
 

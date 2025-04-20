@@ -9,37 +9,48 @@
 
 using namespace Utils;
 
-ByteArray::~ByteArray() {}
+ByteArray::~ByteArray()
+{
+}
 
-ByteArray::ByteArray(const ByteArray& hexStr) {
+ByteArray::ByteArray(const ByteArray &hexStr)
+{
   m_HexValue = hexStr.m_HexValue;
 }
 
-ByteArray::ByteArray(const char* str) : ByteArray (std::string(str)) {
+ByteArray::ByteArray(const char *str)
+    : ByteArray(std::string(str))
+{
 }
 
-ByteArray::ByteArray(const std::string &str) {
-  if(IsHex(str)) {
+ByteArray::ByteArray(const std::string &str)
+{
+  if (IsHex(str))
+  {
     std::string strUpper = str;
     std::transform(strUpper.begin(), strUpper.end(), strUpper.begin(), toupper);
     m_HexValue += strUpper;
 
     // Pad value if size is not even
-    if(m_HexValue.size() % 2 != 0)
+    if (m_HexValue.size() % 2 != 0)
       m_HexValue.insert(m_HexValue.begin(), '0');
   }
 }
 
-unsigned int ByteArray::Size() const {
+unsigned int ByteArray::Size() const
+{
   return static_cast<unsigned int>(m_HexValue.size() / 2);
 }
 
-std::string ByteArray::GetString() const {
+std::string ByteArray::GetString() const
+{
   return {m_HexValue.c_str()};
 }
 
-bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray& theByte) const {
-  if(ByteRank < Size()) {
+bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray &theByte) const
+{
+  if (ByteRank < Size())
+  {
     unsigned int j = ByteRank * 2;
     std::string s;
     s = m_HexValue.at(j);
@@ -50,10 +61,13 @@ bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray& theByte) const {
   return false;
 }
 
-bool ByteArray::GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfBytes, ByteArray& theBytes) const {
-  if(firstByteRank + nbOfBytes <= Size()) {
+bool ByteArray::GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfBytes, ByteArray &theBytes) const
+{
+  if (firstByteRank + nbOfBytes <= Size())
+  {
     ByteArray hexS;
-    for(unsigned int i = firstByteRank; i < firstByteRank + nbOfBytes; i++) {
+    for (unsigned int i = firstByteRank; i < firstByteRank + nbOfBytes; i++)
+    {
       size_t j = i * 2;
       std::string s;
       s = m_HexValue.at(j);
@@ -66,20 +80,24 @@ bool ByteArray::GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfByte
   return false;
 }
 
-
-void ByteArray::Clear() {
+void ByteArray::Clear()
+{
   m_HexValue.clear();
 }
 
-void ByteArray::Append(const ByteArray& bufferToAppend) {
+void ByteArray::Append(const ByteArray &bufferToAppend)
+{
   m_HexValue += std::string(bufferToAppend.GetString());
 }
 
-bool ByteArray::InsertAt(const ByteArray& bufferToAppend, unsigned int pos) {
+bool ByteArray::InsertAt(const ByteArray &bufferToAppend, unsigned int pos)
+{
   std::string s(bufferToAppend.GetString());
 
-  if(Size() >= pos) {
-    for(size_t i = s.size(); i > 0; i--) {
+  if (Size() >= pos)
+  {
+    for (size_t i = s.size(); i > 0; i--)
+    {
       m_HexValue.insert(m_HexValue.begin() + pos * 2, s.at(i - 1));
     }
     return true;
@@ -87,12 +105,14 @@ bool ByteArray::InsertAt(const ByteArray& bufferToAppend, unsigned int pos) {
   return false;
 }
 
-ByteArray ByteArray::operator[](unsigned int index) const {
+ByteArray ByteArray::operator[](unsigned int index) const
+{
   ByteArray byte;
   GetByteAtRank(index, byte);
   return byte;
 }
 
-bool ByteArray::Equals(const ByteArray& hex) const {
+bool ByteArray::Equals(const ByteArray &hex) const
+{
   return *this == hex;
 }
