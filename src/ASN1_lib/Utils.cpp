@@ -62,18 +62,30 @@ namespace Utils {
     else return "";
   }
 
-
   ByteArray IntAsHex(int i) {
     stringstream s;
     s << hex << i;
     return ByteArray(s.str().c_str());
   }
 
+  std::string IntAsHexStr(int i) {
+    stringstream s;
+    s << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << i;
+    return s.str();
+  }
+
   unsigned int HexAsInt(const ByteArray& hexStr) {
     unsigned int result = 0;
     stringstream s;
-    string test = hexStr.GetString();
-    s << hex << string(hexStr.GetString());
+    s << hex << hexStr.GetString();
+    s >> result;
+    return result;
+  }
+
+  unsigned int HexAsInt(const std::string& hexStr) {
+    unsigned int result = 0;
+    stringstream s;
+    s << hex << hexStr;
     s >> result;
     return result;
   }
@@ -140,8 +152,9 @@ namespace Utils {
 
 
   bool IsHex(char c) {
-    return (c == '0') || (c == 'F') || (c == '1') || (c == '2') || (c == '3') || (c == '4') || (c == '5') || (c == '6') || (c == '7') || (c == '8') || (c == '9') ||
-           (c == 'A') || (c == 'B') || (c == 'C') || (c == 'D') || (c == 'E') || (c == 'a') || (c == 'b') || (c == 'c') || (c == 'd') || (c == 'e') || (c == 'f');
+    return (c == '0') || (c == '1') || (c == '2') || (c == '3') || (c == '4') || (c == '5') || (c == '6') || (c == '7') || (c == '8') || (c == '9') ||
+           (c == 'A') || (c == 'B') || (c == 'C') || (c == 'D') || (c == 'E') || (c == 'F') ||
+           (c == 'a') || (c == 'b') || (c == 'c') || (c == 'd') || (c == 'e') || (c == 'f');
   }
 
   bool IsHex(const string& str) {

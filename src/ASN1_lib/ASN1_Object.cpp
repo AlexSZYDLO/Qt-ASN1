@@ -110,30 +110,18 @@ void ASN1_Object::WriteIntoBuffer(ByteArray& buffer) const {
   Value->WriteIntoBuffer(buffer);
 }
 
-bool ASN1_Object::ReadFromBuffer(const ByteArray& buffer, char* error, size_t errorBufferSize) {
+bool ASN1_Object::ReadFromBuffer(const ByteArray& buffer, std::string& error) {
   try {
     unsigned int pos = 0;
     ClearDynamicData();
     Value->ReadFromBuffer(buffer, pos);
     return true;
   } catch(ParsingEx& e) {
-    std::string what(e.what());
-    if(what.size() < errorBufferSize)
-      strncpy(error, what.c_str(), what.size());
-    else
-      strncpy(error, what.c_str(), errorBufferSize - 1);
+    error = e.what();
     return false;
   }
 }
 
-bool ASN1_Object::Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, char* error, size_t errorBufferSize) const {
-  std::string err;
-  if(Value->CompareTree(secondTree.GetValue(), nbDiffs, err)) {
-    if(err.size() < errorBufferSize)
-      strncpy(error, err.c_str(), err.size());
-    else
-      strncpy(error, err.c_str(), errorBufferSize - 1);
-    return true;
-  }
-  return false;
+bool ASN1_Object::Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, std::string& diffReport) const {
+  return Value->CompareTree(secondTree.GetValue(), nbDiffs, diffReport);
 }

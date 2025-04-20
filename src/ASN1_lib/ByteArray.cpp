@@ -15,10 +15,12 @@ ByteArray::ByteArray(const ByteArray& hexStr) {
   m_HexValue = hexStr.m_HexValue;
 }
 
-ByteArray::ByteArray(const char* str) {
-  std::string s(str);
-  if(IsHex(s)) {
-    std::string strUpper = s;
+ByteArray::ByteArray(const char* str) : ByteArray (std::string(str)) {
+}
+
+ByteArray::ByteArray(const std::string &str) {
+  if(IsHex(str)) {
+    std::string strUpper = str;
     std::transform(strUpper.begin(), strUpper.end(), strUpper.begin(), toupper);
     m_HexValue += strUpper;
 
@@ -32,8 +34,8 @@ unsigned int ByteArray::Size() const {
   return static_cast<unsigned int>(m_HexValue.size() / 2);
 }
 
-const char* ByteArray::GetString() const {
-  return m_HexValue.c_str();
+std::string ByteArray::GetString() const {
+  return {m_HexValue.c_str()};
 }
 
 bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray& theByte) const {

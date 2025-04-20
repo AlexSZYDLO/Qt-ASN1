@@ -50,10 +50,10 @@ bool test_Tags() {
   a.SetIntegerValue(5);
 
 
-  char c[2000];
+  std::string buf;
   ByteArray output;
   a.WriteIntoBuffer(output);
-  b.ReadFromBuffer(output, c, 2000);
+  b.ReadFromBuffer(output, buf);
   res &= 5 == b.GetIntegerValue();
 
   if(!Utils::DecomposeTag("CA45", cl, fo, reconstructedLbl)) {
@@ -85,10 +85,10 @@ bool test_Sequence() {
 
   varTest1.l->SetUTF8StringValue("szydlowski");
 
-  char cBuff[2000];
   ByteArray buffer("");
+  std::string err2;
   test->WriteIntoBuffer(buffer);
-  test2->ReadFromBuffer(buffer, cBuff, 2000);
+  test2->ReadFromBuffer(buffer, err2);
 
   int a = 0;
   if(varTest2.a->GetSelectedChoiceIndex() == 2) {
@@ -140,10 +140,10 @@ bool test_SequenceOf() {
   seqof->MoveDownObject(4);
   seqof->DeleteObjectAt(2);
 
-  char cBuff[2000];
   ByteArray buffer;
+  std::string err;
   seqof->WriteIntoBuffer(buffer);
-  seqof2->ReadFromBuffer(buffer, cBuff, 2000);
+  seqof2->ReadFromBuffer(buffer, err);
 
   stringstream s;
   //s << seqof2.StringExtractForResearch();
@@ -158,16 +158,15 @@ bool test_SequenceOf() {
 }
 
 bool test_BitString() {
-  char cBuff[2000];
-
   ASN1_BitString* bitstr = new ASN1_BitString();
   bitstr->SetBitStringValue("");
   ByteArray hex;
   bitstr->WriteIntoBuffer(hex);
   string test(hex.GetString());
 
+  std::string err;
   ASN1_BitString* bitstr2 = new ASN1_BitString();
-  bitstr2->ReadFromBuffer(hex, cBuff, 2000);
+  bitstr2->ReadFromBuffer(hex, err);
   string test2(bitstr2->GetBitStringValue());
 
   delete bitstr;
@@ -177,7 +176,6 @@ bool test_BitString() {
 
 bool test_OID_helper(const ByteArray& _hex, const string& str) {
   ByteArray hex;
-  char cBuff[2000];
   bool b = true;
 
   ASN1_ObjectID* oid = new ASN1_ObjectID();
@@ -186,7 +184,8 @@ bool test_OID_helper(const ByteArray& _hex, const string& str) {
   string test(hex.GetString());
   b &= test == _hex.GetString();
 
-  oid->ReadFromBuffer(hex, cBuff, 2000);
+  std::string err;
+  oid->ReadFromBuffer(hex, err);
   string test2(oid->GetObjectIDValue());
   b &= test2 == str;
 
@@ -214,7 +213,6 @@ bool test_ObjectID() {
 }
 
 bool test_Real() {
-  char cBuff[2000];
   SequenceRealVars vars, vars2;
 
   ASN1_Sequence* real = MakeRealSequenceTest("real seq", "", vars);
@@ -229,8 +227,9 @@ bool test_Real() {
   real->WriteIntoBuffer(hex);
   string test(hex.GetString());
 
+  std::string err;
   ASN1_Sequence* real2 = MakeRealSequenceTest("real seq2", "", vars2);
-  real2->ReadFromBuffer(hex, cBuff, 2000);
+  real2->ReadFromBuffer(hex, err);
 
   double res1 = vars2.a->GetRealValue();
   double res2 = vars2.b->GetRealValue();
@@ -253,7 +252,6 @@ bool test_Real() {
 }
 
 bool test_Set() {
-  char cBuff[2000];
   SetTestVars vars, vars2;
   ASN1_Set* t = MakeSetTest("settest", "", vars);
   vars.a->SetRealValue(542.312);
@@ -267,8 +265,9 @@ bool test_Set() {
   //HexString hexCst = "311B090980D510F27EF9DB22D1020202330101FF0407AABBCCDDEEFF00"; // good order
   ByteArray hexCst = "311B0407AABBCCDDEEFF000101FF02020233090980D510F27EF9DB22D1"; // remixed
 
+  std::string err;
   ASN1_Set* t2 = MakeSetTest("settest", "", vars2);
-  t2->ReadFromBuffer(hexCst, cBuff, 2000);
+  t2->ReadFromBuffer(hexCst, err);
 
   ByteArray hex2;
   t2->WriteIntoBuffer(hex2);
@@ -319,9 +318,9 @@ bool test_Compare() {
   a->SetIntegerValue(5);
   b->SetIntegerValue(15);
 
-  char comp[5];
+  std::string comp;
   unsigned int nbDiffs = 0;
-  a->Compare(*b, nbDiffs, comp, 5);
+  a->Compare(*b, nbDiffs, comp);
 
   return true;
 }

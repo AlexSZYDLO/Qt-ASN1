@@ -83,11 +83,10 @@ class MODULE_API ASN1_Object {
   //The output is set in the buffer passed as argument. The buffer is cleared before starting. This function should never fail.
   void WriteIntoBuffer(ByteArray& buffer) const;
 
-  //The data to read must correspond with the grammar encoded in this objet. If a problem at reading happens, the function returns false,
-  // and the error will be written in the error buffer passed as argument (512 bytes should be enough to get full message)
-  bool ReadFromBuffer(const ByteArray& buffer, char* error, size_t errorBufferSize);
+  // The data to read must correspond with the grammar encoded in this objet. If a problem happens during reading , the function returns false,
+  // and the error will be written in the given error buffer
+  bool ReadFromBuffer(const ByteArray& buffer, std::string& error);
 
   // Compares two trees, that should be of the same grammar. The report will contain the differences in the values, optionality, selected choices, number of objects in sequences of...
-  // The buffer needs to be large enough to print all the differences (5000 bytes should be fine)
-  bool Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, char* errorReport, size_t errorBufferSize) const;
+  bool Compare(const ASN1_Object& secondTree, unsigned int& nbDiffs, std::string& diffReport) const;
 };
