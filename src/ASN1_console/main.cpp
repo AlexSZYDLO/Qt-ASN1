@@ -15,14 +15,13 @@
 #include "ASN1_parser.h"
 
 using namespace Grammar;
-using namespace std;
 
 bool test_ChoiceList()
 {
   ASN1_Choice *choice = MakeChoiceTest("testChoice", "AA");
 
   choice->MakeDummyChoiceList();
-  vector<const ASN1_Object *> choiceList;
+  std::vector<const ASN1_Object *> choiceList;
   for (unsigned int i = 0; i < choice->AvailableChoices(); i++)
     choiceList.push_back(choice->GetChoiceFromIndex(i));
   choice->SetSelectedChoice(1);
@@ -68,7 +67,7 @@ bool test_Tags()
 
 bool test_Sequence()
 {
-  string err, UTCTime;
+  std::string err, UTCTime;
   SequenceTestVars varTest1, varTest2;
   ASN1_Sequence *test = MakeSequenceTest("testSeq", "", varTest1);
   ASN1_Sequence *test2 = MakeSequenceTest("testSeq", "", varTest2);
@@ -99,18 +98,18 @@ bool test_Sequence()
   {
     a = static_cast<ASN1_Integer *>(varTest2.a->GetSelectedChoice())->GetIntegerValue();
   }
-  string b = varTest2.b->GetBitStringValue();
+  std::string b = varTest2.b->GetBitStringValue();
   bool c = varTest2.c->GetBooleanValue();
   int d = varTest2.d->GetEnumeratedValue();
 
-  string e = varTest2.e->GetIA5StringValue();
+  std::string e = varTest2.e->GetIA5StringValue();
   int f = varTest2.f->GetIntegerValue();
   bool g = varTest2.g->IsIgnored();
-  string h = varTest2.h->GetObjectIDValue();
-  string i = varTest2.i->GetOctetStringValue().GetString();
+  std::string h = varTest2.h->GetObjectIDValue();
+  std::string i = varTest2.i->GetOctetStringValue().GetString();
   double j = varTest2.j->GetRealValue();
-  string k = varTest2.k->GetUTCTimeValue();
-  string l = varTest2.l->GetUTF8StringValue();
+  std::string k = varTest2.k->GetUTCTimeValue();
+  std::string l = varTest2.l->GetUTF8StringValue();
 
   bool result = true;
   result &= a == 500;
@@ -151,7 +150,7 @@ bool test_SequenceOf()
   seqof->WriteIntoBuffer(buffer);
   seqof2->ReadFromBuffer(buffer, err);
 
-  stringstream s;
+  std::stringstream s;
   //s << seqof2.StringExtractForResearch();
   for (unsigned int i = 0; i < seqof2->GetSequenceOfSize(); i++)
   {
@@ -170,19 +169,19 @@ bool test_BitString()
   bitstr->SetBitStringValue("");
   ByteArray hex;
   bitstr->WriteIntoBuffer(hex);
-  string test(hex.GetString());
+  std::string test(hex.GetString());
 
   std::string err;
   ASN1_BitString *bitstr2 = new ASN1_BitString();
   bitstr2->ReadFromBuffer(hex, err);
-  string test2(bitstr2->GetBitStringValue());
+  std::string test2(bitstr2->GetBitStringValue());
 
   delete bitstr;
   delete bitstr2;
   return test2 == "";
 }
 
-bool test_OID_helper(const ByteArray &_hex, const string &str)
+bool test_OID_helper(const ByteArray &_hex, const std::string &str)
 {
   ByteArray hex;
   bool b = true;
@@ -190,12 +189,12 @@ bool test_OID_helper(const ByteArray &_hex, const string &str)
   ASN1_ObjectID *oid = new ASN1_ObjectID();
   oid->SetObjectIDValue(str);
   oid->WriteIntoBuffer(hex);
-  string test(hex.GetString());
+  std::string test(hex.GetString());
   b &= test == _hex.GetString();
 
   std::string err;
   oid->ReadFromBuffer(hex, err);
-  string test2(oid->GetObjectIDValue());
+  std::string test2(oid->GetObjectIDValue());
   b &= test2 == str;
 
   delete oid;
@@ -236,7 +235,7 @@ bool test_Real()
 
   ByteArray hex;
   real->WriteIntoBuffer(hex);
-  string test(hex.GetString());
+  std::string test(hex.GetString());
 
   std::string err;
   ASN1_Sequence *real2 = MakeRealSequenceTest("real seq2", "", vars2);
@@ -254,7 +253,7 @@ bool test_Real()
   b &= res2 == -2.5;
   b &= res3 == 255003.5635;
   b &= res4 == -3521.5123;
-  b &= isnan(res5);
+  b &= std::isnan(res5);
   b &= res6 == 0.326536985632648795123;
 
   delete real;
@@ -296,30 +295,22 @@ bool test_IA5String_UTF8String()
 
   wstring s = L"àë";
   wstring s2 = L"al";
-  string str = reinterpret_cast<const char *>(s.c_str());
+  std::string str = reinterpret_cast<const char *>(s.c_str());
 
   bool res = true;
 
-  string utf8str = conv.to_bytes(s);
-  string utf8str2 = conv.to_bytes(s2);
+  std::string utf8str = conv.to_bytes(s);
+  std::string utf8str2 = conv.to_bytes(s2);
   res &= Utils::IsValidUTF8String(utf8str) == true;
   res &= Utils::IsValidIA5String(utf8str) == false;
 
   res &= Utils::IsValidUTF8String(utf8str2) == true;
   res &= Utils::IsValidIA5String(utf8str2) == true;
 
-  utf8str =
-      "\x9A"
-      "\xC6"
-      "\x00";
+  utf8str = "\x9A\xC6\x00";
   res &= Utils::IsValidUTF8String(utf8str) == false;
 
-  utf8str =
-      "\xD0"
-      "\xB0"
-      "\xD0"
-      "\xBB"
-      "\x00";
+  utf8str = "\xD0\xB0\xD0\xBB\x00";
   res &= Utils::IsValidUTF8String(utf8str) == true;
 
   wstring recovered = L"";
@@ -361,14 +352,14 @@ bool test_ParserJS()
   ASNFileToJSFile("gramm_test.asn", "out2.js", errorBuff, 500);
   ASNBufferToJSBuffer("", jsbuff, 1, errorBuff, 500); // empty input
 
-  string err(errorBuff);
+  std::string err(errorBuff);
   if (err != "")
   {
-    cout << err << endl;
+    std::cout << err << std::endl;
     return false;
   }
   else
-    cout << "Parsing grammar to JS OK." << endl;
+  std::cout << "Parsing grammar to JS OK." << std::endl;
 
   delete[] jsbuff;
   delete[] errorBuff;
@@ -383,14 +374,14 @@ bool test_ParserCPP()
   ASNFileToCPPFile("PEDefinitions V1.0_edit.asn", "out.h", errorBuff, 500);
   ASNFileToCPPFile("gramm_test.asn", "out2.h", errorBuff, 500);
 
-  string err(errorBuff);
+  std::string err(errorBuff);
   if (err != "")
   {
-    cout << err << endl;
+    std::cout << err << std::endl;
     return false;
   }
   else
-    cout << "Parsing grammar to CPP OK." << endl;
+  std::cout << "Parsing grammar to CPP OK." << std::endl;
 
   delete[] errorBuff;
   return true;
@@ -406,7 +397,7 @@ bool test_ParsedGrammar()
 
 int main()
 {
-  cout << "start test" << endl;
+  std::cout << "start test" << std::endl;
   bool result = true;
 
   result &= test_ChoiceList();
@@ -424,10 +415,10 @@ int main()
   // result &= test_ParserCPP();
   result &= test_ParsedGrammar();
 
-  cout << "test result: " << (result ? "OK" : "NOK") << endl;
-  cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << endl;
+  std::cout << "test result: " << (result ? "OK" : "NOK") << std::endl;
+  std::cout << "memory: " << (ASN1_Object::memoryCheck() ? "OK" : "NOK") << std::endl;
 
-  cout << "test done" << endl;
+  std::cout << "test done" << std::endl;
   return result ? 0 : -1;
 }
 

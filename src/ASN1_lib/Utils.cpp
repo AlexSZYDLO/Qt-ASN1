@@ -9,19 +9,18 @@
 #include <sstream>
 #include "Exceptions.h"
 
-using namespace std;
 
 namespace Utils
 {
 
-const regex rxUTCTime(R"(^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})?(Z|([+-])(\d{2})(\d{2}))$)");
-const regex rxIA5String(R"(^[ -~]*$)");
+const std::regex rxUTCTime(R"(^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})?(Z|([+-])(\d{2})(\d{2}))$)");
+const std::regex rxIA5String(R"(^[ -~]*$)");
 
-const string firstBytes = R"(((([01])\.([0-3][0-9]|[0-9]))|(2\.[0-9]+)))"; // if first = 0 or 1, second must be in range 0-39. if first = 2, no restriction on second
-const string dotGroup = R"((\.\d+)*)";
-const regex rxOID("^" + firstBytes + dotGroup + "$");
+const std::string firstBytes = R"(((([01])\.([0-3][0-9]|[0-9]))|(2\.[0-9]+)))"; // if first = 0 or 1, second must be in range 0-39. if first = 2, no restriction on second
+const std::string dotGroup = R"((\.\d+)*)";
+const std::regex rxOID("^" + firstBytes + dotGroup + "$");
 
-string NodeTypeToString(eNodeType t)
+std::string NodeTypeToString(eNodeType t)
 {
   switch (t)
   {
@@ -60,7 +59,7 @@ string NodeTypeToString(eNodeType t)
   }
 }
 
-ByteArray BinaryByteToHex(string binary)
+ByteArray BinaryByteToHex(std::string binary)
 {
   if (binary.size() == 8)
   {
@@ -70,7 +69,7 @@ ByteArray BinaryByteToHex(string binary)
     return ByteArray("");
 }
 
-string HexByteToBinary(ByteArray hex)
+std::string HexByteToBinary(ByteArray hex)
 {
   if (hex.Size() == 1)
   {
@@ -80,7 +79,7 @@ string HexByteToBinary(ByteArray hex)
     return "";
 }
 
-string HexByteToBinary8Padded(ByteArray hex)
+std::string HexByteToBinary8Padded(ByteArray hex)
 {
   if (hex.Size() == 1)
   {
@@ -92,14 +91,14 @@ string HexByteToBinary8Padded(ByteArray hex)
 
 ByteArray IntAsHex(int i)
 {
-  stringstream s;
-  s << hex << i;
+  std::stringstream s;
+  s << std::hex << i;
   return ByteArray(s.str().c_str());
 }
 
 std::string IntAsHexStr(int i)
 {
-  stringstream s;
+  std::stringstream s;
   s << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << i;
   return s.str();
 }
@@ -107,8 +106,8 @@ std::string IntAsHexStr(int i)
 unsigned int HexAsInt(const ByteArray &hexStr)
 {
   unsigned int result = 0;
-  stringstream s;
-  s << hex << hexStr.GetString();
+  std::stringstream s;
+  s << std::hex << hexStr.GetString();
   s >> result;
   return result;
 }
@@ -116,15 +115,15 @@ unsigned int HexAsInt(const ByteArray &hexStr)
 unsigned int HexAsInt(const std::string &hexStr)
 {
   unsigned int result = 0;
-  stringstream s;
-  s << hex << hexStr;
+  std::stringstream s;
+  s << std::hex << hexStr;
   s >> result;
   return result;
 }
 
-ByteArray BinaryAsHex(const string &binary)
+ByteArray BinaryAsHex(const std::string &binary)
 {
-  string tempBinary = binary;
+  std::string tempBinary = binary;
   if (tempBinary.size() % 8 != 0)
     tempBinary.insert(0, 8 - (tempBinary.size() % 8), '0');
   ByteArray result;
@@ -137,15 +136,15 @@ ByteArray BinaryAsHex(const string &binary)
   return result;
 }
 
-string HexAsBinary8Padded(const ByteArray &hexString)
+std::string HexAsBinary8Padded(const ByteArray &hexString)
 {
   ByteArray remainingHex = hexString;
-  string result;
+  std::string result;
   while (remainingHex.Size() > 0)
   {
     ByteArray tmpHex;
     remainingHex.GetByteAtRank(remainingHex.Size() - 1, tmpHex);
-    string binaryByte = HexByteToBinary8Padded(tmpHex);
+    std::string binaryByte = HexByteToBinary8Padded(tmpHex);
     result.insert(0, binaryByte);
     tmpHex = "";
     remainingHex.GetBytesAtRank(0, remainingHex.Size() - 1, tmpHex);
@@ -154,17 +153,17 @@ string HexAsBinary8Padded(const ByteArray &hexString)
   return result;
 }
 
-string HexAsBinary(const ByteArray &hexString)
+std::string HexAsBinary(const ByteArray &hexString)
 {
-  string result = HexAsBinary8Padded(hexString);
+  std::string result = HexAsBinary8Padded(hexString);
   if (result.find('1') >= result.size())
     return "";
   return result.substr(result.find('1')); // removes 0 at beginning
 }
 
-string IntAsBinary8Padded(unsigned int i)
+std::string IntAsBinary8Padded(unsigned int i)
 {
-  string s = bitset<sizeof(long) * 8>(i).to_string();
+  std::string s = std::bitset<sizeof(long) * 8>(i).to_string();
   size_t pos = s.find('1');
   if (pos >= s.size())
     return "00000000";
@@ -176,15 +175,15 @@ string IntAsBinary8Padded(unsigned int i)
   return s;
 }
 
-string IntAsBinary(unsigned int i)
+std::string IntAsBinary(unsigned int i)
 {
-  string s = IntAsBinary8Padded(i);
+  std::string s = IntAsBinary8Padded(i);
   if (s.find('1') >= s.size())
     return "";
   return s.substr(s.find('1')); // removes 0 at beginning
 }
 
-unsigned int BinaryAsInt(const string &BinaryStr)
+unsigned int BinaryAsInt(const std::string &BinaryStr)
 {
   //return bitset<sizeof(long) * 8>(BinaryStr).to_ulong();
   if (BinaryStr.size() < sizeof(long) * 8 + 1)
@@ -200,7 +199,7 @@ bool IsHex(char c)
          || (c == 'a') || (c == 'b') || (c == 'c') || (c == 'd') || (c == 'e') || (c == 'f');
 }
 
-bool IsHex(const string &str)
+bool IsHex(const std::string &str)
 {
   for (size_t i = 0; i < str.size(); i++)
   {
@@ -216,7 +215,7 @@ bool IsBinary(char c)
   return (c == '0') || (c == '1');
 }
 
-bool IsBinary(const string &str)
+bool IsBinary(const std::string &str)
 {
   for (size_t i = 0; i < str.size(); i++)
   {
@@ -246,7 +245,7 @@ ByteArray MakeLength(unsigned int sizeAsInt)
 
 ByteArray MakeTag(eTagClass tagClass, eTagForm tagForm, const ByteArray &tagLabel)
 {
-  string SecondPartLongTagAsBinary("");
+  std::string SecondPartLongTagAsBinary("");
 
   unsigned char FirstPartTag = (unsigned char)tagClass;
   FirstPartTag = FirstPartTag << 1;
@@ -258,22 +257,22 @@ ByteArray MakeTag(eTagClass tagClass, eTagForm tagForm, const ByteArray &tagLabe
   else
   {
     FirstPartTag += 31;
-    string LabelAsBinary = HexAsBinary(tagLabel);
+    std::string LabelAsBinary = HexAsBinary(tagLabel);
 
     bool FirstLoopDone = false;
     while (LabelAsBinary.size() > 0)
     {
-      string NextTagByteAsBinary;
+      std::string NextTagByteAsBinary;
 
       // get 7 next bits and remove them in the remaining bits
       if (LabelAsBinary.size() > 6)
       {
-        NextTagByteAsBinary = string(LabelAsBinary.end() - 7, LabelAsBinary.end());
-        LabelAsBinary = string(LabelAsBinary.begin(), LabelAsBinary.end() - 7);
+        NextTagByteAsBinary = std::string(LabelAsBinary.end() - 7, LabelAsBinary.end());
+        LabelAsBinary = std::string(LabelAsBinary.begin(), LabelAsBinary.end() - 7);
       }
       else
       {
-        NextTagByteAsBinary = string(LabelAsBinary.begin(), LabelAsBinary.end());
+        NextTagByteAsBinary = std::string(LabelAsBinary.begin(), LabelAsBinary.end());
         LabelAsBinary = "";
       }
 
@@ -304,12 +303,12 @@ ByteArray MakeTag(eTagClass tagClass, eTagForm tagForm, const ByteArray &tagLabe
 
 bool DecomposeTag(const ByteArray tag, eTagClass &tagClass, eTagForm &tagForm, ByteArray &label)
 {
-  string binary = HexAsBinary(tag);
+  std::string binary = HexAsBinary(tag);
   tagClass = (eTagClass)BinaryAsInt(binary.substr(0, 2));
   tagForm = (eTagForm)BinaryAsInt(binary.substr(2, 1));
   if (binary.substr(3, 5) == "11111")
   {
-    string binLabel;
+    std::string binLabel;
 
     for (unsigned int i = 1; i < tag.Size(); i++)
     {
@@ -386,7 +385,7 @@ bool GetLengthFromBuffer(const ByteArray &FromBuffer, unsigned int &pos, unsigne
   return bRes;
 }
 
-ByteArray StringToHex(const string &str)
+ByteArray StringToHex(const std::string &str)
 {
   ByteArray returnVal;
   for (size_t i = 0; i < str.size(); i++)
@@ -397,9 +396,9 @@ ByteArray StringToHex(const string &str)
   return returnVal;
 }
 
-string HexToString(const ByteArray &hex)
+std::string HexToString(const ByteArray &hex)
 {
-  string returnVal;
+  std::string returnVal;
   for (unsigned int i = 0; i < hex.Size(); i++)
   {
     ByteArray hexByte;
@@ -410,7 +409,7 @@ string HexToString(const ByteArray &hex)
   return returnVal;
 }
 
-void UTCTimeToValues(const string &input,
+void UTCTimeToValues(const std::string &input,
                      int &year_YY,
                      int &month_MM,
                      int &day_DD,
@@ -420,9 +419,9 @@ void UTCTimeToValues(const string &input,
                      eUTCTimeZone &zone,
                      int &zoneHours_HH,
                      int &zoneMinutes_MM,
-                     string &error)
+                     std::string &error)
 {
-  smatch match;
+  std::smatch match;
   if (regex_match(input, match, rxUTCTime))
   {
     year_YY = stoi(match.str(1));
@@ -457,8 +456,8 @@ void ValuesToUTCTime(int year_YY,
                      eUTCTimeZone zone,
                      int zoneHours_HH,
                      int zoneMinutes_MM,
-                     string &output,
-                     string &error)
+                     std::string &output,
+                     std::string &error)
 {
   output.clear();
   if (year_YY < -1 || year_YY > 100)
@@ -502,16 +501,15 @@ void ValuesToUTCTime(int year_YY,
     return;
   }
 
-  using namespace std;
-  stringstream s;
-  s << setfill('0') << setw(2) << year_YY << setw(2) << month_MM << setw(2) << day_DD << setw(2) << hours_HH << setw(2)
+  std::stringstream s;
+  s << std::setfill('0') << std::setw(2) << year_YY << std::setw(2) << month_MM << std::setw(2) << day_DD << std::setw(2) << hours_HH << std::setw(2)
     << minutes_MM;
   if (seconds_SS != 0)
-    s << setw(2) << seconds_SS; // seconds are optional
+    s << std::setw(2) << seconds_SS; // seconds are optional
   if (zone == cGMT)
     s << "Z";
   else
-    s << (zone == cPlus ? "+" : "-") << setw(2) << zoneHours_HH << setw(2) << zoneMinutes_MM;
+    s << (zone == cPlus ? "+" : "-") << std::setw(2) << zoneHours_HH << std::setw(2) << zoneMinutes_MM;
   output = s.str();
 }
 
@@ -520,30 +518,30 @@ bool IsValidUTCTime(const std::string &utcTime)
   return regex_match(utcTime, rxUTCTime) ? true : false;
 }
 
-bool IsValidObjectID(const string &objectID)
+bool IsValidObjectID(const std::string &objectID)
 {
   if (objectID == "")
     return true;
   return regex_match(objectID, rxOID) ? true : false;
 }
 
-bool IsValidIA5String(const string &ia5String)
+bool IsValidIA5String(const std::string &ia5String)
 {
   return regex_match(ia5String, rxIA5String) ? true : false;
 }
 
-bool IsValidUTF8String(const string &utf8String)
+bool IsValidUTF8String(const std::string &utf8String)
 {
-  wstring_convert<codecvt_utf8<wchar_t>, wchar_t> conv;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
 
   try
   {
     conv.from_bytes(utf8String);
     //u32string str = reinterpret_cast<const char32_t*>(conv.from_bytes(utf8String).c_str());
   }
-  catch (const range_error &e)
+  catch (const std::range_error &e)
   {
-    string s = e.what();
+    std::string s = e.what();
     return false;
   }
   return true;

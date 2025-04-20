@@ -5,16 +5,15 @@
 #include "ASN1_Value_Nodes.h"
 
 using namespace Utils;
-using namespace std;
 
 namespace Value
 {
 
-unsigned int GetNextNodeInDotString(string &DotString)
+unsigned int GetNextNodeInDotString(std::string &DotString)
 {
-  string IntStr;
+  std::string IntStr;
   size_t position = DotString.find('.');
-  if (position != string::npos)
+  if (position != std::string::npos)
   {
     IntStr = DotString.substr(0, position);
     DotString = DotString.substr(position + 1, DotString.size() - position);
@@ -28,7 +27,7 @@ unsigned int GetNextNodeInDotString(string &DotString)
   {
     return stoul(IntStr);
   }
-  catch (exception &)
+  catch (std::exception &)
   {
     return 0;
   }
@@ -64,33 +63,33 @@ ByteArray GetNextNodeInHexString(ByteArray &OIDAsHexString)
 
 ByteArray ConvertIntToHexNode(unsigned int integer)
 {
-  string resultAsBinary = "";
+  std::string resultAsBinary = "";
   bool FirstLoopDone = false;
 
-  string integerAsBinary = IntAsBinary(integer);
+  std::string integerAsBinary = IntAsBinary(integer);
   if (integerAsBinary == "")
     integerAsBinary = "0";
 
   while (integerAsBinary.size() > 0)
   {
-    string resultByteAsBinary;
+    std::string resultByteAsBinary;
 
     // get 7 next bits and remove them in the remaining bits
     if (integerAsBinary.size() > 6)
     {
-      resultByteAsBinary = string(integerAsBinary.end() - 7, integerAsBinary.end());
-      integerAsBinary = string(integerAsBinary.begin(), integerAsBinary.end() - 7);
+      resultByteAsBinary = std::string(integerAsBinary.end() - 7, integerAsBinary.end());
+      integerAsBinary = std::string(integerAsBinary.begin(), integerAsBinary.end() - 7);
     }
     else
     {
-      resultByteAsBinary = string(integerAsBinary.begin(), integerAsBinary.end());
+      resultByteAsBinary = std::string(integerAsBinary.begin(), integerAsBinary.end());
       integerAsBinary = "";
     }
 
     int pos = (int)integerAsBinary.size() - 7;
     if (pos < 0)
       pos = 0;
-    //integerAsBinary = string(integerAsBinary.begin() + pos, integerAsBinary.end());
+    //integerAsBinary = std::string(integerAsBinary.begin() + pos, integerAsBinary.end());
 
     while (resultByteAsBinary.size() < 7)
       resultByteAsBinary = "0" + resultByteAsBinary; // Pad result to 7 bits if result is shorter
@@ -110,20 +109,20 @@ ByteArray ConvertIntToHexNode(unsigned int integer)
 
 unsigned int ConvertHexToIntNode(const ByteArray &Node)
 {
-  string resultAsBinary;
-  string NodeAsBinary = HexAsBinary8Padded(Node);
+  std::string resultAsBinary;
+  std::string NodeAsBinary = HexAsBinary8Padded(Node);
 
   while ((NodeAsBinary.size() > 0))
   {
     // insert 7 most right bit at the beginning of result
-    resultAsBinary = string(NodeAsBinary.end() - 7, NodeAsBinary.end()) + resultAsBinary;
+    resultAsBinary = std::string(NodeAsBinary.end() - 7, NodeAsBinary.end()) + resultAsBinary;
     // remove 8 right most bit from input
-    NodeAsBinary = string(NodeAsBinary.begin(), NodeAsBinary.end() - 8);
+    NodeAsBinary = std::string(NodeAsBinary.begin(), NodeAsBinary.end() - 8);
   }
   return BinaryAsInt(resultAsBinary);
 }
 
-void ASN1_ValueObjectID::ObjectIDToHex(const string &input, ByteArray &output, string &error)
+void ASN1_ValueObjectID::ObjectIDToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output.Clear();
@@ -132,7 +131,7 @@ void ASN1_ValueObjectID::ObjectIDToHex(const string &input, ByteArray &output, s
   {
     if (IsValidObjectID(input))
     {
-      string DotNotation = input;
+      std::string DotNotation = input;
 
       // part 1 and part 2 processed together
       unsigned int firstInt, secondInt, tempResult;
@@ -165,7 +164,7 @@ void ASN1_ValueObjectID::ObjectIDToHex(const string &input, ByteArray &output, s
   }
 }
 
-void ASN1_ValueObjectID::HexToObjectID(const ByteArray &input, string &output, string &error)
+void ASN1_ValueObjectID::HexToObjectID(const ByteArray &input, std::string &output, std::string &error)
 {
   error.clear();
   ByteArray OIDAsHexString = input;
@@ -190,13 +189,13 @@ void ASN1_ValueObjectID::HexToObjectID(const ByteArray &input, string &output, s
         firstNode = 2;
         secondNode = tempInt - firstNode * 40;
       }
-      output = to_string(firstNode) + '.' + to_string(secondNode);
+      output = std::to_string(firstNode) + '.' + std::to_string(secondNode);
 
       while (OIDAsHexString.Size() > 0)
       {
         subIntegerAsHexStr = GetNextNodeInHexString(OIDAsHexString);
         if (subIntegerAsHexStr != "")
-          output += '.' + to_string(ConvertHexToIntNode(subIntegerAsHexStr));
+          output += '.' + std::to_string(ConvertHexToIntNode(subIntegerAsHexStr));
         else
           error = "Byte array cannot be converted into an OID";
       }
