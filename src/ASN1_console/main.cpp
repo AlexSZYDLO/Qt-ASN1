@@ -16,6 +16,36 @@
 
 using namespace Grammar;
 
+bool test_ByteArray()
+{
+  bool b = true;
+  ByteArray hex("010203040506070809AABBCCDDEEFF");
+  ByteArray hex2 = hex;
+  b &= hex == hex2;
+  b &= hex.Equals(hex2);
+  b &= hex.Size() == 15;
+  b &= hex[5] == "06";
+
+  ByteArray hex3;
+  b &= hex.GetByteAtRank(3, hex3);
+  b &= !hex.GetByteAtRank(50, hex3); // error
+  b &= hex3 == "04";
+
+  ByteArray hex4;
+  b &= hex.GetBytesAtRank(3, 5, hex4);
+  b &= !hex.GetBytesAtRank(25, 25, hex4);
+  b &= hex4 == "0405060708";
+
+  b &= hex.InsertAt("AABB", 4);
+  b &= !hex.InsertAt("AABB", 50); // error
+  b &= hex == "01020304AABB0506070809AABBCCDDEEFF";
+  hex.Clear();
+  b &= hex.Size() == 0;
+  b &= hex.Equals("");
+
+  return b;
+}
+
 bool test_ChoiceList()
 {
   ASN1_Choice *choice = MakeChoiceTest("testChoice", "AA");
@@ -400,6 +430,7 @@ int main()
   std::cout << "start test" << std::endl;
   bool result = true;
 
+  result &= test_ByteArray();
   result &= test_ChoiceList();
   result &= test_Tags();
   result &= test_Sequence();

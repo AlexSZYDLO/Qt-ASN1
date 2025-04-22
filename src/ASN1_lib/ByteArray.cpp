@@ -63,9 +63,9 @@ std::string ByteArray::GetString() const
 
 bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray &theByte) const
 {
-  theByte.Clear();
   if (ByteRank < Size())
   {
+    theByte.Clear();
     theByte.Append(m_HexValue.at(ByteRank));
     return true;
   }
@@ -74,9 +74,9 @@ bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray &theByte) const
 
 bool ByteArray::GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfBytes, ByteArray &theBytes) const
 {
-  theBytes.Clear();
   if (firstByteRank + nbOfBytes <= Size())
   {
+    theBytes.Clear();
     ByteArray hexS;
     for (unsigned int i = firstByteRank; i < firstByteRank + nbOfBytes; i++)
     {
