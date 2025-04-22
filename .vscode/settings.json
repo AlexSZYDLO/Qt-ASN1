@@ -1,0 +1,7 @@
+{
+  "cmake.buildDirectory": "${workspaceFolder}/cmake-build",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+	"editor.detectIndentation": false,
+	"sonarlint.pathToCompileCommands": "${workspaceFolder}/cmake-build/compile_commands.json",
+}

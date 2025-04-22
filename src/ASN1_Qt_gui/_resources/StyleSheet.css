@@ -1,0 +1,199 @@
+/*
+ * Copyright (c) 2016, 2017 Alexandre SZYDLOWSKI <alexandre.szydlowski@gmail.com>. All rights reserved.
+* Redistribution and modifications are permitted subject to GPL-V3 license.
+*/
+
+QMainWindow {
+  background-color: rgb(240, 240, 240);
+}
+
+QStatusBar {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(100, 150, 200),
+    stop: 1 rgb(175, 200, 225));
+  border            : 1px solid gray;
+  border-radius     : 3px;
+}
+
+QMenu {
+  background-color  : white;
+  margin            : 2px;
+}
+
+QMenu::item {
+  padding           : 2px 25px 2px 20px;
+  border            : 1px solid transparent;
+}
+
+QMenu::item:selected {
+  border-color      : darkblue;
+  background        : rgba(100, 100, 100, 150);
+}
+
+QMenu::separator {
+  height            : 2px;
+  background        : gray;
+  margin-left       : 10px;
+  margin-right      : 5px;
+}
+
+
+QSplitter::handle {
+  background-color  : qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,
+    stop:0   rgba(255, 255, 255, 0),
+    stop:0.4 rgba(200, 200, 200, 255),
+    stop:0.6 rgba(101, 104, 113, 235),
+    stop:1   rgba(255, 255, 255, 0));
+  image             : url(:/img/splitter.png);
+}
+
+QSplitter::handle:vertical {
+  height            : 5px;
+}
+
+QSplitter::handle:pressed {
+    image           : url(:/img/splitter_pressed.png);
+}
+
+
+QWidget#actionBox {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(100, 150, 200),
+    stop: 1 rgb(175, 200, 225));
+  border            : 1px solid gray;
+  border-radius     : 3px;
+}
+
+QGroupBox {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 #E0E0E0,
+    stop: 1 #FFFFFF);
+  border-style      : solid;
+  border-width      : 1px;
+  border-color      : gray;
+  border-radius     : 6px;
+  padding-top       : 15px;
+  margin            : 3px;
+  font-weight       : bold;
+  font-size         : 12px;
+}
+
+QGroupBox::title {
+  top               : 2px;
+  left              : 8px;
+}
+
+QGroupBox#treeOptBox,
+QGroupBox#grammarBox,
+QGroupBox#valueBox {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(175, 200, 225),
+    stop: 1 rgb(200, 225, 250));
+  border-style      : outset;
+  border-top-style  : hidden;
+  border-left-style : hidden;
+}
+
+QLabel#commonButton {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(200, 225, 250),
+    stop: 1 rgb(230, 245, 250));
+  border            : 1px solid gray;
+  border-radius     : 3px;
+}
+
+QLabel#commonButton,
+QLabel#actionButton {
+  padding           : 3px;
+}
+
+QLabel:hover#commonButton,
+QLabel:hover#actionButton {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(125, 175, 225),
+    stop: 1 rgb(200, 225, 250));
+  border            : 1px solid gray;
+  border-radius     : 3px;
+}
+
+QLabel#commonButton[pressed="true"],
+QLabel#actionButton[pressed="true"] {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 rgb(75, 125, 175),
+    stop: 1 rgb(150, 175, 200));
+  border            : 1px solid gray;
+  border-radius     : 10px;
+}
+
+QTreeView {
+  qproperty-indentation : 15;
+}
+
+QTextEdit {
+  border            : 1px solid gray;
+}
+
+/*
+QTabWidget::tab-bar {
+    left: 5px;
+}*/
+QTabBar::tab {
+    /*border: 1px solid #C4C4C3;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 4px;*/
+  min-width: 170px;
+	font: bold;
+    /*padding: 2px;*/
+}
+/*
+QTabBar::tab:selected {
+	font: bold;
+}
+*/
+/*
+QTabBar::tab:selected, QTabBar::tab:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+
+
+QTabBar::tab:!selected {
+    margin-top: 2px;
+}*/
+
+/*
+Push buttons not used anymore
+
+QPushButton {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+    stop: 0 rgb(164, 164, 227),
+    stop: 1 rgb(130, 130, 200));
+  border-style      : outset;
+  border-width      : 2px;
+  border-radius     : 6px;
+  border-color      : grey;
+  min-width         : 90px;
+  padding           : 6px;
+}
+
+QPushButton:hover {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+    stop: 0 rgb(164, 164, 227),
+    stop: 1 rgb(160, 160, 200));
+  border-style      : inset;
+}
+
+QPushButton:pressed {
+  background-color  : qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+    stop: 0 rgb(164, 164, 227),
+    stop: 1 rgb(100, 100, 150));
+  border-style      : inset;
+}
+
+QPushButton#convertButtonToHex,
+QPushButton#convertButtonFromHex {
+  font-weight       : bold;
+}
+*/
