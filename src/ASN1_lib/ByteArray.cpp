@@ -25,37 +25,48 @@ ByteArray::ByteArray(const char *str)
 
 ByteArray::ByteArray(const std::string &str)
 {
-  if (IsHex(str))
+  if (!IsHex(str))
   {
-    std::string strUpper = str;
-    std::transform(strUpper.begin(), strUpper.end(), strUpper.begin(), toupper);
-    m_HexValue += strUpper;
+    throw std::invalid_argument("Invalid hex string");
+  }
 
-    // Pad value if size is not even
-    if (m_HexValue.size() % 2 != 0)
-      m_HexValue.insert(m_HexValue.begin(), '0');
+  for (int i = 0; i < str.size(); i += 2)
+  {
+    std::string hex_byte;
+    if (i == 0 && str.size() % 2 != 0) // if size is odd - add padding
+    {
+      hex_byte += std::string("0") + str[i];
+      i -= 1;
+    }
+    else
+    {
+      hex_byte = str.substr(i, 2);
+    }
+    m_HexValue.push_back(HexAsInt(hex_byte));
   }
 }
 
 unsigned int ByteArray::Size() const
 {
-  return static_cast<unsigned int>(m_HexValue.size() / 2);
+  return static_cast<unsigned int>(m_HexValue.size());
 }
 
 std::string ByteArray::GetString() const
 {
-  return {m_HexValue.c_str()};
+  std::string res;
+  for (int i = 0; i < m_HexValue.size(); i++)
+  {
+    res += IntAsHexStr(m_HexValue.at(i));
+  }
+  return res;
 }
 
 bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray &theByte) const
 {
+  theByte.Clear();
   if (ByteRank < Size())
   {
-    unsigned int j = ByteRank * 2;
-    std::string s;
-    s = m_HexValue.at(j);
-    s += m_HexValue.at(++j);
-    theByte = ByteArray(s.c_str());
+    theByte.Append(m_HexValue.at(ByteRank));
     return true;
   }
   return false;
@@ -63,18 +74,14 @@ bool ByteArray::GetByteAtRank(unsigned int ByteRank, ByteArray &theByte) const
 
 bool ByteArray::GetBytesAtRank(unsigned int firstByteRank, unsigned int nbOfBytes, ByteArray &theBytes) const
 {
+  theBytes.Clear();
   if (firstByteRank + nbOfBytes <= Size())
   {
     ByteArray hexS;
     for (unsigned int i = firstByteRank; i < firstByteRank + nbOfBytes; i++)
     {
-      size_t j = i * 2;
-      std::string s;
-      s = m_HexValue.at(j);
-      s += m_HexValue.at(++j);
-      hexS.Append(ByteArray(s.c_str()));
+      theBytes.Append(m_HexValue.at(i));
     }
-    theBytes = hexS;
     return true;
   }
   return false;
@@ -85,21 +92,17 @@ void ByteArray::Clear()
   m_HexValue.clear();
 }
 
-void ByteArray::Append(const ByteArray &bufferToAppend)
-{
-  m_HexValue += std::string(bufferToAppend.GetString());
+void ByteArray::Append(unsigned char ByteToAppend) {
+  m_HexValue.push_back(ByteToAppend);
 }
 
-bool ByteArray::InsertAt(const ByteArray &bufferToAppend, unsigned int pos)
-{
-  std::string s(bufferToAppend.GetString());
+void ByteArray::Append(const ByteArray& bufferToAppend) {
+  m_HexValue.insert(m_HexValue.end(), bufferToAppend.m_HexValue.begin(), bufferToAppend.m_HexValue.end());
+}
 
-  if (Size() >= pos)
-  {
-    for (size_t i = s.size(); i > 0; i--)
-    {
-      m_HexValue.insert(m_HexValue.begin() + pos * 2, s.at(i - 1));
-    }
+bool ByteArray::InsertAt(const ByteArray& bufferToAppend, unsigned int pos) {
+  if(Size() >= pos) {
+    m_HexValue.insert(m_HexValue.begin() + pos, bufferToAppend.m_HexValue.begin(), bufferToAppend.m_HexValue.end());
     return true;
   }
   return false;
