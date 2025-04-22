@@ -27,14 +27,14 @@ void UI_ASN1_Converter_ObjectID::ConvertTypeToHex()
   ASN1_ObjectID::ObjectIDToHex(oid, hex, err);
   if (err.empty())
   {
-    hexaTextEdit->setPlainText(hex.GetString());
+    hexaTextEdit->setPlainText(hex.GetString().c_str());
   }
   errorLineEdit->setText(err.c_str());
 }
 
 void UI_ASN1_Converter_ObjectID::ConvertHexToType()
 {
-  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString().c_str());
+  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   std::string oid;
   std::string err;
   ASN1_ObjectID::HexToObjectID(hex, oid, err);

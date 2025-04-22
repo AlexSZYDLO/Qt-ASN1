@@ -23,13 +23,13 @@ void UI_ASN1_Converter_IA5String::ConvertTypeToHex()
   ByteArray hex;
   ASN1_IA5String::IA5StringToHex(str, hex, err);
   if (err.empty())
-    hexaTextEdit->setPlainText(hex.GetString());
+    hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
 }
 
 void UI_ASN1_Converter_IA5String::ConvertHexToType()
 {
-  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString().c_str());
+  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   std::string ia5str;
   std::string err;
   ASN1_IA5String::HexToIA5String(hex, ia5str, err);

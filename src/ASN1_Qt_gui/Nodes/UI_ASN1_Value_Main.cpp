@@ -38,8 +38,8 @@ void MakeTagLayout(QGroupBox *groupBox_Grammar, QVBoxLayout *vLayGrammarLayout, 
 
   label_Tag->setText(QApplication::translate("UI_ASN1_ValueMain", "Tag", 0));
   label_DefaultTag->setText(QApplication::translate("UI_ASN1_ValueMain", "Default Tag", 0));
-  lineEdit_Tag->setText(val->GetTag().GetString());
-  lineEdit_DefaultTag->setText(val->GetDefaultTag().GetString());
+  lineEdit_Tag->setText(val->GetTag().GetString().c_str());
+  lineEdit_DefaultTag->setText(val->GetDefaultTag().GetString().c_str());
 
   lineEdit_Tag->setReadOnly(true);
   lineEdit_DefaultTag->setReadOnly(true);
@@ -355,7 +355,7 @@ void UI_ASN1_ValueMain::UIShowValue(ByteArray hex) const
   t->setReadOnly(true);
   d.setWindowTitle("Hexadecimal value");
   l->addWidget(t);
-  t->setPlainText(hex.GetString());
+  t->setPlainText(hex.GetString().c_str());
   d.exec();
 }
 

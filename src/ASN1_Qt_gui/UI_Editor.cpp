@@ -105,7 +105,7 @@ void UI_Editor::Write(ASN1_Object *obj)
   ByteArray buffer;
   obj->WriteIntoBuffer(buffer);
 
-  m_HexaTextEdit->setPlainText(buffer.GetString());
+  m_HexaTextEdit->setPlainText(buffer.GetString().c_str());
   QApplication::restoreOverrideCursor();
   m_Main->SetStatus("Writing done.");
 }
@@ -113,10 +113,10 @@ void UI_Editor::Write(ASN1_Object *obj)
 void UI_Editor::Read(ASN1_Object *obj)
 {
   m_Main->SetStatus("Reading...");
-  char c[2001]{};
+  std::string error;
 
   QApplication::setOverrideCursor(Qt::WaitCursor);
-  if (obj->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), c, 2000))
+  if (obj->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), error))
   {
     m_Main->SetStatus("Reading done.");
     QApplication::restoreOverrideCursor();
@@ -125,7 +125,7 @@ void UI_Editor::Read(ASN1_Object *obj)
   {
     m_Main->SetStatus("Reading failed.");
     QApplication::restoreOverrideCursor();
-    QMessageBox box(QMessageBox::Critical, "Parsing error", c);
+    QMessageBox box(QMessageBox::Critical, "Parsing error", error.c_str());
     box.exec();
   }
   if (m_Grammar.get() == obj)
@@ -188,24 +188,23 @@ void UI_Editor::action_Compare()
 
   if (secondTree != nullptr)
   {
-    char c[2001]{};
+    std::string err;
     if (m_HexaTextEdit->CorrectOddHexa())
     {
-      if (!secondTree->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), c, 2000))
+      if (!secondTree->ReadFromBuffer(m_HexaTextEdit->toTextWithoutSpace().toStdString().c_str(), err))
       {
         m_Main->SetStatus("Compare failed at reading hexadecimal data.");
-        QMessageBox box(QMessageBox::Critical, "Parsing error", c);
+        QMessageBox box(QMessageBox::Critical, "Parsing error", err.c_str());
         box.exec();
       }
       else
       {
         unsigned int nbDiffs = 0;
-        if (m_Grammar->Compare(*secondTree, nbDiffs, c, 2000))
+        if (m_Grammar->Compare(*secondTree, nbDiffs, err))
         {
           if (nbDiffs > 0)
           {
-            QString str(c);
-            QMessageBox box(QMessageBox::Information, "Comparison differences", str);
+            QMessageBox box(QMessageBox::Information, "Comparison differences", err.c_str());
             box.exec();
             m_Main->SetStatus("Compare showed differences.");
           }

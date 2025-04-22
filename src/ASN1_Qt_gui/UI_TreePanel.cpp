@@ -150,7 +150,7 @@ void UI_TreePanel::SearchPattern(const QString &pat, bool InVal)
       break;
     }
 
-    if (InVal && IsHexPattern && QString(obj->GetHexBuffer().GetString()).contains(localPattern))
+    if (InVal && IsHexPattern && QString(obj->GetHexBuffer().GetString().c_str()).contains(localPattern))
     {
       SelectAndExpandNode(node);
       break;

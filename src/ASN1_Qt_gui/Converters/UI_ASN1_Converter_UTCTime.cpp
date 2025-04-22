@@ -68,7 +68,7 @@ void UI_ASN1_Converter_UTCTime::ConvertTypeToHex()
     ASN1_UTCTime::UTCTimeToHex(UTCTimeStringTmp, hex, err);
     if (err.empty())
     {
-      hexaTextEdit->setPlainText(hex.GetString());
+      hexaTextEdit->setPlainText(hex.GetString().c_str());
     }
   }
   errorLineEdit->setText(err.c_str());
@@ -76,7 +76,7 @@ void UI_ASN1_Converter_UTCTime::ConvertTypeToHex()
 
 void UI_ASN1_Converter_UTCTime::ConvertHexToType()
 {
-  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString().c_str());
+  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
 
   std::string UTCTimeString, err;
   ASN1_UTCTime::HexToUTCTime(hex, UTCTimeString, err);

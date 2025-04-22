@@ -30,13 +30,13 @@ void UI_ASN1_Converter_Real::ConvertTypeToHex()
   ByteArray hex;
   ASN1_Real::RealToHex(val, hex, err);
   if (err.empty())
-    hexaTextEdit->setPlainText(hex.GetString());
+    hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
 }
 
 void UI_ASN1_Converter_Real::ConvertHexToType()
 {
-  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString().c_str());
+  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   double val;
   std::string err;
   ASN1_Real::HexToReal(hex, val, err);

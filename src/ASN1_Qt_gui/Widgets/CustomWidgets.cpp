@@ -69,7 +69,7 @@ bool myQTextEdit::CorrectOddHexa()
         text.replace('\r', "");
 
         ByteArray tempHex(text.toStdString().c_str());
-        text = QString(tempHex.GetString()); // add padding if size is odd
+        text = QString(tempHex.GetString().c_str()); // add padding if size is odd
 
         bCheckText = false;
         prevText = text;

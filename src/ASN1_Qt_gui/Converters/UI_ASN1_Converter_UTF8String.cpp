@@ -24,13 +24,13 @@ void UI_ASN1_Converter_UTF8String::ConvertTypeToHex()
   ByteArray hex;
   ASN1_UTF8String::UTF8StringToHex(str, hex, err);
   if (err.empty())
-    hexaTextEdit->setPlainText(hex.GetString());
+    hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
 }
 
 void UI_ASN1_Converter_UTF8String::ConvertHexToType()
 {
-  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString().c_str());
+  ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   std::string utf8str;
   std::string err;
   ASN1_UTF8String::HexToUTF8String(hex, utf8str, err);

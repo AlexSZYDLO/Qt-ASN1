@@ -91,7 +91,7 @@ CTOR_IMPL(OctetString)
 
 QString ASN1_Script_OctetString::getOctetStringValue() const
 {
-  return QString(m_GrammarSpe->GetOctetStringValue().GetString());
+  return QString(m_GrammarSpe->GetOctetStringValue().GetString().c_str());
 }
 void ASN1_Script_OctetString::setOctetStringValue(const QString &val)
 {
