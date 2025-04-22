@@ -29,7 +29,7 @@ make install -C ./cmake-build -j6
 
 # LICENSE
 
-Copyright 2016-2025 Alexandre SZYDLOWSKI
+Copyright 2016-2025 Alexandre SZYDLOWSKI (alexandre.szydlowski@gmail.com)
 
 ------------------------------------------------------------------------
 This program is free software: you can redistribute it and/or modify
@@ -44,8 +44,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-------------------------------------------------------------------------
-Author: Alexandre SZYDLOWSKI
-Date: 2016-2025
-email: alexandre.szydlowski@gmail.com
-------------------------------------------------------------------------
