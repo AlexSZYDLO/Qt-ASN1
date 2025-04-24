@@ -8,8 +8,8 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueIA5String::IA5StringToHex(const std::string &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueIA5String::ToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output = "";
@@ -19,7 +19,8 @@ void ASN1_ValueIA5String::IA5StringToHex(const std::string &input, ByteArray &ou
     error = "Input string does not match the IA5 format";
 }
 
-void ASN1_ValueIA5String::HexToIA5String(const ByteArray &input, std::string &output, std::string &error)
+template <>
+void ASN1_ValueIA5String::FromHex(const ByteArray &input, std::string &output, std::string &error)
 {
   error.clear();
   output = "";

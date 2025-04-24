@@ -8,14 +8,15 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueNull::NullToHex(const bool &, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueNull::ToHex(const bool &, ByteArray &output, std::string &error)
 {
   output = "";
   error = "To use the Null node, set it ignored or not directly on the node";
 }
 
-void ASN1_ValueNull::HexToNull(const ByteArray &input, bool &, std::string &error)
+template <>
+void ASN1_ValueNull::FromHex(const ByteArray &input, bool &, std::string &error)
 {
   if (input != "")
     error = "The value of a Null node must be empty";

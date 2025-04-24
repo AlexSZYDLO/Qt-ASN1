@@ -122,7 +122,8 @@ unsigned int ConvertHexToIntNode(const ByteArray &Node)
   return BinaryAsInt(resultAsBinary);
 }
 
-void ASN1_ValueObjectID::ObjectIDToHex(const std::string &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueObjectID::ToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output.Clear();
@@ -164,7 +165,8 @@ void ASN1_ValueObjectID::ObjectIDToHex(const std::string &input, ByteArray &outp
   }
 }
 
-void ASN1_ValueObjectID::HexToObjectID(const ByteArray &input, std::string &output, std::string &error)
+template <>
+void ASN1_ValueObjectID::FromHex(const ByteArray &input, std::string &output, std::string &error)
 {
   error.clear();
   ByteArray OIDAsHexString = input;

@@ -8,8 +8,8 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueUTCTime::UTCTimeToHex(const std::string &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueUTCTime::ToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   if (IsValidUTCTime(input))
@@ -18,7 +18,8 @@ void ASN1_ValueUTCTime::UTCTimeToHex(const std::string &input, ByteArray &output
     error = "The input does not match the UTC Time format";
 }
 
-void ASN1_ValueUTCTime::HexToUTCTime(const ByteArray &input, std::string &output, std::string &error)
+template <>
+void ASN1_ValueUTCTime::FromHex(const ByteArray &input, std::string &output, std::string &error)
 {
   error.clear();
   std::string s = HexToString(input);

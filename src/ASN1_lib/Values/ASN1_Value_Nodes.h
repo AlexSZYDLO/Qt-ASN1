@@ -5,118 +5,85 @@
 #pragma once
 #include "../ASN1_Value.h"
 
-//#ifndef NODE_CONSTRUCTOR
-#define NODE_CONSTRUCTOR(name, defTag, initValue)                                                                      \
-  ASN1_Value##name(const std::string &name,                                                                            \
-                   ASN1_Object *grammarObject,                                                                         \
-                   const ByteArray &tag,                                                                               \
-                   bool optional,                                                                                      \
-                   bool explicitTag,                                                                                   \
-                   const ASN1_Value##name *defaultValue)                                                               \
-      : ASN1_Value(name, grammarObject, tag, defTag, optional, explicitTag, defaultValue)                              \
-  {                                                                                                                    \
-    std::string err;                                                                                                   \
-    Set##name##Value(initValue, err);                                                                                  \
-  }
-//#endif
-
-//#ifndef NODE_DESTRUCTOR
-#define NODE_DESTRUCTOR(name)                                                                                          \
-  virtual ~ASN1_Value##name() override                                                                                 \
-  {                                                                                                                    \
-  }
-//#endif
-
-//#ifndef GET_TYPE_FUNCTION
-#define GET_TYPE_FUNCTION(name)                                                                                        \
-  virtual Utils::eNodeType GetType() const override                                                                    \
-  {                                                                                                                    \
-    return Utils::c##name;                                                                                             \
-  }
-//#endif
-
-//#ifndef GET_FUNCTION
-#define GET_FUNCTION(name, type)                                                                                       \
-  type Get##name##Value() const                                                                                        \
-  {                                                                                                                    \
-    return m_Value##name;                                                                                              \
-  }
-//#endif
-
-//#ifndef SET_FUNCTION
-#define SET_FUNCTION(name, type)                                                                                       \
-  void Set##name##Value(const type &value, std::string &error)                                                         \
-  {                                                                                                                    \
-    error.clear();                                                                                                     \
-    ByteArray output;                                                                                                  \
-    name##ToHex(value, output, error);                                                                                 \
-    if (error.empty())                                                                                                 \
-    {                                                                                                                  \
-      m_Value##name = value;                                                                                           \
-      m_Value = output;                                                                                                \
-    }                                                                                                                  \
-  }
-//#endif
-
-//#ifndef TYPE_TO_HEX_FUNCTION_DECL
-#define TYPE_TO_HEX_FUNCTION_DECL(name, type)                                                                          \
-  static void name##ToHex(const type &input, ByteArray &output, std::string &error);
-//#endif
-
-//#ifndef HEX_TO_TYPE_FUNCTION_DECL
-#define HEX_TO_TYPE_FUNCTION_DECL(name, type)                                                                          \
-  static void HexTo##name(const ByteArray &input, type &output, std::string &error);
-//#endif
-
-//#ifndef SET_HEX_VALUE_FUNCTION
-#define SET_HEX_VALUE_FUNCTION(name, type)                                                                             \
-  virtual void SetHexValue(const ByteArray &rawValue, std::string &error) override                                     \
-  {                                                                                                                    \
-    type output;                                                                                                       \
-    error.clear();                                                                                                     \
-    HexTo##name(rawValue, output, error);                                                                              \
-    if (error.empty())                                                                                                 \
-    {                                                                                                                  \
-      m_Value = rawValue;                                                                                              \
-      m_Value##name = output;                                                                                          \
-    }                                                                                                                  \
-  }
-//#endif
-
-//#ifndef NODE_CLASS
-#define NODE_CLASS(name, type, defTag, initValue)                                                                      \
-  class ASN1_Value##name : public ASN1_Value                                                                           \
-  {                                                                                                                    \
-  protected:                                                                                                           \
-    type m_Value##name;                                                                                                \
-                                                                                                                       \
-  public:                                                                                                              \
-    NODE_CONSTRUCTOR(name, defTag, initValue)                                                                          \
-    NODE_DESTRUCTOR(name)                                                                                              \
-                                                                                                                       \
-    GET_TYPE_FUNCTION(name)                                                                                            \
-                                                                                                                       \
-    GET_FUNCTION(name, type)                                                                                           \
-    SET_FUNCTION(name, type)                                                                                           \
-                                                                                                                       \
-    SET_HEX_VALUE_FUNCTION(name, type)                                                                                 \
-                                                                                                                       \
-    TYPE_TO_HEX_FUNCTION_DECL(name, type)                                                                              \
-    HEX_TO_TYPE_FUNCTION_DECL(name, type)                                                                              \
-  };
-//#endif
 
 namespace Value
 {
-NODE_CLASS(Boolean, bool, "01", false)
-NODE_CLASS(BitString, std::string, "03", "")
-NODE_CLASS(Enumerated, int, "0A", 0)
-NODE_CLASS(Integer, int, "02", 0)
-NODE_CLASS(Null, bool, "05", true)
-NODE_CLASS(IA5String, std::string, "16", "")
-NODE_CLASS(UTF8String, std::string, "0C", "")
-NODE_CLASS(UTCTime, std::string, "17", "0000000000Z")
-NODE_CLASS(Real, double, "09", 0.0)
-NODE_CLASS(OctetString, ByteArray, "04", "")
-NODE_CLASS(ObjectID, std::string, "06", "")
+
+template<Utils::eNodeType type> struct UnderlyingType {};
+template<> struct UnderlyingType<Utils::cBitString>  { using T = std::string; };
+template<> struct UnderlyingType<Utils::cBoolean>    { using T = bool; };
+template<> struct UnderlyingType<Utils::cEnumerated> { using T = int; };
+template<> struct UnderlyingType<Utils::cIA5String>  { using T = std::string; };
+template<> struct UnderlyingType<Utils::cInteger>    { using T = int; };
+template<> struct UnderlyingType<Utils::cNull>       { using T = bool; };
+template<> struct UnderlyingType<Utils::cObjectID>   { using T = std::string; };
+template<> struct UnderlyingType<Utils::cOctetString>{ using T = ByteArray; };
+template<> struct UnderlyingType<Utils::cReal>       { using T = double; };
+template<> struct UnderlyingType<Utils::cUTCTime>    { using T = std::string; };
+template<> struct UnderlyingType<Utils::cUTF8String> { using T = std::string; };
+
+template<Utils::eNodeType type> struct InitValue { static constexpr UnderlyingType<type>::T V = {}; };
+template<> struct InitValue<Utils::cBitString> { static constexpr const char *V = ""; };
+template<> struct InitValue<Utils::cIA5String> { static constexpr const char *V = ""; };
+template<> struct InitValue<Utils::cObjectID> { static constexpr const char *V = ""; };
+template<> struct InitValue<Utils::cOctetString> { static constexpr const char *V = ""; };
+template<> struct InitValue<Utils::cUTCTime> { static constexpr const char *V = "0000000000Z"; };
+template<> struct InitValue<Utils::cUTF8String> { static constexpr const char *V = ""; };
+
+constexpr const char *DefaultTag(Utils::eNodeType type)
+{
+  switch (type)
+  {
+    case Utils::cBitString:  return "03";
+    case Utils::cBoolean:    return "01";
+    case Utils::cEnumerated: return "0A";
+    case Utils::cIA5String:  return "16";
+    case Utils::cInteger:    return "02";
+    case Utils::cNull:       return "05";
+    case Utils::cObjectID:   return "06";
+    case Utils::cOctetString:return "04";
+    case Utils::cReal:       return "09";
+    case Utils::cUTCTime:    return "17";
+    case Utils::cUTF8String: return "0C";
+  }
+  return "";
+}
+
+template <Utils::eNodeType T>
+class ASN1_ValueDer : public ASN1_Value
+{
+protected:
+  using U = UnderlyingType<T>::T;
+  U m_TypedValue = InitValue<T>::V;
+
+public:
+  ASN1_ValueDer(const std::string &name,
+                ASN1_Object *grammarObject,
+                const ByteArray &tag,
+                bool optional,
+                bool explicitTag,
+                const ASN1_ValueDer *defaultValue);
+
+  Utils::eNodeType GetType() const override { return T; }
+  U GetValue() const { return m_TypedValue; }
+
+  void SetHexValue(const ByteArray &rawValue, std::string &error) override;
+  void SetValue(const U &value, std::string &error);
+
+  static void ToHex(const U &input, ByteArray &output, std::string &error);
+  static void FromHex(const ByteArray &input, U &output, std::string &error);
+};
+
+using ASN1_ValueBitString = ASN1_ValueDer<Utils::cBitString>;
+using ASN1_ValueBoolean = ASN1_ValueDer<Utils::cBoolean>;
+using ASN1_ValueEnumerated = ASN1_ValueDer<Utils::cEnumerated>;
+using ASN1_ValueIA5String = ASN1_ValueDer<Utils::cIA5String>;
+using ASN1_ValueInteger = ASN1_ValueDer<Utils::cInteger>;
+using ASN1_ValueNull = ASN1_ValueDer<Utils::cNull>;
+using ASN1_ValueObjectID = ASN1_ValueDer<Utils::cObjectID>;
+using ASN1_ValueOctetString = ASN1_ValueDer<Utils::cOctetString>;
+using ASN1_ValueReal = ASN1_ValueDer<Utils::cReal>;
+using ASN1_ValueUTCTime = ASN1_ValueDer<Utils::cUTCTime>;
+using ASN1_ValueUTF8String = ASN1_ValueDer<Utils::cUTF8String>;
+
 } // namespace Value

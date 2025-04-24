@@ -42,7 +42,8 @@ ByteArray double2hexstr(double x)
   return ByteArray(buf);
 }
 
-void ASN1_ValueReal::RealToHex(const double &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueReal::ToHex(const double &input, ByteArray &output, std::string &error)
 {
   error.clear();
   ByteArray result;
@@ -199,7 +200,8 @@ void ASN1_ValueReal::RealToHex(const double &input, ByteArray &output, std::stri
   output = result;
 }
 
-void ASN1_ValueReal::HexToReal(const ByteArray &input, double &output, std::string &error)
+template <>
+void ASN1_ValueReal::FromHex(const ByteArray &input, double &output, std::string &error)
 {
   error.clear();
   const std::string strHexReal = input.GetString();

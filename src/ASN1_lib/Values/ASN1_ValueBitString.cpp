@@ -9,7 +9,8 @@ using namespace Utils;
 namespace Value
 {
 
-void ASN1_ValueBitString::BitStringToHex(const std::string &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueBitString::ToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output.Clear();
@@ -35,7 +36,8 @@ void ASN1_ValueBitString::BitStringToHex(const std::string &input, ByteArray &ou
   }
 }
 
-void ASN1_ValueBitString::HexToBitString(const ByteArray &input, std::string &output, std::string &error)
+template <>
+void ASN1_ValueBitString::FromHex(const ByteArray &input, std::string &output, std::string &error)
 {
   // first byte of bitstring contains the number of bits to remove. It is a value contained between 0 and 8
   error.clear();
