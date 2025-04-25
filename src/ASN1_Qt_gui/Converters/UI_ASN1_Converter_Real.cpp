@@ -28,7 +28,7 @@ void UI_ASN1_Converter_Real::ConvertTypeToHex()
   double val = realSpinBox->value();
   std::string err;
   ByteArray hex;
-  ASN1_Real::RealToHex(val, hex, err);
+  ASN1_Real::ToHex(val, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -39,7 +39,7 @@ void UI_ASN1_Converter_Real::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   double val;
   std::string err;
-  ASN1_Real::HexToReal(hex, val, err);
+  ASN1_Real::FromHex(hex, val, err);
   if (err.empty())
     realSpinBox->setValue(val);
   errorLineEdit->setText(err.c_str());

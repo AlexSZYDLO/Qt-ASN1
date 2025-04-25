@@ -25,7 +25,7 @@ void UI_ASN1_Converter_Boolean::ConvertTypeToHex()
   bool b = booleanCheckBox->isChecked();
   std::string err;
   ByteArray hex;
-  ASN1_Boolean::BooleanToHex(b, hex, err);
+  ASN1_Boolean::ToHex(b, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -36,7 +36,7 @@ void UI_ASN1_Converter_Boolean::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   bool b;
   std::string err;
-  ASN1_Boolean::HexToBoolean(hex, b, err);
+  ASN1_Boolean::FromHex(hex, b, err);
   if (err.empty())
     booleanCheckBox->setChecked(b);
   errorLineEdit->setText(err.c_str());

@@ -15,7 +15,7 @@ void UI_ASN1_Node_Boolean::MakeWidget(QGroupBox *inBox, bool readOnly)
   check = new QCheckBox("Value (checked=true)", inBox);
   vLayValueLayout->addWidget(check);
   vLayValueLayout->addItem(verticalSpacer);
-  check->setChecked(m_Grammar->GetBooleanValue());
+  check->setChecked(m_Grammar->GetValue());
   if (readOnly)
     check->setEnabled(false);
 }
@@ -24,7 +24,7 @@ bool UI_ASN1_Node_Boolean::accept(ASN1_Object *val)
 {
   // must recast from non const value
   ASN1_Boolean *boolVal = static_cast<ASN1_Boolean *>(val);
-  boolVal->SetBooleanValue(check->isChecked());
+  boolVal->SetValue(check->isChecked());
   return true;
 }
 
@@ -33,10 +33,10 @@ bool UI_ASN1_Node_Boolean::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_Boolean *boolVal = static_cast<ASN1_Boolean *>(val);
   // temporary set new value to calculate, and reset to old value
-  bool temp = m_Grammar->GetBooleanValue();
-  boolVal->SetBooleanValue(check->isChecked());
+  bool temp = m_Grammar->GetValue();
+  boolVal->SetValue(check->isChecked());
   boolVal->WriteIntoBuffer(hex);
-  boolVal->SetBooleanValue(temp);
+  boolVal->SetValue(temp);
   return true;
 }
 } // namespace UI

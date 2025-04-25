@@ -15,7 +15,7 @@ void UI_ASN1_Node_OctetString::MakeWidget(QGroupBox *inBox, bool readOnly)
   inBox->setLayout(vLayValueLayout);
   vLayValueLayout->addWidget(hexaText);
   vLayValueLayout->addItem(verticalSpacer);
-  hexaText->setPlainText(m_Grammar->GetOctetStringValue().GetString().c_str());
+  hexaText->setPlainText(m_Grammar->GetValue().GetString().c_str());
   if (readOnly)
     hexaText->setReadOnly(true);
 }
@@ -28,7 +28,7 @@ bool UI_ASN1_Node_OctetString::accept(ASN1_Object *val)
 
   if (hexaText->CorrectOddHexa())
   {
-    octetStringVal->SetOctetStringValue(hex.toStdString());
+    octetStringVal->SetValue(hex.toStdString());
     return true;
   }
   return false;
@@ -39,10 +39,10 @@ bool UI_ASN1_Node_OctetString::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_OctetString *octetStringVal = static_cast<ASN1_OctetString *>(val);
   // temporary set new value to calculate, and reset to old value
-  QString temp(m_Grammar->GetOctetStringValue().GetString().c_str());
-  octetStringVal->SetOctetStringValue(hexaText->toTextWithoutSpace().toStdString());
+  QString temp(m_Grammar->GetValue().GetString().c_str());
+  octetStringVal->SetValue(hexaText->toTextWithoutSpace().toStdString());
   octetStringVal->WriteIntoBuffer(hex);
-  octetStringVal->SetOctetStringValue(temp.toStdString());
+  octetStringVal->SetValue(temp.toStdString());
   return true;
 }
 } // namespace UI

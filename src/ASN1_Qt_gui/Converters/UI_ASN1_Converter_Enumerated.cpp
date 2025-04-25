@@ -26,7 +26,7 @@ void UI_ASN1_Converter_Enumerated::ConvertTypeToHex()
   int val = enumeratedSpinBox->value();
   std::string err;
   ByteArray hex;
-  ASN1_Enumerated::EnumeratedToHex(val, hex, err);
+  ASN1_Enumerated::ToHex(val, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -37,7 +37,7 @@ void UI_ASN1_Converter_Enumerated::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   int val;
   std::string err;
-  ASN1_Enumerated::HexToEnumerated(hex, val, err);
+  ASN1_Enumerated::FromHex(hex, val, err);
   if (err.empty())
     enumeratedSpinBox->setValue(val);
   errorLineEdit->setText(err.c_str());

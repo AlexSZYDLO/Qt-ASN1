@@ -22,7 +22,7 @@ void UI_ASN1_Converter_UTF8String::ConvertTypeToHex()
   std::string str = s.constData();
   std::string err;
   ByteArray hex;
-  ASN1_UTF8String::UTF8StringToHex(str, hex, err);
+  ASN1_UTF8String::ToHex(str, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -33,7 +33,7 @@ void UI_ASN1_Converter_UTF8String::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   std::string utf8str;
   std::string err;
-  ASN1_UTF8String::HexToUTF8String(hex, utf8str, err);
+  ASN1_UTF8String::FromHex(hex, utf8str, err);
   if (err.empty())
     utf8StringTextEdit->setPlainText(QString::fromUtf8(utf8str.c_str()));
   errorLineEdit->setText(err.c_str());

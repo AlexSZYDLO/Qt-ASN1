@@ -16,7 +16,7 @@ void UI_ASN1_Node_IA5String::MakeWidget(QGroupBox *inBox, bool readOnly)
   vLayValueLayout->addWidget(str);
   vLayValueLayout->addItem(verticalSpacer);
 
-  str->setPlainText(m_Grammar->GetIA5StringValue().c_str());
+  str->setPlainText(m_Grammar->GetValue().c_str());
   if (readOnly)
     str->setReadOnly(true);
 }
@@ -28,7 +28,7 @@ bool UI_ASN1_Node_IA5String::accept(ASN1_Object *val)
 
   bool b;
   if (b = Utils::IsValidIA5String(str->toPlainText().toStdString().c_str()))
-    stringVal->SetIA5StringValue(str->toPlainText().toStdString().c_str());
+    stringVal->SetValue(str->toPlainText().toStdString().c_str());
   else
     QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 String format");
   return b;
@@ -39,12 +39,12 @@ bool UI_ASN1_Node_IA5String::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_IA5String *stringVal = static_cast<ASN1_IA5String *>(val);
   // temporary set new value to calculate, and reset to old value
-  QString temp = m_Grammar->GetIA5StringValue().c_str();
+  QString temp = m_Grammar->GetValue().c_str();
   if (Utils::IsValidIA5String(str->toPlainText().toStdString().c_str()))
   {
-    stringVal->SetIA5StringValue(str->toPlainText().toStdString().c_str());
+    stringVal->SetValue(str->toPlainText().toStdString().c_str());
     stringVal->WriteIntoBuffer(hex);
-    stringVal->SetIA5StringValue(temp.toStdString().c_str());
+    stringVal->SetValue(temp.toStdString().c_str());
   }
   else
     QMessageBox::warning(nullptr, "Wrong value format", "The string does not match IA5 String format");

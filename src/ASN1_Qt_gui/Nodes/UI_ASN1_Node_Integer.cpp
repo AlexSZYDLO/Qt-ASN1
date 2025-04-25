@@ -18,7 +18,7 @@ void UI_ASN1_Node_Integer::MakeWidget(QGroupBox *inBox, bool readOnly)
   vLayValueLayout->addItem(verticalSpacer);
   integer->setMinimum(std::numeric_limits<int>::min());
   integer->setMaximum(std::numeric_limits<int>::max());
-  integer->setValue(m_Grammar->GetIntegerValue());
+  integer->setValue(m_Grammar->GetValue());
   if (readOnly)
     integer->setReadOnly(true);
 }
@@ -27,7 +27,7 @@ bool UI_ASN1_Node_Integer::accept(ASN1_Object *val)
 {
   // must recast from non const value
   ASN1_Integer *intVal = static_cast<ASN1_Integer *>(val);
-  intVal->SetIntegerValue(integer->value());
+  intVal->SetValue(integer->value());
   return true;
 }
 
@@ -36,10 +36,10 @@ bool UI_ASN1_Node_Integer::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_Integer *intVal = static_cast<ASN1_Integer *>(val);
   // temporary set new value to calculate, and reset to old value
-  int temp = m_Grammar->GetIntegerValue();
-  intVal->SetIntegerValue(integer->value());
+  int temp = m_Grammar->GetValue();
+  intVal->SetValue(integer->value());
   intVal->WriteIntoBuffer(hex);
-  intVal->SetIntegerValue(temp);
+  intVal->SetValue(temp);
   return true;
 }
 } // namespace UI

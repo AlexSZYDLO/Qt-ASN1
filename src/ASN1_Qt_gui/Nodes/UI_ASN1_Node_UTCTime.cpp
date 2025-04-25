@@ -38,7 +38,7 @@ void UI_ASN1_Node_UTCTime::MakeWidget(QGroupBox *inBox, bool readOnly)
   int y, m, d, h, min, s, zh, zm;
   Utils::eUTCTimeZone z;
   std::string UTCTimeString, error;
-  UTCTimeString = m_Grammar->GetUTCTimeValue();
+  UTCTimeString = m_Grammar->GetValue();
   Utils::UTCTimeToValues(UTCTimeString, y, m, d, h, min, s, z, zh, zm, error);
 
   // add 2000 to year, but will stay hidden and will not be encoded (QDate limitation)
@@ -65,7 +65,9 @@ bool UI_ASN1_Node_UTCTime::accept(ASN1_Object *val)
   // must recast from non const value
   ASN1_UTCTime *timeVal = static_cast<ASN1_UTCTime *>(val);
   std::string UTCTimeStringTmp, errorBuffer;
-  Utils::ValuesToUTCTime(edit->date().year() - 2000,
+  QString year = QString::number(edit->date().year());
+  year = year.right(2);
+  Utils::ValuesToUTCTime(year.toInt(),
                          edit->date().month(),
                          edit->date().day(),
                          edit->time().hour(),
@@ -76,7 +78,7 @@ bool UI_ASN1_Node_UTCTime::accept(ASN1_Object *val)
                          ZMin->value(),
                          UTCTimeStringTmp,
                          errorBuffer);
-  timeVal->SetUTCTimeValue(UTCTimeStringTmp);
+  timeVal->SetValue(UTCTimeStringTmp);
   return true;
 }
 
@@ -88,7 +90,7 @@ bool UI_ASN1_Node_UTCTime::GetHexValue(ASN1_Object *val, ByteArray &hex)
 
   std::string UTCTimeString, UTCTimeStringTmp, errorBuffer;
 
-  UTCTimeString = m_Grammar->GetUTCTimeValue();
+  UTCTimeString = m_Grammar->GetValue();
 
   Utils::ValuesToUTCTime(edit->date().year() - 2000,
                          edit->date().month(),
@@ -101,9 +103,9 @@ bool UI_ASN1_Node_UTCTime::GetHexValue(ASN1_Object *val, ByteArray &hex)
                          ZMin->value(),
                          UTCTimeStringTmp,
                          errorBuffer);
-  timeVal->SetUTCTimeValue(UTCTimeStringTmp);
+  timeVal->SetValue(UTCTimeStringTmp);
   timeVal->WriteIntoBuffer(hex);
-  timeVal->SetUTCTimeValue(UTCTimeString);
+  timeVal->SetValue(UTCTimeString);
   return true;
 }
 

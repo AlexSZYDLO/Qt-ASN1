@@ -19,7 +19,7 @@ void UI_ASN1_Node_Real::MakeWidget(QGroupBox *inBox, bool readOnly)
   real->setMinimum(std::numeric_limits<double>::lowest());
   real->setMaximum(std::numeric_limits<double>::max());
   real->setDecimals(10);
-  real->setValue(m_Grammar->GetRealValue());
+  real->setValue(m_Grammar->GetValue());
   if (readOnly)
     real->setReadOnly(true);
 }
@@ -28,7 +28,7 @@ bool UI_ASN1_Node_Real::accept(ASN1_Object *val)
 {
   // must recast from non const value
   ASN1_Real *realVal = static_cast<ASN1_Real *>(val);
-  realVal->SetRealValue(real->value());
+  realVal->SetValue(real->value());
   return true;
 }
 
@@ -37,10 +37,10 @@ bool UI_ASN1_Node_Real::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_Real *realVal = static_cast<ASN1_Real *>(val);
   // temporary set new value to calculate, and reset to old value
-  double temp = m_Grammar->GetRealValue();
-  realVal->SetRealValue(real->value());
+  double temp = m_Grammar->GetValue();
+  realVal->SetValue(real->value());
   realVal->WriteIntoBuffer(hex);
-  realVal->SetRealValue(temp);
+  realVal->SetValue(temp);
   return true;
 }
 } // namespace UI

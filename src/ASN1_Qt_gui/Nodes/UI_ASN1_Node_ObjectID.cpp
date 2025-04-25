@@ -15,7 +15,7 @@ void UI_ASN1_Node_ObjectID::MakeWidget(QGroupBox *inBox, bool readOnly)
   inBox->setLayout(vLayValueLayout);
   vLayValueLayout->addWidget(OIDText);
   vLayValueLayout->addItem(verticalSpacer);
-  OIDText->setPlainText(m_Grammar->GetObjectIDValue().c_str());
+  OIDText->setPlainText(m_Grammar->GetValue().c_str());
   if (readOnly)
     OIDText->setReadOnly(true);
 }
@@ -27,7 +27,7 @@ bool UI_ASN1_Node_ObjectID::accept(ASN1_Object *val)
 
   bool b;
   if (b = Utils::IsValidObjectID(OIDText->toPlainText().toStdString().c_str()))
-    oidVal->SetObjectIDValue(OIDText->toPlainText().toStdString().c_str());
+    oidVal->SetValue(OIDText->toPlainText().toStdString().c_str());
   else
     QMessageBox::warning(nullptr,
                          "Wrong value format",
@@ -41,13 +41,13 @@ bool UI_ASN1_Node_ObjectID::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_ObjectID *oidVal = static_cast<ASN1_ObjectID *>(val);
   // temporary set new value to calculate, and reset to old value
-  QString temp = m_Grammar->GetObjectIDValue().c_str();
+  QString temp = m_Grammar->GetValue().c_str();
   bool b;
   if (b = Utils::IsValidObjectID(OIDText->toPlainText().toStdString().c_str()))
   {
-    oidVal->SetObjectIDValue(OIDText->toPlainText().toStdString().c_str());
+    oidVal->SetValue(OIDText->toPlainText().toStdString().c_str());
     oidVal->WriteIntoBuffer(hex);
-    oidVal->SetObjectIDValue(temp.toStdString().c_str());
+    oidVal->SetValue(temp.toStdString().c_str());
   }
   else
     QMessageBox::warning(nullptr, "Wrong value format", "The value must be a valid Object ID. Example: 1.25.4567.89");

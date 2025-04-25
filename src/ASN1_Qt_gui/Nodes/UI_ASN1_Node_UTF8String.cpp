@@ -15,7 +15,7 @@ void UI_ASN1_Node_UTF8String::MakeWidget(QGroupBox *inBox, bool readOnly)
   inBox->setLayout(vLayValueLayout);
   vLayValueLayout->addWidget(str);
   vLayValueLayout->addItem(verticalSpacer);
-  str->setPlainText(QString::fromUtf8(m_Grammar->GetUTF8StringValue().c_str()));
+  str->setPlainText(QString::fromUtf8(m_Grammar->GetValue().c_str()));
   if (readOnly)
     str->setReadOnly(true);
 }
@@ -31,7 +31,7 @@ bool UI_ASN1_Node_UTF8String::accept(ASN1_Object *val)
   bool b;
   std::string s2 = s.constData();
   if (b = Utils::IsValidUTF8String(s2))
-    stringVal->SetUTF8StringValue(s2);
+    stringVal->SetValue(s2);
   else
     QMessageBox::warning(nullptr, "Wrong value format", "The string does not match UTF8 format");
   return b;
@@ -42,16 +42,16 @@ bool UI_ASN1_Node_UTF8String::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_UTF8String *stringVal = static_cast<ASN1_UTF8String *>(val);
   // temporary set new value to calculate, and reset to old value
-  QString temp = m_Grammar->GetUTF8StringValue().c_str();
+  QString temp = m_Grammar->GetValue().c_str();
   QString text = str->toPlainText();
   QByteArray s(text.toUtf8());
   std::string s2 = s.constData();
 
   if (Utils::IsValidUTF8String(s2))
   {
-    stringVal->SetUTF8StringValue(s2);
+    stringVal->SetValue(s2);
     stringVal->WriteIntoBuffer(hex);
-    stringVal->SetUTF8StringValue(temp.toStdString().c_str());
+    stringVal->SetValue(temp.toStdString().c_str());
   }
   else
     QMessageBox::warning(nullptr, "Wrong value format", "The string does not match UTF8 format");
