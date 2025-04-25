@@ -21,6 +21,18 @@ ASN1_ValueDer<T>::ASN1_ValueDer(const std::string &name,
 }
 
 template <Utils::eNodeType T>
+Utils::eNodeType ASN1_ValueDer<T>::GetType() const
+{
+  return T;
+}
+
+template <Utils::eNodeType T>
+ASN1_ValueDer<T>::U ASN1_ValueDer<T>::GetTypedValue() const
+{
+  return m_TypedValue;
+}
+
+template <Utils::eNodeType T>
 void ASN1_ValueDer<T>::SetHexValue(const ByteArray &rawValue, std::string &error)
 {
   error.clear();

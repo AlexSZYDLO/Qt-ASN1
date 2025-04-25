@@ -167,11 +167,11 @@ void ASN1_ValueSequence::ReadFromBuffer(const ByteArray &buffer, unsigned int &p
           pos = oldPos2; // tag will be read again
 
           ASN1_OctetString *OctetStringExtensibility = new ASN1_OctetString("Extensibility Object", TagExtensibility);
-          m_ExtensibilityObjects.push_back(OctetStringExtensibility->GetValue());
+          m_ExtensibilityObjects.push_back(OctetStringExtensibility->GetPrivateObject());
 
           try
           {
-            OctetStringExtensibility->GetValue()->ReadFromBuffer(buffer, pos);
+            OctetStringExtensibility->GetPrivateObject()->ReadFromBuffer(buffer, pos);
           }
           catch (ParsingEx &e)
           {

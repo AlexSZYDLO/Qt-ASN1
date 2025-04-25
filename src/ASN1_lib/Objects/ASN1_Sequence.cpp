@@ -18,12 +18,12 @@ ASN1_Sequence::ASN1_Sequence(ASN1_Object *valuesArray[],
     : ASN1_Object(name)
 {
   ASN1_ValueSequence *defaultValue = static_cast<ASN1_ValueSequence *>(
-      defaultSequence != nullptr ? defaultSequence->GetValue() : nullptr);
+      defaultSequence != nullptr ? defaultSequence->GetPrivateObject() : nullptr);
 
   typedef ASN1_Value *tpVal;
   tpVal *arr = new tpVal[numberOfValues];
   for (unsigned int i = 0; i < numberOfValues; i++)
-    arr[i] = valuesArray[i]->GetValue();
+    arr[i] = valuesArray[i]->GetPrivateObject();
 
   Value = new ASN1_ValueSequence(
       arr, numberOfValues, name, this, tag, optional, explicitTag, defaultValue, extensibility);
@@ -36,29 +36,29 @@ ASN1_Sequence::~ASN1_Sequence()
 
 bool ASN1_Sequence::IsExtensible() const
 {
-  return static_cast<ASN1_ValueSequence *>(GetValue())->IsExtensible();
+  return static_cast<ASN1_ValueSequence *>(GetPrivateObject())->IsExtensible();
 }
 
 //void ASN1_Sequence::AppendExtensibilityObject(ASN1_Object* obj) {
-//  static_cast<ASN1_ValueSequence*>(GetValue())->AppendExtensibilityObject((obj)->GetValue());
+//  static_cast<ASN1_ValueSequence*>(GetPrivateObject())->AppendExtensibilityObject((obj)->GetPrivateObject());
 //}
 
 ASN1_Object *ASN1_Sequence::GetObjectAt(unsigned int pos) const
 {
-  return static_cast<ASN1_ValueSequence *>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
+  return static_cast<ASN1_ValueSequence *>(GetPrivateObject())->GetObjectAt(pos)->GetGrammarObject();
 }
 
 ASN1_Object *ASN1_Sequence::GetExtensibilityObjectAt(unsigned int pos) const
 {
-  return static_cast<ASN1_ValueSequence *>(GetValue())->GetExtensibilityObjectAt(pos)->GetGrammarObject();
+  return static_cast<ASN1_ValueSequence *>(GetPrivateObject())->GetExtensibilityObjectAt(pos)->GetGrammarObject();
 }
 
 unsigned int ASN1_Sequence::GetSize() const
 {
-  return static_cast<ASN1_ValueSequence *>(GetValue())->GetSize();
+  return static_cast<ASN1_ValueSequence *>(GetPrivateObject())->GetSize();
 }
 
 unsigned int ASN1_Sequence::GetExtensibilitySize() const
 {
-  return static_cast<ASN1_ValueSequence *>(GetValue())->GetExtensibilitySize();
+  return static_cast<ASN1_ValueSequence *>(GetPrivateObject())->GetExtensibilitySize();
 }

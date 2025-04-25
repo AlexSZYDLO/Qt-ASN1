@@ -16,7 +16,7 @@ ASN1_Choice::ASN1_Choice(callbackChoice choiceFromIdx,
                          const ASN1_Choice *defaultChoice)
     : ASN1_Object(name)
 {
-  ASN1_ValueChoice *defaultValue = static_cast<ASN1_ValueChoice *>(defaultChoice != nullptr ? defaultChoice->GetValue()
+  ASN1_ValueChoice *defaultValue = static_cast<ASN1_ValueChoice *>(defaultChoice != nullptr ? defaultChoice->GetPrivateObject()
                                                                                             : nullptr);
   Value = new ASN1_ValueChoice(choiceFromIdx, numberOfChoices, name, this, tag, optional, explicitTag, defaultValue);
 }
@@ -27,38 +27,38 @@ ASN1_Choice::~ASN1_Choice()
 
 unsigned int ASN1_Choice::AvailableChoices() const
 {
-  return static_cast<ASN1_ValueChoice *>(GetValue())->GetNumberOfPossibleChoices();
+  return static_cast<ASN1_ValueChoice *>(GetPrivateObject())->GetNumberOfPossibleChoices();
 }
 
 const ASN1_Object *ASN1_Choice::GetChoiceFromIndex(unsigned int pos) const
 {
-  const ASN1_Value *value = static_cast<ASN1_ValueChoice *>(GetValue())->GetDummyChoiceFromIndex(pos);
+  const ASN1_Value *value = static_cast<ASN1_ValueChoice *>(GetPrivateObject())->GetDummyChoiceFromIndex(pos);
   return (value != nullptr) ? value->GetGrammarObject() : nullptr;
 }
 
 void ASN1_Choice::DeleteDummyChoiceList() const
 {
-  static_cast<ASN1_ValueChoice *>(GetValue())->DeleteDummyChoiceList();
+  static_cast<ASN1_ValueChoice *>(GetPrivateObject())->DeleteDummyChoiceList();
 }
 
 void ASN1_Choice::MakeDummyChoiceList() const
 {
-  static_cast<ASN1_ValueChoice *>(GetValue())->MakeDummyChoiceList();
+  static_cast<ASN1_ValueChoice *>(GetPrivateObject())->MakeDummyChoiceList();
 }
 
 ASN1_Object *ASN1_Choice::SetSelectedChoice(int idx)
 {
-  ASN1_Value *val = static_cast<ASN1_ValueChoice *>(GetValue())->SetSelectedChoice(idx);
+  ASN1_Value *val = static_cast<ASN1_ValueChoice *>(GetPrivateObject())->SetSelectedChoice(idx);
   return val != nullptr ? val->GetGrammarObject() : nullptr;
 }
 
 ASN1_Object *ASN1_Choice::GetSelectedChoice() const
 {
-  const ASN1_Value *value = static_cast<ASN1_ValueChoice *>(GetValue())->GetSelectedChoice();
+  const ASN1_Value *value = static_cast<ASN1_ValueChoice *>(GetPrivateObject())->GetSelectedChoice();
   return (value != nullptr) ? value->GetGrammarObject() : nullptr;
 }
 
 unsigned int ASN1_Choice::GetSelectedChoiceIndex() const
 {
-  return static_cast<ASN1_ValueChoice *>(GetValue())->GetSelectedChoiceIndex();
+  return static_cast<ASN1_ValueChoice *>(GetPrivateObject())->GetSelectedChoiceIndex();
 }

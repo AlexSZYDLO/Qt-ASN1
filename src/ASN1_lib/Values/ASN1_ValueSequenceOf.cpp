@@ -98,7 +98,7 @@ ASN1_Value *ASN1_ValueSequenceOf::GetDummyNewObject()
   ASN1_Object *obj = m_Callback.f(m_Callback.context);
   if (obj != nullptr)
   {
-    ASN1_Value *val = obj->GetValue();
+    ASN1_Value *val = obj->GetPrivateObject();
     val->SetParentValue(this);
     return val;
   }
@@ -136,7 +136,7 @@ void ASN1_ValueSequenceOf::ReadFromBuffer(const ByteArray &buffer, unsigned int 
       ASN1_Object *newGrammarObj = AppendNewObject()->GetGrammarObject();
       if (newGrammarObj != nullptr)
       {
-        ASN1_Value *newObj = newGrammarObj->GetValue();
+        ASN1_Value *newObj = newGrammarObj->GetPrivateObject();
         try
         {
           newObj->ReadFromBuffer(buffer, pos);
