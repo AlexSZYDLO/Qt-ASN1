@@ -15,7 +15,7 @@ using namespace Value;
   {                                                                                                                    \
     ASN1_Value##name *def = static_cast<ASN1_Value##name *>(defaultValue != nullptr ? defaultValue->GetValue()         \
                                                                                     : nullptr);                        \
-    Value = new ASN1_Value##name(objectName, this, tag, optional, explicitTag, def);                                   \
+    Value = new ASN1_ValueDer<Utils::c##name>(objectName, this, tag, optional, explicitTag, def);                                   \
   }
 #endif
 
@@ -31,7 +31,7 @@ using namespace Value;
   void ASN1_##name::Set##name##Value(const type &val)                                                                  \
   {                                                                                                                    \
     std::string error;                                                                                                 \
-    static_cast<ASN1_Value##name *>(GetValue())->Set##name##Value(val, error);                                         \
+    static_cast<ASN1_ValueDer<Utils::c##name> *>(GetValue())->SetValue(val, error);                                         \
   }
 #endif
 
@@ -39,7 +39,7 @@ using namespace Value;
 #define OBJECT_SET_VALUE_CHECK_FUNCTION_IMPL(name, type)                                                               \
   void ASN1_##name::Set##name##Value(const type &val, std::string &error)                                              \
   {                                                                                                                    \
-    static_cast<ASN1_Value##name *>(GetValue())->Set##name##Value(val, error);                                         \
+    static_cast<ASN1_ValueDer<Utils::c##name> *>(GetValue())->SetValue(val, error);                                         \
   }
 #endif
 
@@ -47,7 +47,7 @@ using namespace Value;
 #define OBJECT_GET_VALUE_FUNCTION_IMPL(name, type)                                                                     \
   type ASN1_##name::Get##name##Value() const                                                                           \
   {                                                                                                                    \
-    return static_cast<ASN1_Value##name *>(GetValue())->Get##name##Value();                                            \
+    return static_cast<ASN1_ValueDer<Utils::c##name> *>(GetValue())->GetValue();                                            \
   }
 #endif
 
@@ -55,7 +55,7 @@ using namespace Value;
 #define STATIC_CONVERT_TYPE_TO_HEX_FUNCTION_IMPL(name, type)                                                           \
   void ASN1_##name::name##ToHex(const type &input, ByteArray &output, std::string &error)                              \
   {                                                                                                                    \
-    ASN1_Value##name::name##ToHex(input, output, error);                                                               \
+    ASN1_ValueDer<Utils::c##name>::ToHex(input, output, error);                                                               \
   }
 #endif
 
@@ -63,7 +63,7 @@ using namespace Value;
 #define STATIC_CONVERT_HEX_TO_TYPE_FUNCTION_IMPL(name, type)                                                           \
   void ASN1_##name::HexTo##name(const ByteArray &input, type &output, std::string &error)                              \
   {                                                                                                                    \
-    ASN1_Value##name::HexTo##name(input, output, error);                                                               \
+    ASN1_ValueDer<Utils::c##name>::FromHex(input, output, error);                                                               \
   }
 #endif
 
