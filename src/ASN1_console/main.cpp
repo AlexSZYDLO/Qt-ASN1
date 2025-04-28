@@ -77,13 +77,13 @@ bool test_Tags()
   res &= reconstructedLbl == "1C80";
 
   ASN1_Integer a("a", tA, false, false, nullptr), b("b", tB);
-  a.SetIntegerValue(5);
+  a.SetValue(5);
 
   std::string buf;
   ByteArray output;
   a.WriteIntoBuffer(output);
   b.ReadFromBuffer(output, buf);
-  res &= 5 == b.GetIntegerValue();
+  res &= 5 == b.GetValue();
 
   if (!Utils::DecomposeTag("CA45", cl, fo, reconstructedLbl))
   {
@@ -102,21 +102,21 @@ bool test_Sequence()
   ASN1_Sequence *test = MakeSequenceTest("testSeq", "", varTest1);
   ASN1_Sequence *test2 = MakeSequenceTest("testSeq", "", varTest2);
 
-  static_cast<ASN1_Integer *>(varTest1.a->SetSelectedChoice(2))->SetIntegerValue(500);
-  varTest1.b->SetBitStringValue("11110000111100001111");
-  varTest1.c->SetBooleanValue(true);
-  varTest1.d->SetEnumeratedValue(4);
-  varTest1.e->SetIA5StringValue("alexandre");
-  varTest1.f->SetIntegerValue(-6500);
+  static_cast<ASN1_Integer *>(varTest1.a->SetSelectedChoice(2))->SetValue(500);
+  varTest1.b->SetValue("11110000111100001111");
+  varTest1.c->SetValue(true);
+  varTest1.d->SetValue(4);
+  varTest1.e->SetValue("alexandre");
+  varTest1.f->SetValue(-6500);
   varTest1.g->Ignore();
-  varTest1.h->SetObjectIDValue("2.12.15632.875.1.625");
-  varTest1.i->SetOctetStringValue("00112233445566778899aabbccddeeff");
-  varTest1.j->SetRealValue(2500.3652);
+  varTest1.h->SetValue("2.12.15632.875.1.625");
+  varTest1.i->SetValue("00112233445566778899aabbccddeeff");
+  varTest1.j->SetValue(2500.3652);
 
   Utils::ValuesToUTCTime(90, 01, 03, 17, 02, 00, Utils::cPlus, 01, 00, UTCTime, err);
-  varTest1.k->SetUTCTimeValue(UTCTime);
+  varTest1.k->SetValue(UTCTime);
 
-  varTest1.l->SetUTF8StringValue("szydlowski");
+  varTest1.l->SetValue("szydlowski");
 
   ByteArray buffer("");
   std::string err2;
@@ -126,20 +126,20 @@ bool test_Sequence()
   int a = 0;
   if (varTest2.a->GetSelectedChoiceIndex() == 2)
   {
-    a = static_cast<ASN1_Integer *>(varTest2.a->GetSelectedChoice())->GetIntegerValue();
+    a = static_cast<ASN1_Integer *>(varTest2.a->GetSelectedChoice())->GetValue();
   }
-  std::string b = varTest2.b->GetBitStringValue();
-  bool c = varTest2.c->GetBooleanValue();
-  int d = varTest2.d->GetEnumeratedValue();
+  std::string b = varTest2.b->GetValue();
+  bool c = varTest2.c->GetValue();
+  int d = varTest2.d->GetValue();
 
-  std::string e = varTest2.e->GetIA5StringValue();
-  int f = varTest2.f->GetIntegerValue();
+  std::string e = varTest2.e->GetValue();
+  int f = varTest2.f->GetValue();
   bool g = varTest2.g->IsIgnored();
-  std::string h = varTest2.h->GetObjectIDValue();
-  std::string i = varTest2.i->GetOctetStringValue().GetString();
-  double j = varTest2.j->GetRealValue();
-  std::string k = varTest2.k->GetUTCTimeValue();
-  std::string l = varTest2.l->GetUTF8StringValue();
+  std::string h = varTest2.h->GetValue();
+  std::string i = varTest2.i->GetValue().GetString();
+  double j = varTest2.j->GetValue();
+  std::string k = varTest2.k->GetValue();
+  std::string l = varTest2.l->GetValue();
 
   bool result = true;
   result &= a == 500;
@@ -165,12 +165,12 @@ bool test_SequenceOf()
   ASN1_SequenceOf *seqof = MakeSequenceOfTest("SequenceOf", "AA");
   ASN1_SequenceOf *seqof2 = MakeSequenceOfTest("SequenceOf2", "AA");
 
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(1);
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(2);
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(3);
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(4);
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(5);
-  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetIntegerValue(6);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(1);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(2);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(3);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(4);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(5);
+  static_cast<ASN1_Integer *>(seqof->AppendNewObject())->SetValue(6);
   seqof->MoveUpObject(1);
   seqof->MoveDownObject(4);
   seqof->DeleteObjectAt(2);
@@ -184,7 +184,7 @@ bool test_SequenceOf()
   //s << seqof2.StringExtractForResearch();
   for (unsigned int i = 0; i < seqof2->GetSequenceOfSize(); i++)
   {
-    s << static_cast<ASN1_Integer *>(seqof2->GetObjectAt(i))->GetIntegerValue();
+    s << static_cast<ASN1_Integer *>(seqof2->GetObjectAt(i))->GetValue();
   }
   bool result = s.str() == "21465";
 
@@ -196,7 +196,7 @@ bool test_SequenceOf()
 bool test_BitString()
 {
   ASN1_BitString *bitstr = new ASN1_BitString();
-  bitstr->SetBitStringValue("");
+  bitstr->SetValue("");
   ByteArray hex;
   bitstr->WriteIntoBuffer(hex);
   std::string test(hex.GetString());
@@ -204,7 +204,7 @@ bool test_BitString()
   std::string err;
   ASN1_BitString *bitstr2 = new ASN1_BitString();
   bitstr2->ReadFromBuffer(hex, err);
-  std::string test2(bitstr2->GetBitStringValue());
+  std::string test2(bitstr2->GetValue());
 
   delete bitstr;
   delete bitstr2;
@@ -217,14 +217,14 @@ bool test_OID_helper(const ByteArray &_hex, const std::string &str)
   bool b = true;
 
   ASN1_ObjectID *oid = new ASN1_ObjectID();
-  oid->SetObjectIDValue(str);
+  oid->SetValue(str);
   oid->WriteIntoBuffer(hex);
   std::string test(hex.GetString());
   b &= test == _hex.GetString();
 
   std::string err;
   oid->ReadFromBuffer(hex, err);
-  std::string test2(oid->GetObjectIDValue());
+  std::string test2(oid->GetValue());
   b &= test2 == str;
 
   delete oid;
@@ -256,12 +256,12 @@ bool test_Real()
   SequenceRealVars vars, vars2;
 
   ASN1_Sequence *real = MakeRealSequenceTest("real seq", "", vars);
-  vars.a->SetRealValue(2.5);
-  vars.b->SetRealValue(-2.5);
-  vars.c->SetRealValue(255003.5635);
-  vars.d->SetRealValue(-3521.5123);
-  vars.e->SetRealValue(NAN);
-  vars.f->SetRealValue(0.326536985632648795123);
+  vars.a->SetValue(2.5);
+  vars.b->SetValue(-2.5);
+  vars.c->SetValue(255003.5635);
+  vars.d->SetValue(-3521.5123);
+  vars.e->SetValue(NAN);
+  vars.f->SetValue(0.326536985632648795123);
 
   ByteArray hex;
   real->WriteIntoBuffer(hex);
@@ -271,12 +271,12 @@ bool test_Real()
   ASN1_Sequence *real2 = MakeRealSequenceTest("real seq2", "", vars2);
   real2->ReadFromBuffer(hex, err);
 
-  double res1 = vars2.a->GetRealValue();
-  double res2 = vars2.b->GetRealValue();
-  double res3 = vars2.c->GetRealValue();
-  double res4 = vars2.d->GetRealValue();
-  double res5 = vars2.e->GetRealValue();
-  double res6 = vars2.f->GetRealValue();
+  double res1 = vars2.a->GetValue();
+  double res2 = vars2.b->GetValue();
+  double res3 = vars2.c->GetValue();
+  double res4 = vars2.d->GetValue();
+  double res5 = vars2.e->GetValue();
+  double res6 = vars2.f->GetValue();
 
   bool b = true;
   b &= res1 == 2.5;
@@ -295,10 +295,10 @@ bool test_Set()
 {
   SetTestVars vars, vars2;
   ASN1_Set *t = MakeSetTest("settest", "", vars);
-  vars.a->SetRealValue(542.312);
-  vars.b->SetIntegerValue(563);
-  vars.c->SetBooleanValue(true);
-  vars.d->SetOctetStringValue("AABBCCDDEEFF00");
+  vars.a->SetValue(542.312);
+  vars.b->SetValue(563);
+  vars.c->SetValue(true);
+  vars.d->SetValue("AABBCCDDEEFF00");
 
   ByteArray hex1;
   t->WriteIntoBuffer(hex1);
@@ -361,8 +361,8 @@ bool test_Compare()
 {
   ASN1_Integer *a = new ASN1_Integer("test");
   ASN1_Integer *b = new ASN1_Integer("test2");
-  a->SetIntegerValue(5);
-  b->SetIntegerValue(15);
+  a->SetValue(5);
+  b->SetValue(15);
 
   std::string comp;
   unsigned int nbDiffs = 0;
@@ -500,27 +500,27 @@ bool test_DLL() {
     bool boolVar;
     Hex tag("");
     DLL_ASN1_Boolean* b = NewObj(ASN1_Boolean_New("Boolean", tag.p(), false, false, nullptr));
-    ASN1_Boolean_SetBooleanValue(b, true);
+    ASN1_Boolean_SetValue(b, true);
 
-    ASN1_Boolean_GetBooleanValue(b, &boolVar);
+    ASN1_Boolean_GetValue(b, &boolVar);
     res &= boolVar == true;
 
-    ASN1_Boolean_SetBooleanValue(b, false);
-    ASN1_Boolean_GetBooleanValue(b, &boolVar);
+    ASN1_Boolean_SetValue(b, false);
+    ASN1_Boolean_GetValue(b, &boolVar);
     res &= boolVar == false;
 
     DLL_ASN1_Sequence* seq = DLL_MakeGrammar();
     DLL_ASN1_Choice* choice = reinterpret_cast<DLL_ASN1_Choice*>(ASN1_Sequence_GetObjectAt(seq, 1));
-    ASN1_Integer_SetIntegerValue(reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
+    ASN1_Integer_SetValue(reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_SetSelectedChoice(choice, 1)), 150);
     DLL_ASN1_Integer* integerChoice = reinterpret_cast<DLL_ASN1_Integer*>(ASN1_Choice_GetSelectedChoice(choice));
 
     int integerResult;
-    ASN1_Integer_GetIntegerValue(integerChoice, &integerResult);
+    ASN1_Integer_GetValue(integerChoice, &integerResult);
     res &= integerResult == 150;
     res &= ASN1_Choice_GetSelectedChoiceIndex(choice) == 1;
 
     DLL_ASN1_ObjectID* oid = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq, 6));
-    ASN1_ObjectID_SetObjectIDValue(oid, "1.23.5126.3547.652.946321.2");
+    ASN1_ObjectID_SetValue(oid, "1.23.5126.3547.652.946321.2");
 
     Hex buffer("");
     ASN1_Object_WriteIntoBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq), buffer.p());
@@ -531,7 +531,7 @@ bool test_DLL() {
     DLL_ASN1_Sequence* seq2 = DLL_MakeGrammar();
     ASN1_Object_ReadFromBuffer(reinterpret_cast<DLL_ASN1_Object*>(seq2), buffer.p(), charbuff, 512);
     DLL_ASN1_ObjectID* oid2 = reinterpret_cast<DLL_ASN1_ObjectID*>(ASN1_Sequence_GetObjectAt(seq2, 6));
-    ASN1_ObjectID_GetObjectIDValue(oid2, charbuff, 512);
+    ASN1_ObjectID_GetValue(oid2, charbuff, 512);
     string oidStr(charbuff);
     res &= oidStr == "1.23.5126.3547.652.946321.2";
   }

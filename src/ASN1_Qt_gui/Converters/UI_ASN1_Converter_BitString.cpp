@@ -24,7 +24,7 @@ void UI_ASN1_Converter_BitString::ConvertTypeToHex()
   std::string str = binaryTextEdit->toTextWithoutSpace().toStdString();
   std::string err;
   ByteArray hex;
-  ASN1_BitString::BitStringToHex(str, hex, err);
+  ASN1_BitString::ToHex(str, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -35,7 +35,7 @@ void UI_ASN1_Converter_BitString::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   std::string bitstring;
   std::string err;
-  ASN1_BitString::HexToBitString(hex, bitstring, err);
+  ASN1_BitString::FromHex(hex, bitstring, err);
   if (err.empty())
     binaryTextEdit->setPlainText(bitstring.c_str());
   errorLineEdit->setText(err.c_str());

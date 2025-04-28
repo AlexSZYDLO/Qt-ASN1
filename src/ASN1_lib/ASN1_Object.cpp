@@ -32,7 +32,7 @@ ASN1_Object::~ASN1_Object()
   delete Value;
 }
 
-ASN1_Value *ASN1_Object::GetValue() const
+ASN1_Value *ASN1_Object::GetPrivateObject() const
 {
   return Value;
 }
@@ -80,7 +80,7 @@ std::string ASN1_Object::StringExtract() const
 
 std::string ASN1_Object::StringExtractForResearch() const
 {
-  return GetValue()->StringExtractForReasearch();
+  return GetPrivateObject()->StringExtractForReasearch();
 }
 
 eNodeType ASN1_Object::GetType() const
@@ -126,7 +126,7 @@ ByteArray ASN1_Object::GetHexBuffer() const
 
 void ASN1_Object::ClearDynamicData()
 {
-  GetValue()->ClearDynamicData();
+  GetPrivateObject()->ClearDynamicData();
 }
 
 void ASN1_Object::WriteIntoBuffer(ByteArray &buffer) const
@@ -153,5 +153,5 @@ bool ASN1_Object::ReadFromBuffer(const ByteArray &buffer, std::string &error)
 
 bool ASN1_Object::Compare(const ASN1_Object &secondTree, unsigned int &nbDiffs, std::string &diffReport) const
 {
-  return Value->CompareTree(secondTree.GetValue(), nbDiffs, diffReport);
+  return Value->CompareTree(secondTree.GetPrivateObject(), nbDiffs, diffReport);
 }

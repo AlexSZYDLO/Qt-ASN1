@@ -187,7 +187,7 @@ tASN1_Object_Delete ASN1_Object_Delete;
 
 #ifndef TYPEDEF_WITH_BUFFER
 #define TYPEDEF_WITH_BUFFER(name)                                                                                      \
-  typedef void (*tASN1_##name##_Get##name##Value)(                                                                     \
+  typedef void (*tASN1_##name##_GetValue)(                                                                     \
       const DLL_ASN1_##name *obj, char *output, unsigned int outputBufferSize);                                        \
   typedef void (*tASN1_##name##_HexTo##name)(const DLL_ByteArray *input,                                               \
                                              char *output,                                                             \
@@ -198,7 +198,7 @@ tASN1_Object_Delete ASN1_Object_Delete;
 
 #ifndef TYPEDEF_WITH_TYPE
 #define TYPEDEF_WITH_TYPE(name, type)                                                                                  \
-  typedef void (*tASN1_##name##_Get##name##Value)(const DLL_ASN1_##name *obj, type *output);                           \
+  typedef void (*tASN1_##name##_GetValue)(const DLL_ASN1_##name *obj, type *output);                           \
   typedef void (*tASN1_##name##_HexTo##name)(                                                                          \
       const DLL_ByteArray *input, type *output, char *errorBuffer, unsigned int errorBufferSize);
 #endif
@@ -209,8 +209,8 @@ tASN1_Object_Delete ASN1_Object_Delete;
   struct DLL_ASN1_##name;                                                                                                \
   typedef DLL_ASN1_##name *(*tASN1_##name##_New)(                                                                        \
       const char *name, const DLL_ByteArray *tag, bool optional, bool explicitTag, const DLL_ASN1_##name *defaultValue); \
-  typedef void (*tASN1_##name##_Set##name##Value)(DLL_ASN1_##name * obj, const type val);                                \
-  typedef void (*tASN1_##name##_Set##name##ValueCheck)(                                                                  \
+  typedef void (*tASN1_##name##_SetValue)(DLL_ASN1_##name * obj, const type val);                                \
+  typedef void (*tASN1_##name##_SetValueCheck)(                                                                  \
       DLL_ASN1_##name * obj, const type val, char *errorBuffer, unsigned int errorBufferSize);                           \
   typedef void (*tASN1_##name##_##name##ToHex)(                                                                          \
       const type input, DLL_ByteArray *output, char *errorBuffer, unsigned int errorBufferSize);
@@ -220,25 +220,25 @@ tASN1_Object_Delete ASN1_Object_Delete;
 #ifndef DLL_FUNCTION_POINTER
 #define DLL_FUNCTION_POINTER(name)                                                                                     \
   tASN1_##name##_New ASN1_##name##_New;                                                                                \
-  tASN1_##name##_Get##name##Value ASN1_##name##_Get##name##Value;                                                      \
-  tASN1_##name##_Set##name##Value ASN1_##name##_Set##name##Value;                                                      \
-  tASN1_##name##_Set##name##ValueCheck ASN1_##name##_Set##name##ValueCheck;                                            \
+  tASN1_##name##_GetValue ASN1_##name##_GetValue;                                                      \
+  tASN1_##name##_SetValue ASN1_##name##_SetValue;                                                      \
+  tASN1_##name##_SetValueCheck ASN1_##name##_SetValueCheck;                                            \
   tASN1_##name##_##name##ToHex ASN1_##name##_##name##ToHex;                                                            \
   tASN1_##name##_HexTo##name ASN1_##name##_HexTo##name;                                                                \
                                                                                                                        \
   void InitFunctions_##name(HINSTANCE hDLL)                                                                            \
   {                                                                                                                    \
     GET_FUNC_POINTER(ASN1_##name##_New)                                                                                \
-    GET_FUNC_POINTER(ASN1_##name##_Get##name##Value)                                                                   \
-    GET_FUNC_POINTER(ASN1_##name##_Set##name##Value)                                                                   \
-    GET_FUNC_POINTER(ASN1_##name##_Set##name##ValueCheck)                                                              \
+    GET_FUNC_POINTER(ASN1_##name##_GetValue)                                                                   \
+    GET_FUNC_POINTER(ASN1_##name##_SetValue)                                                                   \
+    GET_FUNC_POINTER(ASN1_##name##_SetValueCheck)                                                              \
     GET_FUNC_POINTER(ASN1_##name##_##name##ToHex)                                                                      \
     GET_FUNC_POINTER(ASN1_##name##_HexTo##name)                                                                        \
   }                                                                                                                    \
   bool Check_##name()                                                                                                  \
   {                                                                                                                    \
-    return (ASN1_##name##_New && ASN1_##name##_Get##name##Value && ASN1_##name##_Set##name##Value                      \
-            && ASN1_##name##_Set##name##ValueCheck && ASN1_##name##_##name##ToHex && ASN1_##name##_HexTo##name);       \
+    return (ASN1_##name##_New && ASN1_##name##_GetValue && ASN1_##name##_SetValue                      \
+            && ASN1_##name##_SetValueCheck && ASN1_##name##_##name##ToHex && ASN1_##name##_HexTo##name);       \
   }
 #endif
 

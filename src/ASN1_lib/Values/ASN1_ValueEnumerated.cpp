@@ -8,15 +8,16 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueEnumerated::EnumeratedToHex(const int &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueEnumerated::ToHex(const int &input, ByteArray &output, std::string &error)
 {
-  ASN1_ValueInteger::IntegerToHex(input, output, error);
+  ASN1_ValueInteger::ToHex(input, output, error);
 }
 
-void ASN1_ValueEnumerated::HexToEnumerated(const ByteArray &input, int &output, std::string &error)
+template <>
+void ASN1_ValueEnumerated::FromHex(const ByteArray &input, int &output, std::string &error)
 {
-  ASN1_ValueInteger::HexToInteger(input, output, error);
+  ASN1_ValueInteger::FromHex(input, output, error);
 }
 
 } // namespace Value

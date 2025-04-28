@@ -17,7 +17,7 @@ void UI_ASN1_Node_Enumerated::MakeWidget(QGroupBox *inBox, bool readOnly)
   vLayValueLayout->addItem(verticalSpacer);
   enumerated->setMinimum(std::numeric_limits<int>::min());
   enumerated->setMaximum(std::numeric_limits<int>::max());
-  enumerated->setValue(m_Grammar->GetEnumeratedValue());
+  enumerated->setValue(m_Grammar->GetValue());
   if (readOnly)
     enumerated->setReadOnly(true);
 }
@@ -26,7 +26,7 @@ bool UI_ASN1_Node_Enumerated::accept(ASN1_Object *val)
 {
   // must recast from non const value
   ASN1_Enumerated *enumVal = static_cast<ASN1_Enumerated *>(val);
-  enumVal->SetEnumeratedValue(enumerated->value());
+  enumVal->SetValue(enumerated->value());
   return true;
 }
 
@@ -35,11 +35,10 @@ bool UI_ASN1_Node_Enumerated::GetHexValue(ASN1_Object *val, ByteArray &hex)
   // must recast from non const value
   ASN1_Enumerated *enumVal = static_cast<ASN1_Enumerated *>(val);
   // temporary set new value to calculate, and reset to old value
-  //QString temp = grammar->GetBitStringValue();
-  int temp = m_Grammar->GetEnumeratedValue();
-  enumVal->SetEnumeratedValue(enumerated->value());
+  int temp = m_Grammar->GetValue();
+  enumVal->SetValue(enumerated->value());
   enumVal->WriteIntoBuffer(hex);
-  enumVal->SetEnumeratedValue(temp);
+  enumVal->SetValue(temp);
   return true;
 }
 } // namespace UI

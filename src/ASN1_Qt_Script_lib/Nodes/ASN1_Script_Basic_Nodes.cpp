@@ -16,11 +16,11 @@ CTOR_IMPL(BitString)
 
 QString ASN1_Script_BitString::getBitStringValue() const
 {
-  return QString(m_GrammarSpe->GetBitStringValue().c_str());
+  return QString(m_GrammarSpe->GetValue().c_str());
 }
 void ASN1_Script_BitString::setBitStringValue(const QString &val)
 {
-  m_GrammarSpe->SetBitStringValue(val.toStdString().c_str());
+  m_GrammarSpe->SetValue(val.toStdString().c_str());
 }
 
 // -------- BOOLEAN --------
@@ -28,11 +28,11 @@ CTOR_IMPL(Boolean)
 
 bool ASN1_Script_Boolean::getBooleanValue() const
 {
-  return m_GrammarSpe->GetBooleanValue();
+  return m_GrammarSpe->GetValue();
 }
 void ASN1_Script_Boolean::setBooleanValue(bool val)
 {
-  m_GrammarSpe->SetBooleanValue(val);
+  m_GrammarSpe->SetValue(val);
 }
 
 // -------- ENUMERATED --------
@@ -40,11 +40,11 @@ CTOR_IMPL(Enumerated)
 
 int ASN1_Script_Enumerated::getEnumeratedValue() const
 {
-  return m_GrammarSpe->GetEnumeratedValue();
+  return m_GrammarSpe->GetValue();
 }
 void ASN1_Script_Enumerated::setEnumeratedValue(int val)
 {
-  m_GrammarSpe->SetEnumeratedValue(val);
+  m_GrammarSpe->SetValue(val);
 }
 
 // -------- IA5STRING --------
@@ -52,11 +52,11 @@ CTOR_IMPL(IA5String)
 
 QString ASN1_Script_IA5String::getIA5StringValue() const
 {
-  return QString(m_GrammarSpe->GetIA5StringValue().c_str());
+  return QString(m_GrammarSpe->GetValue().c_str());
 }
 void ASN1_Script_IA5String::setIA5StringValue(const QString &val)
 {
-  m_GrammarSpe->SetIA5StringValue(val.toStdString().c_str());
+  m_GrammarSpe->SetValue(val.toStdString().c_str());
 }
 
 // -------- INTEGER --------
@@ -64,11 +64,11 @@ CTOR_IMPL(Integer)
 
 int ASN1_Script_Integer::getIntegerValue() const
 {
-  return m_GrammarSpe->GetIntegerValue();
+  return m_GrammarSpe->GetValue();
 }
 void ASN1_Script_Integer::setIntegerValue(int val)
 {
-  m_GrammarSpe->SetIntegerValue(val);
+  m_GrammarSpe->SetValue(val);
 }
 
 // -------- NULL --------
@@ -79,11 +79,11 @@ CTOR_IMPL(ObjectID)
 
 QString ASN1_Script_ObjectID::getObjectIDValue() const
 {
-  return QString(m_GrammarSpe->GetObjectIDValue().c_str());
+  return QString(m_GrammarSpe->GetValue().c_str());
 }
 void ASN1_Script_ObjectID::setObjectIDValue(const QString &val)
 {
-  m_GrammarSpe->SetObjectIDValue(val.toStdString().c_str());
+  m_GrammarSpe->SetValue(val.toStdString().c_str());
 }
 
 // -------- OCTETSTRING --------
@@ -91,11 +91,11 @@ CTOR_IMPL(OctetString)
 
 QString ASN1_Script_OctetString::getOctetStringValue() const
 {
-  return QString(m_GrammarSpe->GetOctetStringValue().GetString().c_str());
+  return QString(m_GrammarSpe->GetValue().GetString().c_str());
 }
 void ASN1_Script_OctetString::setOctetStringValue(const QString &val)
 {
-  m_GrammarSpe->SetOctetStringValue(ByteArray(val.toStdString().c_str()));
+  m_GrammarSpe->SetValue(ByteArray(val.toStdString().c_str()));
 }
 
 // -------- REAL --------
@@ -103,11 +103,11 @@ CTOR_IMPL(Real)
 
 double ASN1_Script_Real::getRealValue() const
 {
-  return m_GrammarSpe->GetRealValue();
+  return m_GrammarSpe->GetValue();
 }
 void ASN1_Script_Real::setRealValue(double val)
 {
-  m_GrammarSpe->SetRealValue(val);
+  m_GrammarSpe->SetValue(val);
 }
 
 // -------- UTCTIME --------
@@ -133,11 +133,11 @@ Utils::eUTCTimeZone ConvertSelfToGrammarEnum(ASN1_Script_UTCTime::TimeZoneSign z
 
 QString ASN1_Script_UTCTime::getUTCTimeValue() const
 {
-  return QString(m_GrammarSpe->GetUTCTimeValue().c_str());
+  return QString(m_GrammarSpe->GetValue().c_str());
 }
 void ASN1_Script_UTCTime::setUTCTimeValue(const QString &val)
 {
-  m_GrammarSpe->SetUTCTimeValue(val.toStdString().c_str());
+  m_GrammarSpe->SetValue(val.toStdString().c_str());
 }
 
 void ASN1_Script_UTCTime::setUTCTimeValue(int year,
@@ -153,7 +153,7 @@ void ASN1_Script_UTCTime::setUTCTimeValue(int year,
   std::string str, err;
   Utils::ValuesToUTCTime(
       year, month, day, hours, minutes, seconds, ConvertSelfToGrammarEnum(TZSign), TZHours, TZMinutes, str, err);
-  m_GrammarSpe->SetUTCTimeValue(str);
+  m_GrammarSpe->SetValue(str);
 }
 
 void ASN1_Script_UTCTime::getUTCTimeValue(int &year,
@@ -168,9 +168,9 @@ void ASN1_Script_UTCTime::getUTCTimeValue(int &year,
 {
   Utils::eUTCTimeZone tempZone;
   std::string str, err;
-  str = m_GrammarSpe->GetUTCTimeValue().c_str();
+  str = m_GrammarSpe->GetValue().c_str();
   Utils::UTCTimeToValues(
-      m_GrammarSpe->GetUTCTimeValue().c_str(), year, month, day, hours, minutes, seconds, tempZone, TZHours, TZMinutes, err);
+      m_GrammarSpe->GetValue().c_str(), year, month, day, hours, minutes, seconds, tempZone, TZHours, TZMinutes, err);
   TZSign = ConvertGrammarToSelfEnum(tempZone);
 }
 
@@ -179,9 +179,9 @@ CTOR_IMPL(UTF8String)
 
 QString ASN1_Script_UTF8String::getUTF8StringValue() const
 {
-  return QString(m_GrammarSpe->GetUTF8StringValue().c_str());
+  return QString(m_GrammarSpe->GetValue().c_str());
 }
 void ASN1_Script_UTF8String::setUTF8StringValue(const QString &val)
 {
-  m_GrammarSpe->SetUTF8StringValue(val.toStdString().c_str());
+  m_GrammarSpe->SetValue(val.toStdString().c_str());
 }

@@ -8,8 +8,8 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueUTF8String::UTF8StringToHex(const std::string &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueUTF8String::ToHex(const std::string &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output = "";
@@ -19,7 +19,8 @@ void ASN1_ValueUTF8String::UTF8StringToHex(const std::string &input, ByteArray &
     error = "Input string does not match the UTF8 format";
 }
 
-void ASN1_ValueUTF8String::HexToUTF8String(const ByteArray &input, std::string &output, std::string &error)
+template <>
+void ASN1_ValueUTF8String::FromHex(const ByteArray &input, std::string &output, std::string &error)
 {
   error.clear();
   output = "";

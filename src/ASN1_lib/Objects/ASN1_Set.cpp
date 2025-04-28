@@ -17,12 +17,12 @@ ASN1_Set::ASN1_Set(ASN1_Object *valuesArray[],
                    bool extensibility)
     : ASN1_Object(name)
 {
-  ASN1_ValueSet *defaultValue = static_cast<ASN1_ValueSet *>(defaultSet != nullptr ? defaultSet->GetValue() : nullptr);
+  ASN1_ValueSet *defaultValue = static_cast<ASN1_ValueSet *>(defaultSet != nullptr ? defaultSet->GetPrivateObject() : nullptr);
 
   typedef ASN1_Value *tpVal;
   tpVal *arr = new tpVal[numberOfValues];
   for (unsigned int i = 0; i < numberOfValues; i++)
-    arr[i] = valuesArray[i]->GetValue();
+    arr[i] = valuesArray[i]->GetPrivateObject();
 
   Value = new ASN1_ValueSet(arr, numberOfValues, name, this, tag, optional, explicitTag, defaultValue, extensibility);
   delete[] arr;
@@ -34,29 +34,29 @@ ASN1_Set::~ASN1_Set()
 
 bool ASN1_Set::IsExtensible() const
 {
-  return static_cast<ASN1_ValueSet *>(GetValue())->IsExtensible();
+  return static_cast<ASN1_ValueSet *>(GetPrivateObject())->IsExtensible();
 }
 
 //void ASN1_Set::AppendExtensibilityObject(ASN1_Object* obj) {
-//  static_cast<ASN1_ValueSet*>(GetValue())->AppendExtensibilityObject((obj)->GetValue());
+//  static_cast<ASN1_ValueSet*>(GetPrivateObject())->AppendExtensibilityObject((obj)->GetPrivateObject());
 //}
 
 ASN1_Object *ASN1_Set::GetObjectAt(unsigned int pos) const
 {
-  return static_cast<ASN1_ValueSet *>(GetValue())->GetObjectAt(pos)->GetGrammarObject();
+  return static_cast<ASN1_ValueSet *>(GetPrivateObject())->GetObjectAt(pos)->GetGrammarObject();
 }
 
 ASN1_Object *ASN1_Set::GetExtensibilityObjectAt(unsigned int pos) const
 {
-  return static_cast<ASN1_ValueSet *>(GetValue())->GetExtensibilityObjectAt(pos)->GetGrammarObject();
+  return static_cast<ASN1_ValueSet *>(GetPrivateObject())->GetExtensibilityObjectAt(pos)->GetGrammarObject();
 }
 
 unsigned int ASN1_Set::GetSize() const
 {
-  return static_cast<ASN1_ValueSet *>(GetValue())->GetSize();
+  return static_cast<ASN1_ValueSet *>(GetPrivateObject())->GetSize();
 }
 
 unsigned int ASN1_Set::GetExtensibilitySize() const
 {
-  return static_cast<ASN1_ValueSet *>(GetValue())->GetExtensibilitySize();
+  return static_cast<ASN1_ValueSet *>(GetPrivateObject())->GetExtensibilitySize();
 }

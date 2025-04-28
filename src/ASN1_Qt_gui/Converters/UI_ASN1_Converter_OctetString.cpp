@@ -22,7 +22,7 @@ void UI_ASN1_Converter_OctetString::ConvertTypeToHex()
   ByteArray val(octetStringTextEdit->toTextWithoutSpace().toStdString());
   std::string err;
   ByteArray hex;
-  ASN1_OctetString::OctetStringToHex(val, hex, err);
+  ASN1_OctetString::ToHex(val, hex, err);
   if (err.empty())
     hexaTextEdit->setPlainText(hex.GetString().c_str());
   errorLineEdit->setText(err.c_str());
@@ -33,7 +33,7 @@ void UI_ASN1_Converter_OctetString::ConvertHexToType()
   ByteArray hex(hexaTextEdit->toTextWithoutSpace().toStdString());
   ByteArray val;
   std::string err;
-  ASN1_OctetString::HexToOctetString(hex, val, err);
+  ASN1_OctetString::FromHex(hex, val, err);
   if (err.empty())
     octetStringTextEdit->setPlainText(val.GetString().c_str());
   errorLineEdit->setText(err.c_str());

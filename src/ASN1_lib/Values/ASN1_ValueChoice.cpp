@@ -60,7 +60,7 @@ ASN1_Value *ASN1_ValueChoice::SetSelectedChoice(unsigned int idx)
   ASN1_Object *obj = m_Callback.f(idx, m_Callback.context);
   if (obj != nullptr)
   {
-    ASN1_Value *newChoice = obj->GetValue();
+    ASN1_Value *newChoice = obj->GetPrivateObject();
     if (m_TheChoice != nullptr)
       delete m_TheChoice->GetGrammarObject();
     if (newChoice != nullptr)
@@ -103,7 +103,7 @@ void ASN1_ValueChoice::MakeDummyChoiceList()
   DeleteDummyChoiceList();
   for (unsigned int i = 0; i < m_NumberOfChoices; i++)
   {
-    ASN1_Value *val = m_Callback.f(i, m_Callback.context)->GetValue();
+    ASN1_Value *val = m_Callback.f(i, m_Callback.context)->GetPrivateObject();
     if (val != nullptr)
     {
       val->SetParentValue(this);

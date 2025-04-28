@@ -8,14 +8,15 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueOctetString::OctetStringToHex(const ByteArray &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueOctetString::ToHex(const ByteArray &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output = input;
 }
 
-void ASN1_ValueOctetString::HexToOctetString(const ByteArray &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueOctetString::FromHex(const ByteArray &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output = input;

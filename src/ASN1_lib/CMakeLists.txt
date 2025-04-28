@@ -3,6 +3,7 @@ set(asn1_SRCS
   ASN1_Object.cpp
   ByteArray.cpp
   Utils.cpp
+  Values/ASN1_Value_Nodes.cpp
   Values/ASN1_ValueBitString.cpp
   Values/ASN1_ValueBoolean.cpp
   Values/ASN1_ValueUTCTime.cpp

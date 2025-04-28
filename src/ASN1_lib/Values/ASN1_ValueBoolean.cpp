@@ -9,13 +9,15 @@ using namespace Utils;
 namespace Value
 {
 
-void ASN1_ValueBoolean::BooleanToHex(const bool &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueBoolean::ToHex(const bool &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output = input ? "FF" : "00";
 }
 
-void ASN1_ValueBoolean::HexToBoolean(const ByteArray &input, bool &output, std::string &error)
+template <>
+void ASN1_ValueBoolean::FromHex(const ByteArray &input, bool &output, std::string &error)
 {
   error.clear();
   if (input == "00")

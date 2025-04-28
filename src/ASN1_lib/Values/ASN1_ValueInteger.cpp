@@ -8,8 +8,8 @@ using namespace Utils;
 
 namespace Value
 {
-
-void ASN1_ValueInteger::IntegerToHex(const int &input, ByteArray &output, std::string &error)
+template <>
+void ASN1_ValueInteger::ToHex(const int &input, ByteArray &output, std::string &error)
 {
   error.clear();
   output.Clear();
@@ -43,7 +43,8 @@ void ASN1_ValueInteger::IntegerToHex(const int &input, ByteArray &output, std::s
   }
 }
 
-void ASN1_ValueInteger::HexToInteger(const ByteArray &input, int &output, std::string &error)
+template <>
+void ASN1_ValueInteger::FromHex(const ByteArray &input, int &output, std::string &error)
 {
   error.clear();
   // Based on two's complement. ASN1 doesn't use all the bytes of the integer. we remove the '00' or 'FF' that are useless. The sign is coded by the first 'usefull' byte
